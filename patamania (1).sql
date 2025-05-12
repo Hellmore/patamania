@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/05/2025 às 15:49
+-- Tempo de geração: 12/05/2025 às 22:21
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,15 +35,6 @@ CREATE TABLE `agendamento` (
   `agendamento_status` enum('PENDENTE','CONFIRMADO','CANCELADO','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `agendamento`
---
-
-INSERT INTO `agendamento` (`agendamento_id`, `cliente_id`, `animal_id`, `servico_id`, `agendamento_status`) VALUES
-(1, 1, 1, 1, 'CONFIRMADO'),
-(2, 2, 2, 2, 'CANCELADO'),
-(3, 3, 3, 3, 'PENDENTE');
-
 -- --------------------------------------------------------
 
 --
@@ -52,6 +43,7 @@ INSERT INTO `agendamento` (`agendamento_id`, `cliente_id`, `animal_id`, `servico
 
 CREATE TABLE `animal` (
   `animal_id` int(5) NOT NULL,
+  `usuario_id` int(5) NOT NULL,
   `animal_nome` varchar(100) NOT NULL,
   `animal_dataNascimento` date NOT NULL,
   `animal_raca` varchar(100) NOT NULL,
@@ -64,10 +56,8 @@ CREATE TABLE `animal` (
 -- Despejando dados para a tabela `animal`
 --
 
-INSERT INTO `animal` (`animal_id`, `animal_nome`, `animal_dataNascimento`, `animal_raca`, `animal_porte`, `animal_descricao`, `animal_pelagem`) VALUES
-(1, 'Max', '2019-07-12', 'Labrador Retriever', 'G', 'Muito amigável e adora brincar com crianças', 'CURTA'),
-(2, 'Mia', '2021-03-05', 'Persa', 'P', 'Gosta de dormir em locais altos e é muito calma', 'CURTA'),
-(3, 'Rocky', '2018-11-20', 'Bulldog Francês', 'M', 'Adora passeios curtos e é muito carinhoso', 'CURTA');
+INSERT INTO `animal` (`animal_id`, `usuario_id`, `animal_nome`, `animal_dataNascimento`, `animal_raca`, `animal_porte`, `animal_descricao`, `animal_pelagem`) VALUES
+(4, 1, 'Rex', '2020-08-15', 'Labrador', 'G', 'Cão muito dócil e brincalhão.', 'CURTA');
 
 -- --------------------------------------------------------
 
@@ -152,7 +142,10 @@ CREATE TABLE `endereco` (
 INSERT INTO `endereco` (`endereco_id`, `usuario_id`, `endereco_logradouro`, `endereco_numero`, `endereco_complemento`, `endereco_bairro`, `endereco_cidade`, `endereco_estado`, `endereco_cep`) VALUES
 (1, 1, 'Rua dos Magos', 123, 'Apartamento 101', 'Centro', 'Londres', 'Inglaterra', 10001),
 (2, 2, 'Calle del Sol', 456, 'Casa no deserto', 'Deserto de Tatooine', 'Mos Eisley', 'Tatooine', 12345),
-(3, 3, 'Baker Street', 221, 'Apartamento de Sherlock', 'Marylebone', 'Londres', 'Inglaterra', 0);
+(3, 3, 'Baker Street', 221, 'Apartamento de Sherlock', 'Marylebone', 'Londres', 'Inglaterra', 0),
+(4, 1, 'Rua das Flores', 123, 'Casa', 'Centro', 'São Paulo', 'SP', 12345678),
+(5, 1, 'Rua das Flores', 123, 'Casa', 'Centro', 'São Paulo', 'SP', 12345678),
+(6, 1, 'Rua das Flores', 123, 'Casa', 'Centro', 'São Paulo', 'SP', 12345678);
 
 -- --------------------------------------------------------
 
@@ -169,15 +162,6 @@ CREATE TABLE `historicoanimal` (
   `historicoanimal_vacinas` varchar(100) NOT NULL,
   `historicoanimal_medicamentos` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `historicoanimal`
---
-
-INSERT INTO `historicoanimal` (`historicoanimal_id`, `animal_id`, `agendamento_id`, `historicoanimal_datahora`, `historicoanimal_descricao`, `historicoanimal_vacinas`, `historicoanimal_medicamentos`) VALUES
-(1, 1, 1, '2025-04-02 15:43:27', '2 anos, macho, saudavel', 'Nenhuma', 'Nenhum'),
-(2, 2, 2, '2025-04-02 15:43:27', '1 ano, femea, fratura na pata dianteira direita em 2023.', 'Raiva', 'Cefalexina'),
-(3, 3, 3, '2025-04-02 15:43:27', '1 ano, macho, saudavel', 'Raiva', 'Nenhum');
 
 -- --------------------------------------------------------
 
@@ -301,7 +285,7 @@ CREATE TABLE `usuario` (
   `usuario_tipo` enum('ADMIN','CLIENTE','','') NOT NULL,
   `usuario_dataNascimento` date NOT NULL,
   `usuario_email` varchar(100) NOT NULL,
-  `usuario_dataInscricao` date NOT NULL,
+  `usuario_senha` varchar(50) NOT NULL,
   `usuario_pais` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -309,13 +293,17 @@ CREATE TABLE `usuario` (
 -- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`usuario_id`, `usuario_nome`, `usuario_tipo`, `usuario_dataNascimento`, `usuario_email`, `usuario_dataInscricao`, `usuario_pais`) VALUES
+INSERT INTO `usuario` (`usuario_id`, `usuario_nome`, `usuario_tipo`, `usuario_dataNascimento`, `usuario_email`, `usuario_senha`, `usuario_pais`) VALUES
 (1, 'Tony Stark', 'ADMIN', '1970-05-29', 'tony.stark@starkindustries.com', '2025-03-21', 'EUA'),
 (2, 'Hermione Granger', 'CLIENTE', '1979-09-19', 'hermione.granger@hogwarts.edu', '2025-03-21', 'Reino Unido'),
 (3, 'Luke Skywalker', 'CLIENTE', '1977-05-25', 'luke.skywalker@rebellion.com', '2025-03-21', 'Tatooine'),
 (4, 'Wonder Woman', 'ADMIN', '1980-07-03', 'diana.prince@amazon.com', '2025-03-21', 'Ilha Paraíso'),
 (5, 'Sherlock Holmes', 'CLIENTE', '1854-01-06', 'sherlock.holmes@bakerstreet.com', '2025-03-21', 'Reino Unido'),
-(6, 'Bruce Wayne', 'ADMIN', '1985-02-19', 'bruce.wayne@wayneenterprises.com', '2025-03-21', 'EUA');
+(6, 'Bruce Wayne', 'ADMIN', '1985-02-19', 'bruce.wayne@wayneenterprises.com', '2025-03-21', 'EUA'),
+(7, 'João Silva', 'CLIENTE', '1998-05-15', 'joao@gmail.com', '$2b$10$XFSKDC5lzxtkBswtQhHMb.5tyGH0cUAQaCoaZZW19lg', 'Brasil'),
+(8, 'João Silva', 'CLIENTE', '1998-05-15', 'joao@gmail.com', '$2b$10$tmtll3KeaL8SbaeuPh1O9.X9ScK1qwF2p8cXEDDEKQS', 'Brasil'),
+(9, 'João Silva', 'CLIENTE', '1998-05-15', 'joao@gmail.com', '$2b$10$Y5Ayg.3WolAUsSB7lYzIa.iEwoKGfWC4Ljp8OySX7/f', 'Brasil'),
+(10, 'João Silva', 'CLIENTE', '1998-05-15', 'joao@gmail.com', '$2b$10$hcq19taCw7n628aK42E8u.4veB1fxyPmS2GsPBQdRWQ', 'Brasil');
 
 --
 -- Índices para tabelas despejadas
@@ -334,7 +322,8 @@ ALTER TABLE `agendamento`
 -- Índices de tabela `animal`
 --
 ALTER TABLE `animal`
-  ADD PRIMARY KEY (`animal_id`);
+  ADD PRIMARY KEY (`animal_id`),
+  ADD KEY `usuario_id` (`usuario_id`);
 
 --
 -- Índices de tabela `banhoetosa`
@@ -446,7 +435,7 @@ ALTER TABLE `agendamento`
 -- AUTO_INCREMENT de tabela `animal`
 --
 ALTER TABLE `animal`
-  MODIFY `animal_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `animal_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `banhoetosa`
@@ -476,7 +465,7 @@ ALTER TABLE `consultaveterinaria`
 -- AUTO_INCREMENT de tabela `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `endereco_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `endereco_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `historicoanimal`
@@ -524,7 +513,7 @@ ALTER TABLE `servico`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `usuario_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restrições para tabelas despejadas
@@ -537,6 +526,12 @@ ALTER TABLE `agendamento`
   ADD CONSTRAINT `agendamento_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `usuario` (`usuario_id`),
   ADD CONSTRAINT `agendamento_ibfk_2` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`animal_id`),
   ADD CONSTRAINT `agendamento_ibfk_3` FOREIGN KEY (`servico_id`) REFERENCES `servico` (`servico_id`);
+
+--
+-- Restrições para tabelas `animal`
+--
+ALTER TABLE `animal`
+  ADD CONSTRAINT `animal_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`);
 
 --
 -- Restrições para tabelas `banhoetosa`
