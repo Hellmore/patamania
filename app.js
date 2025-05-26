@@ -20,8 +20,4 @@ app.use('/animais', animalRoutes);
 app.use('/enderecos', enderecoRoutes);
 app.use('/produtos', produtoRoutes)
 
-// Inicialização do servidor
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+module.exports = app; 
