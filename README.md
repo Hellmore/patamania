@@ -20,7 +20,8 @@ Backend do e-commerce **PataMania**, feito em Node.js.
 3. **Inicie o projeto:**
    npm run dev
 
-# ⚠️ IMPORTANTE
-## Não subir a pasta node_modules nem o arquivo .env para o repositório.
-## Garanta que esses itens estejam listados no arquivo .gitignore.
+
+# ⚠️ IMPORTANTE!!!
+## Não subir a pasta node_modules nem o arquivo .env para o repositório!
+Garanta que esses itens estejam listados no arquivo .gitignore.
 
