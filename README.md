@@ -9,19 +9,20 @@ Backend do e-commerce **PataMania**, feito em Node.js.
 2. **Instale as dependências (pasta node_modules):**
 - `npm install`
 
-3. **Crie um arquivo .env na raiz do projeto com as informações do banco (que deve estar no MySQL Workbench da sua máquina):**
-- `DB_HOST` = localhost
-- `DB_USER` = root
-- `DB_PASSWORD` = suaSenhaDoMySQL
+3. **Crie um arquivo .env na raiz do projeto com as informações do banco (seguindo as configurações do Aiven no MySQL Workbench):**
+- `DB_HOST` =patamania-patamania.k.aivencloud.com
+- `DB_PORT` =25687
+- `DB_USER` =avnadmin
+- `DB_PASSWORD` =sua_senha_aqui
 - `DB_NAME` = patamania
-- `DB_PORT` = 3306
-- `PORT` = 3001
+- `DB_SSL_CA` =./ca.pem
 
-3. **Inicie o projeto:**
+4. **Coloque o arquivo `ca.pem` na raiz do projeto**
+
+5. **Inicie o projeto:**
  - `npm run dev`
 
 
 # ⚠️ Importante!
-### Não subir a pasta `node_modules` nem o arquivo `.env` para o repositório!
-Garanta que esses itens estejam fora das mudanças rastreadas pelo git.
-
+### NÃO subir a pasta `node_modules`, o arquivo `.env` e o arquivo `ca.pem` para o repositório!
+Esses itens já devem estar fora das mudanças rastreadas pelo git.
