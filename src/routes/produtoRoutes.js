@@ -4,7 +4,7 @@ const produtoController = require('../controllers/produtoController');
 
 router.post('/cadastro', produtoController.cadastrar);
 router.get('/lista', produtoController.listarTodos); 
-router.get('/lista/:produto_id', produtoController.buscarPorId); 
+router.get('/buscar/:produto_id', produtoController.buscarPorId); 
 router.put('/atualizar/:produto_id', produtoController.atualizar);     
 router.delete('/deletar/:produto_id', produtoController.deletar);
 
