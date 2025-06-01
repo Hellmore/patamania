@@ -1,6 +1,7 @@
 const db = require('../utils/db');
 
 const cadastrar = (
+  endereco_id,
   usuario_id,
   logradouro,
   numero,
@@ -12,6 +13,7 @@ const cadastrar = (
 ) => {
   const query = `
     INSERT INTO endereco (
+      endereco_id,  
       usuario_id,
       endereco_logradouro,
       endereco_numero,
@@ -20,13 +22,13 @@ const cadastrar = (
       endereco_cidade,
       endereco_estado,
       endereco_cep
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   return new Promise((resolve, reject) => {
     db.query(
       query,
-      [usuario_id, logradouro, numero, complemento, bairro, cidade, estado, cep],
+      [endereco_id, usuario_id, logradouro, numero, complemento, bairro, cidade, estado, cep],
       (err, result) => {
         if (err) return reject(err);
         resolve(result);
