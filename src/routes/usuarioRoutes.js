@@ -3,7 +3,6 @@ const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 
 router.post('/cadastro', usuarioController.cadastrar);
-router.post('/login', usuarioController.login);
 router.get('/lista', usuarioController.listar);
 router.get('/buscar/:usuario_id', usuarioController.buscarPorId);
 router.put('/atualizar/:usuario_id', usuarioController.atualizar);

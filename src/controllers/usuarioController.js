@@ -126,49 +126,10 @@ const excluir = async (req, res) => {
     }
 };
 
-const login = async (req, res) => {
-    const { usuario_email, usuario_senha } = req.body;
-
-    if (!usuario_email || usuario_email.trim() === '') {
-        return res.status(400).send('O e-mail é obrigatório.');
-    }
-    if (!usuario_senha || usuario_senha.trim() === '') {
-        return res.status(400).send('A senha é obrigatória.');
-    }
-
-    try {
-        const usuario = await usuarioModel.buscarPorEmail(usuario_email);
-
-        if (!usuario) {
-            return res.status(404).send('Usuário não encontrado.');
-        }
-
-        const senhaCorreta = await bcrypt.compare(usuario_senha, usuario.usuario_senha);
-
-        if (!senhaCorreta) {
-            return res.status(401).send('Senha incorreta.');
-        }
-
-        res.status(200).send({
-            mensagem: 'Login realizado com sucesso!',
-            usuario: {
-                id: usuario.usuario_id,
-                nome: usuario.usuario_nome,
-                email: usuario.usuario_email,
-                tipo: usuario.usuario_tipo,
-                pais: usuario.usuario_pais
-            }
-        });
-    } catch (err) {
-        res.status(500).send('Erro ao fazer login: ' + err.message);
-    }
-};
-
 module.exports = {
     cadastrar,
     listar,
     buscarPorId,
     atualizar,
     excluir,
-    login
 };
