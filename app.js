@@ -1,9 +1,12 @@
 const express = require('express'); 
 const bodyParser = require('body-parser');
-const app = express();
 require('dotenv').config();
+const cors = require('cors');
+
+const app = express(); 
 
 // Middlewares
+app.use(cors());
 app.use(express.json());  
 app.use(bodyParser.json());
 app.use(express.static(__dirname));    
@@ -19,7 +22,13 @@ const loginRoutes = require('./src/routes/loginRoutes');
 app.use('/usuarios', usuarioRoutes);
 app.use('/animais', animalRoutes);
 app.use('/enderecos', enderecoRoutes);
-app.use('/produtos', produtoRoutes)
-app.use('/login', loginRoutes)
+app.use('/produtos', produtoRoutes);
+app.use('/login', loginRoutes);
 
-module.exports = app; 
+// Middleware de tratamento de erros (deve vir após as rotas)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Erro interno no servidor' });
+});
+
+module.exports = app;
