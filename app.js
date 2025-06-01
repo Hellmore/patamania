@@ -13,11 +13,13 @@ const usuarioRoutes = require('./src/routes/usuarioRoutes');
 const animalRoutes = require('./src/routes/animalRoutes');
 const enderecoRoutes = require('./src/routes/enderecoRoutes');
 const produtoRoutes = require('./src/routes/produtoRoutes');
+const loginRoutes = require('./src/routes/loginRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
 app.use('/animais', animalRoutes);
 app.use('/enderecos', enderecoRoutes);
 app.use('/produtos', produtoRoutes)
+app.use('/login', loginRoutes)
 
 module.exports = app; 
