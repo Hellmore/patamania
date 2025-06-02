@@ -212,6 +212,7 @@ input[type=checkbox]:checked:after {
 
 @media (max-width: 1920px) {
   .container {
+    overflow: hidden;
     height: 622px;
   }
 
@@ -237,17 +238,26 @@ input[type=checkbox]:checked:after {
 }
 
 @media (max-width: 1440px) {
+  .container {
+    height: 100vh;
+  }
+
   input[type="text"] {
     width: 37em; 
   }
 
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+
   .social_list {
-    margin-left: -5em;
+    margin-left: 5em;
   }
 
   .right {
     padding: 0 35px;
-    height: 47em;
+    height: 40em;
   }
 
   .form_login {
