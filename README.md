@@ -26,3 +26,6 @@ Backend do e-commerce **PataMania**, feito em Node.js.
 # ⚠️ Importante!
 ### NÃO subir a pasta `node_modules`, o arquivo `.env` e o arquivo `ca.pem` para o repositório!
 Esses itens já devem estar fora das mudanças rastreadas pelo git.
+
+
+Teste
