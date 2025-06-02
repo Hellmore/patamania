@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
-import axios, { AxiosHeaders } from 'axios';
+import axios, { AxiosHeaders, HttpStatusCode } from 'axios';
 import { useNavigate } from "react-router-dom";
 
 import logo_google from '../img/google.png'
@@ -30,12 +30,12 @@ function Cadastrar() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('https://projeto-patamania.onrender.com/register', 
+      const response = await axios.post('http://localhost:3001/usuarios/cadastro', 
       {
-        name: data.name,
-        email: data.email,
-        birthDate: data.birthDate,
-        password: data.password
+        usuario_nome: data.name,
+        usuario_email: data.email,
+        usuario_dataNascimento: data.birthDate,
+        usuario_senha: data.password
       }, {
       headers: {
         'Content-Type': 'application/json' //Para enviar no backends
@@ -44,7 +44,8 @@ function Cadastrar() {
     );
 
     
-    if (response.data?.success) {
+    if (response.status === HttpStatusCode.Created) {
+      alert("usuário cadastrado com sucesso");
       navigate('/');
     } else {
       throw new Error(response.data?.message || 'Resposta inválida');
