@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.footer {
+  background-color: #fdf8f3; /* tom suave como o da imagem */
+  padding: 40px 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+.logo {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.footer_header {
+  display: flex;
+  gap: 70em;
+  margin-left: 20px;
+  align-items: center;
+}
+
+.patamania {
+  width: 120px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.content .title p{
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.title ul {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info > li {
+  min-width: 150px;
+  font-weight: bold;
+}
+
+.info > li ol {
+  margin: 5px 0 0 0;
+  padding: 0;
+  font-weight: normal;
+  list-style: none;
+}
+
+.rede_sociais .title {
+  padding-top: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.social_list {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #B2CA74;
+  margin: 20px 0;
+}
+
+.ppagamento {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.pagamento {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.pagamento img {
+  width: 40px;
+  height: auto;
+}
+
+.copy_right {
+  text-align: center;
+  font-size: 0.7em;
+  color: #777;
+  margin-top: 20px;
+}
+
+
+@media (max-width: 1920px) {
+  .footer_header {
+    gap: 55em;
+    margin-left: 5em;
+    margin-bottom: 3em;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .title ul {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer_header {
+    gap: 35em;
+    margin-left: 5em;
+    margin-bottom: 3em;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .title ul {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 320px) {
+  
+}

@@ -1,0 +1,142 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .produto {
+    width: 100px;
+  }
+
+  .selectionContainer {
+    height: 600px;
+    text-align: center;
+    margin-top: 9em;
+  }
+  
+.selectionContainer h2 {
+  font-size: 25px;
+}
+
+  .optionsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .optionsGrid h3 {
+    margin-top: 0.5em;
+    font-size: 20px;
+  }
+  
+  .optionCard {
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .optionCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .productForm {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .formGroup input,
+  .formGroup textarea,
+  .formGroup select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+  
+  .formActions {
+    margin-top: 2rem;
+    text-align: right;
+  }
+  
+  .formActions button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  
+  .formActions button:hover {
+    background: #2980b9;
+  }
+  
+  .confirmation {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+.div_preco {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-left: 0.5rem;
+  max-width: 200px;
+}
+
+.input_preco {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 0.01rem;
+  font-size: 1rem;
+  margin-left: 0.3rem;
+}
+
+@media (max-width: 1920px) {
+  .productForm{
+    margin-top: 4em;
+  }
+
+  .confirmation {
+    margin-top: 10em;
+    margin-bottom: 13em;
+  }
+}
+
+  @media (max-width: 430px) {
+    .selectionContainer {
+      height: 640px;
+      margin-top: 14em;
+    }
+  }

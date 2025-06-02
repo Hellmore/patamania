@@ -1,0 +1,176 @@
+.navbar {
+  background-color: #fdf8f3;
+  display: flex;
+  width: 100%;
+  align-items: center; /* alinha verticalmente */
+  justify-content: space-between; /* distribui o espaço entre os itens */
+  padding: 0 20px; /* adiciona algum padding nas laterais */
+}
+
+.icons_left {
+  justify-content: center;
+  display: flex;
+  margin-top: 2px;
+}
+
+.logo {
+  width: 3.5em;
+  cursor: pointer;
+  margin-left: 1em;
+  padding: 3px;
+}
+
+.menu {
+  color: white;
+  font-size: 3em;
+  transform: translateY(15%);
+  cursor: pointer;
+}
+
+/* Barra de pesquisa */
+.barra_search {
+  border: none;
+  outline: none;
+  font-size: 1em;
+  width: 100%;
+  background: transparent;
+}
+
+.icon_search {
+  color: #00000070;
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 25px;
+  flex: 1;
+  max-width: 500px;
+  /* margin: 0 20px; */
+  margin-left: 15.8em;
+}
+
+.profile {
+  width: 3em;
+}
+
+.shop_cart {
+  width: 3em;
+}
+
+.icons_right {
+  margin-left: 17.5em;
+  margin-top: 10px;
+  gap: 0.5em;
+  display: flex;
+}
+
+input[type="text"] {
+  padding-left: 20px; /* Espaço para o ícone */
+  width: 100%;
+}
+
+.icon_menu {
+  width: 35px;
+}
+
+.links_dropdown {
+  text-decoration: none;
+}
+
+/* dropdown principal */
+.custom_dropdown .dropdown_menu {
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  border: none;
+  margin-top: 0.5rem;
+  background-color: #fff;
+  font-size: 16px;
+}
+
+.custom_dropdown:hover > .dropdown_menu {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* itens principais (Produtos, Serviços, etc.) */
+.dropdown_header {
+  padding: 10px 16px;
+}
+
+/* subitens */
+.dropdown_menu .dropdown_item {
+  padding: 8px 16px;
+  color: #333;
+}
+
+.dropdown_menu .dropdown_item:hover {
+  background-color: #f0f0f0;
+}
+
+/* submenu (drop="end") */
+.dropdown_menu .dropdown_menu {
+  margin-left: 0.25rem;
+  top: 0;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* remove "caret" padrão */
+.custom_dropdown .dropdown_toggle::after {
+  display: none !important;
+}
+
+@media (max-width: 1920px) {
+  
+}
+
+@media (max-width: 1024px) {
+  .icons_right {
+    margin-left: 7em;
+  }
+
+  .search {
+    margin-left: 7em;
+  }
+}
+
+@media (max-width: 320px) {
+  .logo {
+    width: 2.5em;
+    margin-left: 0.5em;
+  }
+
+  .custom_dropdown {
+    position: absolute;
+    right: 12em;
+  }
+
+  .icon_menu {
+    width: 28px;
+  }
+
+  .icons_right {
+    position: absolute;
+    top: 10%;
+    margin-left: 13em;
+  }
+
+  .search {
+    margin-left: 0.5em;
+  }
+
+  .shop_cart, .profile {
+    width: 2.3em;
+  }
+
+  .navbar {
+    position: relative;
+  }
+
+}

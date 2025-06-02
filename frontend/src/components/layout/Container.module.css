@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  display: flex;
+  margin-left: 0px;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+}
+
+.container::-webkit-scrollbar {
+  display: none; /* Esconde a barra no Chrome, Safari e Opera */
+}
+
+.min-height {
+  min-height: 100%;
+}
+
+.start {
+  justify-content: flex-start;
+}
+
+.column {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+@media (max-width: 1920px) {
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 320px) {
+  
+}

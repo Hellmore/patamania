@@ -1,0 +1,34 @@
+const express = require('express'); 
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const cors = require('cors');
+
+const app = express(); 
+
+// Middlewares
+app.use(cors());
+app.use(express.json());  
+app.use(bodyParser.json());
+app.use(express.static(__dirname));    
+
+// Importação de rotas
+const usuarioRoutes = require('./src/routes/usuarioRoutes');
+const animalRoutes = require('./src/routes/animalRoutes');
+const enderecoRoutes = require('./src/routes/enderecoRoutes');
+const produtoRoutes = require('./src/routes/produtoRoutes');
+const loginRoutes = require('./src/routes/loginRoutes');
+
+// Uso das rotas
+app.use('/usuarios', usuarioRoutes);
+app.use('/animais', animalRoutes);
+app.use('/enderecos', enderecoRoutes);
+app.use('/produtos', produtoRoutes);
+app.use('/login', loginRoutes);
+
+// Middleware de tratamento de erros (deve vir após as rotas)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Erro interno no servidor' });
+});
+
+module.exports = app;

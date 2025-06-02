@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.home_container {
+  padding-top: 650px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fdf8f3; 
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.imagens {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.arbusto_verde {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.arbusto_verde_musgo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.dog {
+  position: absolute;
+  bottom: 120px;
+  left: 4em;
+  width: 390px;
+  z-index: 2;
+}
+
+.racao {
+  position: absolute;
+  bottom: 190px;
+  right: 0;
+  width: 160px;
+  z-index: 4;
+}
+
+/* Conteúdo de texto central */
+.prim_part {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 5;
+}
+
+.prim_part h1 {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-size: 3em;
+  margin-bottom: 0;
+  font-style: normal;
+}
+
+.prim_part p {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  margin-bottom: 0.8em;
+  font-size: 1.2em;
+  font-weight: 300;
+}
+
+.button_buscar {
+  display: inline-block;
+  background-color: #2e7c73;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.button_buscar:hover {
+  background-color: #1e5d55;
+}
+
+/* Conteúdo do Carousel */
+.carousel {
+  position: relative;
+}
+
+.cont_carousel {
+  padding: 2em;
+}
+
+.arrow {
+  display: flex;
+}
+
+.arrow_back {
+  position: absolute;
+  z-index: 1;
+  margin-right: 14em;
+  width: 3em;
+  transform: scaleX(-1);
+  cursor: pointer;
+}
+
+.arrow_skip {
+  position: absolute;
+  z-index: 1;
+  margin-left: 14em;
+  width: 3em;
+  cursor: pointer;
+}
+
+/* Banner final da home */
+.button_peca {
+  position: absolute;
+  font-size: 20px;
+  background-color: #2e7c73;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.button_peca:hover {
+  background-color: #1e5d55;
+}
+
+/* Responsividades */
+@media (max-width: 1920px) {
+  .home_container {
+    padding-top: 1350px;
+  }
+
+  .arbusto_verde {
+    bottom: 450px;
+  }
+
+  .arbusto_verde_musgo {
+    bottom: 400px;
+  }
+
+  .dog {
+    left: 2em;
+    bottom: 480px;
+    width: 450px;
+  }
+  
+  .racao {
+    bottom: 580px;
+    width: 175px;
+  }
+
+  .prim_part {
+    font-size: 16px;
+    top: 15%;
+  }
+
+  .button_buscar {
+    border-radius: 25px;
+  }
+
+   .cont_carousel {
+    margin-top: -25em;
+    padding: 5em;
+  }
+
+  .arrow_back, .arrow_skip {
+    width: 4em;
+  }
+
+  .arrow_back {
+    margin-right: 15em;
+  }
+
+  .arrow_skip {
+    margin-left: 15em;
+  }
+
+  .banner img{
+    width: 90em;
+    display: block;
+  }
+
+  .banner {
+    position: relative;
+  }
+
+  .button_peca {
+    top: 50%;
+    left: 18%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .arbusto_verde {
+    bottom: 480px;
+  }
+
+  .arbusto_verde_musgo {
+    bottom: 450px;
+  }
+
+  .dog {
+    left: 2em;
+    bottom: 480px;
+    width: 350px;
+  }
+  
+  .racao {
+    bottom: 580px;
+    width: 140px;
+  }
+
+  .home_container {
+    padding-top: 1500px;
+  }
+
+  .prim_part {
+    font-size: 12px;
+    top: 18%;
+  }
+
+  .button_buscar {
+    font-size: 16px;
+  }
+
+  .arrow_back, .arrow_skip {
+    width: 3em;
+  }
+
+  .arrow_back {
+    margin-right: 10em;
+  }
+
+  .arrow_skip {
+    margin-left: 10em;
+  }
+
+  .banner img{
+    width: 70em;
+    display: block;
+  }
+
+  .banner {
+    position: relative;
+  }
+
+  .button_peca {
+    top: 50%;
+    left: 18%;
+  }
+}
+
+@media (max-width: 430px) {
+  .home_container {
+    padding-top: 0;
+  }
+
+  .arbusto_verde {
+    height: 200px;
+    bottom: 0px;
+  }
+
+  .arbusto_verde_musgo {
+    height: 200px;
+    bottom: -10px;
+  }
+
+  .dog {
+    left: -8em;
+    bottom: 0px;
+    width: 350px;
+  }
+  
+  .racao {
+    bottom: 250px;
+    width: 110px;
+    right: -30px;
+  }
+
+  .home_container {
+    padding-top: 1080px;
+  }
+
+  .prim_part {
+    font-size: 12px;
+    top: 25%;
+    width: 500px;
+  }
+
+  .button_buscar {
+    font-size: 14px;
+  }
+
+  .arrow_back, .arrow_skip {
+    width: 1.5em;
+  }
+
+  .arrow_back {
+    margin-right: 2.5em;
+  }
+
+  .arrow_skip {
+    margin-left: 2.5em;
+  }
+  
+  .cont_carousel {
+    padding: 1em;
+    padding-bottom: 2em;
+    margin-bottom: 10em;
+    margin-bottom: auto;
+  }
+
+  .banner img{
+    width: 100%;
+    display: block;
+  }
+
+  .banner {
+    position: relative;
+  }
+
+  .button_peca {
+    top: 50%;
+    left: 12%;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
