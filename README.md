@@ -22,11 +22,13 @@ Projeto do e-commerce **PataMania**, feito em Node.js e React.
 
 5. **Inicie o back-end do projeto:**
  - `npm run dev`
+
    Se estiver tudo certo, deve aparecer algo como no terminal:
 	"Servidor rodando na porta 3001!".
 
 6. **Inicie o front-end do projeto:**
  - `npm start`
+
    Se estiver tudo certo, o navegador deve abrir o projeto automaticamente (na porta 3000).
 
 # ⚠️ Importante!
