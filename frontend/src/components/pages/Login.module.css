@@ -5,6 +5,11 @@
   font-family: "Roboto", sans-serif;
 }
 
+.container {
+ overflow: hidden;
+ height: 100vh;
+}
+
 .part_login {
     display: flex;
     gap: 17em;
@@ -229,9 +234,13 @@ input[type=checkbox]:checked:after {
   }
 }
 
-@media (max-width: 1399.98px) {
+@media (max-width: 1440px) {
+.container {
+    height: 100vh;
+  }
+
   .social_list {
-    margin-left: -1em;
+    margin-left: 9em;
   }
 
   .remember {

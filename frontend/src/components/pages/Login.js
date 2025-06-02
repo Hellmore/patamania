@@ -1,10 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 
-import logo_instagram from '../img/instagram.png'
-import logo_facebook from '../img/facebook.png'
 import logo_google from '../img/google.png'
-import logo_x from '../img/x.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
 import arrow_back from '../img/arrow_back.png';
 
@@ -24,9 +21,6 @@ function Login() {
             <h1 className={styles.title_login}>Login</h1>
             <div className={styles.social_list}>
               <div className={styles.image}><img src={logo_google} alt="Google" /></div>
-              <div className={styles.image}><img src={logo_x} alt="X" /></div>
-              <div className={styles.image}><img src={logo_facebook} alt="Facebook" /></div>
-              <div className={styles.image}><img src={logo_instagram} alt="Instagram" /></div>
             </div>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
