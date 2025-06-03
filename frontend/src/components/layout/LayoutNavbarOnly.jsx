@@ -7,7 +7,7 @@ import styles from "./LayoutNavbar.module.css";
 export default function LayoutNavbarOnly() {
   const location = useLocation();
 
-  const rotasClaras = ['/cadastrar_produto', '/next', '/next-1'];
+  const rotasClaras = ['/'];
   const isRotaClara = rotasClaras.includes(location.pathname);
 
   return (
