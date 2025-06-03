@@ -9,7 +9,7 @@
   }
 
   .selectionContainer {
-    height: 600px;
+    height: 100%;
     text-align: center;
     margin-top: 9em;
   }
@@ -131,6 +131,12 @@
   .confirmation {
     margin-top: 10em;
     margin-bottom: 13em;
+  }
+}
+
+@media (max-width: 1440px) {
+  .selectionContainer {
+    height: 27rem;
   }
 }
 

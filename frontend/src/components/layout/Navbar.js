@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import { Outlet, useLocation } from "react-router-dom";
 
 // import Container from './Container';
 
@@ -40,8 +41,13 @@ function useWindowSize() {
 
 function Navbar() {
   const windowSize = useWindowSize();
+  const location = useLocation();
+
+  const rotasClaras = ['/'];
+  const isRotaClara = rotasClaras.includes(location.pathname);
+
   return (    
-    <Navb collapseOnSelect className={styles.navbar} fixed='top' expand="lg">
+    <Navb collapseOnSelect className={isRotaClara ? styles.produtoBackground : styles.defaultBackground} fixed='top' expand="lg">
       <Navb.Brand href="/">
         <img className={styles.logo} src={logo} alt="patamania" />
       </Navb.Brand>

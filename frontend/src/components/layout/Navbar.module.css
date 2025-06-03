@@ -6,6 +6,22 @@
   justify-content: space-between; /* distribui o espaço entre os itens */
   padding: 0 20px; /* adiciona algum padding nas laterais */
 }
+.defaultBackground {
+  background-color: #A7CBC9;
+  display: flex;
+  width: 100%;
+  align-items: center; /* alinha verticalmente */
+  justify-content: space-between; /* distribui o espaço entre os itens */
+  padding: 0 20px; 
+}
+.produtoBackground {
+  background-color: #fdf8f3;
+  display: flex;
+  width: 100%;
+  align-items: center; /* alinha verticalmente */
+  justify-content: space-between; /* distribui o espaço entre os itens */
+  padding: 0 20px; 
+}
 
 .icons_left {
   justify-content: center;
