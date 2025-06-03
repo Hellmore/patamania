@@ -19,6 +19,7 @@ import PageNotFound from './components/pages/PageNotFound';
 import CadastrarProduto from './components/pages/registro_prouduto/index';
 import CadastrarServico from './components/pages/registro_servico/index';
 
+import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -55,6 +56,8 @@ function App() {
         <Route element={<LayoutEmpty />}>
           <Route exact path="/login" element={<Login />}/>
           <Route exact path="/cadastrar" element={<Cadastrar />}/>
+
+          <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
         </Route>
         <Route element={<LayoutNavbarOnly />}>
           <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>

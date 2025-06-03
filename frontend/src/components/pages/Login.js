@@ -1,5 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import React, {useState} from 'react';
+import { useNavigate } from  "react-router-dom";
+import axios, { AxiosHeaders, HttpStatusCode } from 'axios';
 
 import logo_google from '../img/google.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
@@ -8,10 +12,54 @@ import arrow_back from '../img/arrow_back.png';
 import styles from './Login.module.css'
 
 function Login() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const navigate = useNavigate();
+  const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   
-  console.log(watch("formulário de login")); // watch input value by passing the name of it
+    const onSubmit = async (data) => {
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post('http://localhost:3001/login', 
+      {
+        usuario_email: data.email,
+        usuario_senha: data.password
+      }, {
+      headers: {
+        'Content-Type': 'application/json' //Para enviar no backends
+      }
+    }
+    );
+
+    if(response.status === HttpStatusCode.OK) {
+      alert("Login realizado com sucesso");
+      navigate('/');
+    } else {
+      throw new Error(response.data?.message || 'Resposta inválida');
+    }
+    } catch (error) {
+        console.log("Erro completo:", error); // Inspecione o erro no console
+        
+        if (error.response) {
+          // Erro com resposta do servidor (4xx/5xx)
+          if (error.response.status === 409) {
+            setError('email', {
+              type: 'manual',
+              message: 'E-mail já cadastrado'
+            });
+          } else {
+            setSubmitError(error.response.data?.message || 'Erro no servidor');
+          }
+        } else if (error.request) {
+          // A requisição foi feita mas não houve resposta
+          setSubmitError('Sem resposta do servidor');
+        } else {
+          // Erro ao configurar a requisição
+          setSubmitError('Erro ao enviar dados');
+        }
+      }
+  };
   return (
     <>
       <container className={styles.container}>
@@ -23,36 +71,56 @@ function Login() {
               <div className={styles.image}><img src={logo_google} alt="Google" /></div>
             </div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* register your input into the hook by invoking the "register" function */}
-            <label className={styles.email_senha} for="email"><span>E-mail</span></label>
-            <input
-              className={styles.dados_info}
-              type="email"
-              placeholder="e-mail"
-              autoComplete="off"
-              {...register("email", {required: true})}
-              required
-              rulles={{maxLength: 100}}
-            />
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group controlId='formLoginEmail'>
+              <Form.Label className={styles.email_senha}>E-mail<span style={{ color: 'red' }}>*</span></Form.Label>
+              <Form.Control
+                className={styles.dados_info}
+                type="email"
+                placeholder="e-mail"
+                autoComplete="off"
+                {...register("email", {
+                  required: "Campo obrigatório",
+                  maxLength: {
+                    value: 100,
+                    message: "Máximo 100 caracteres"
+                  }
+                })}
+              />
+              {errors.email && <p className={styles.erro}>{errors.email.message}</p>}
+            </Form.Group>
 
-            <label className={styles.email_senha} for="password"><span>Senha</span></label>
-            <input 
-              className={styles.dados_info} 
-              type="password"
-              placeholder="senha"
-              autoComplete="off"
-              {...register("password", {required: true})}  
-              required
-            />
-            
-            <div className={styles.remember}>
-              <input type="checkbox" id="remember" name="remember"/>
-              <label for="remember">Lembrar-me</label>
-             <Link className={styles.link} to="/esqueceu-senha">Esqueceu a senha?</Link>
+            <Form.Group controlId='formLoginPassword'>
+              <Form.Label className={styles.email_senha} for="password">Senha<span style={{ color: 'red' }}>*</span></Form.Label>
+              <Form.Control 
+                className={styles.dados_info} 
+                type="password"
+                placeholder="senha"
+                autoComplete="off"
+                {...register("password", {required: "Campo obrigatório"})}  
+              />
+              {errors.password && <p className={styles.erro}>{errors.password.message}</p>}
+            </Form.Group>
+
+            <div className={styles.login_section}>
+              <div className={styles.remember}>
+                <input 
+                  type="checkbox" 
+                  id="remember" 
+                  name="remember"/>
+                <label for="remember">Lembrar-me</label>
+                <Link className={styles.link} to="/esqueci_senha">Esqueceu a senha?</Link>
+              </div>
+              <div className={styles.button}>
+                <input 
+                  className={styles.submit_button} 
+                  type="submit" 
+                  value={isSubmitting ? "Logando..." : "Logar"} 
+                  disabled={isSubmitting}
+                />
+              </div>
             </div>
-            <input className={styles.submit_button} type="submit" />
-          </form>
+          </Form>
         </div>
         <div className={styles.right}>
           <h3>Seja Bem-vindo(a) de volta à</h3>

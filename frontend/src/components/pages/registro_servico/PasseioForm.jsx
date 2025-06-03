@@ -26,7 +26,7 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formPasseioDescricao'>
         <Form.Label>Descrição<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control as="textarea" rows={4} 
-          placeholder='Exemplo de descrição: Oferecemos caminha de longa duração para seu pet ficar saudável...'
+          placeholder='Exemplo de descrição: Oferecemos caminhada de longa duração para seu pet ficar saudável...'
           {...register('descricao', { required: 'Campo obrigatório' })}        
         />
         {errors.descricao && <span className={styles.error}>{errors.descricao.message}</span>}
@@ -40,12 +40,13 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
             <Form.Control
               type="number"
               step="0.01"
+              min={0}
               placeholder="59,00"
               className={styles.input_preco}
               {...register('preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.preco.message}</span>)}
+          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
         </div>
       </Form.Group>
 
@@ -63,7 +64,7 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
               {...register('taxa')}
             />
           </div>
-          {errors.taxa && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.taxa.message}</span>)}
+          {errors.taxa && (<span className={styles.error}>{errors.taxa.message}</span>)}
         </div>
       </Form.Group>
 
@@ -88,12 +89,12 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formPasseioDuracao'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Duração<span style={{ color: 'red' }}>*</span></Form.Label>
-          <div className={styles.div_preco}>
             <Form.Control
-              type="number"
-              step="0.01"
+              type="time"
+              // step={60} // passo de 1 minuto
+              step="2"
               min="0"
-              placeholder='30'
+              defaultValue="00:00"
               className={styles.input_duracao}
               {...register('estoque', { 
                 required: 'Campo obrigatório',
@@ -104,9 +105,7 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
                 valueAsNumber: true // converte o valor para número
               })} 
             />
-            <span style={{ userSelect: 'none', color: '#555' }}>min</span>
-          </div>
-          {errors.duracao && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.duracao.message}</span>)}
+          {errors.duracao && (<span className={styles.error}>{errors.duracao.message}</span>)}
         </div>
       </Form.Group>
 
@@ -119,7 +118,7 @@ export default function PasseioForm  ({ onSubmit, initialData }) {
             validate: {
               isImage: FileList => {
                 if (!FileList?.[0]) return true;
-                return FileList[0].type.startsWith('image/') || 'Apenas arquivos de imagem são permitidos';
+                return FileList[0].type.startsWith('image/') || 'Apenas arquivo de imagem é permitido';
               }
             }
           })}

@@ -129,16 +129,12 @@ margin-left: 0.3rem;
   flex: 1;
   padding: 0.01rem;
   font-size: 1rem;
+  width: 1rem;
   margin-left: -0.5em;
 }
 
-.div_duracao {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding-left: 0.5rem;
-  max-width: 200px;  
+.input_duracao[type="time"] {
+  width: 8em;
 }
 
 @media (max-width: 1920px) {
@@ -157,4 +153,4 @@ margin-left: 0.3rem;
     height: 640px;
     margin-top: 14em;
   }
-}
+} 
