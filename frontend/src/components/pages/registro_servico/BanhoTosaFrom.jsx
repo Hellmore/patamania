@@ -25,8 +25,10 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
 
       <Form.Group className={styles.formGroup} controlId='formBanhoTosaDescricao'>
         <Form.Label>Descrição<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control as="textarea" rows={4} 
-          placeholder='Exemplo de descrição: Oferecemos caminha de longa duração para seu pet ficar saudável...'
+        <Form.Control 
+          as="textarea" 
+          rows={4} 
+          placeholder='Exemplo de descrição: Oferecemos higienização completa para seu animal de estimação...'
           {...register('descricao', { required: 'Campo obrigatório' })}        
         />
         {errors.descricao && <span className={styles.error}>{errors.descricao.message}</span>}
@@ -40,9 +42,10 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
             <Form.Control
               type="number"
               step="0.01"
+              min={0}
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('estoque', { 
+              {...register('preco', { 
                 required: 'Campo obrigatório',
                 min: {
                   value: 0,
@@ -51,7 +54,31 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
                 valueAsNumber: true // converte o valor para número
               })}             />
           </div>
-          {errors.preco && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.preco.message}</span>)}
+          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
+        </div>
+      </Form.Group>
+
+            <Form.Group className={styles.formGroup} controlId='formBanhoTosaTaxa'>
+        <div style={{ marginBottom: '1rem' }}>
+          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
+          <div className={styles.div_preco}>
+            <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
+            <Form.Control
+              type="number"
+              step="0.01"
+              min={0}
+              placeholder="59,00"
+              className={styles.input_preco}
+              {...register('taxa', {
+                min: {
+                  value: 0,
+                  message: 'A quantidade dever ser um número positivo!'
+                },
+                valueAsNumber: true // converte o valor para número
+              })} 
+            />
+          </div>
+          {errors.taxa && (<span className={styles.error}>{errors.taxa.message}</span>)}
         </div>
       </Form.Group>
 
@@ -67,39 +94,23 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formBanhoTosaResponsavel'>
         <Form.Label>Profissional Responsável<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
-          placeholder='Exemplo de Profissional Responsável: Lilly'
+          placeholder='Exemplo de Profissional Responsável: lolla'
           {...register('responsavel', { required: 'Campo obrigatório' })}
         />
         {errors.responsavel && <span className={styles.error}>{errors.responsavel.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formBanhoTosaDuracao'>
+      <Form.Group className={styles.formGroup} controlId='formPasseioDuracao'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Duração<span style={{ color: 'red' }}>*</span></Form.Label>
-          <div className={styles.div_preco}>
             <Form.Control
-              type="number"
-              placeholder="30"
-              className={styles.input_preco}
-              {...register('duracao', { required: 'Campo obrigatório' })}
-            />
-            <span style={{ userSelect: 'none', color: '#555' }}>min</span>
-          </div>
-          {errors.duracao && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.duracao.message}</span>)}
-        </div>
-      </Form.Group>
-
-      <Form.Group className={styles.formGroup} controlId='formBanhoTosaTaxa'>
-        <div style={{ marginBottom: '1rem' }}>
-          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
-          <div className={styles.div_preco}>
-            <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
-            <Form.Control
-              type="number"
-              step="0.01"
-              placeholder="59,00"
-              className={styles.input_preco}
-              {...register('estoque', {
+              type="time"
+              min="0"
+              step={60} // permite apenas minutos inteiros
+              defaultValue="00:00"
+              className={styles.input_duracao}
+              {...register('duracao', { 
+                required: 'Campo obrigatório',
                 min: {
                   value: 0,
                   message: 'A quantidade dever ser um número positivo!'
@@ -107,8 +118,7 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
                 valueAsNumber: true // converte o valor para número
               })} 
             />
-          </div>
-          {errors.taxa && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.taxa.message}</span>)}
+          {errors.duracao && (<span className={styles.error}>{errors.duracao.message}</span>)}
         </div>
       </Form.Group>
 
@@ -142,7 +152,7 @@ export default function BanhoTosaForm  ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formBanhoTosaProdutosUtilizados'>
         <Form.Label>Produtos utilizados<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control as="textarea" rows={3} 
-          placeholder='Exemplo de produtos utilizados: máquina de tosa com lâminas de diferentes tamanhos, xampus, condicionadores, etc...'
+          placeholder='Exemplo de produtos utilizados: máquina de tosa com lâminas de diferentes tamanhos, xampu, condicionador, etc...'
           {...register('produtos_utilizados')}        
         />
         {errors.produtos_utilizados && <span className={styles.error}>{errors.produtos_utilizados.message}</span>}

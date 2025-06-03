@@ -105,7 +105,6 @@ function Cadastrar() {
               <div className={styles.image}><img src={logo_google} alt="Google" /></div>
             </div>
           </div>
-
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId='formCadastroNome'>
               <Form.Label className={styles.label_dados}>Nome<span style={{ color: 'red' }}>*</span></Form.Label>

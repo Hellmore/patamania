@@ -40,12 +40,31 @@ export default function ConsultaForm ({ onSubmit, initialData }) {
             <Form.Control
               type="number"
               step="0.01"
+              min={0}
               placeholder="59,00"
               className={styles.input_preco}
               {...register('preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.preco.message}</span>)}
+          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
+        </div>
+      </Form.Group>
+
+      <Form.Group className={styles.formGroup} controlId='formPasseioTaxa'>
+        <div style={{ marginBottom: '1rem' }}>
+          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
+          <div className={styles.div_preco}>
+            <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
+            <Form.Control
+              type="number"
+              step="0.01"
+              min="0"
+              placeholder="59,00"
+              className={styles.input_preco}
+              {...register('taxa')}
+            />
+          </div>
+          {errors.taxa && (<span className={styles.error}>{errors.taxa.message}</span>)}
         </div>
       </Form.Group>
 
@@ -67,36 +86,25 @@ export default function ConsultaForm ({ onSubmit, initialData }) {
         {errors.responsavel && <span className={styles.error}>{errors.responsavel.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formConsultaDuracao'>
+      <Form.Group className={styles.formGroup} controlId='formPasseioDuracao'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Duração<span style={{ color: 'red' }}>*</span></Form.Label>
-          <div className={styles.div_preco}>
             <Form.Control
-              type="number"
-              placeholder="30"
-              className={styles.input_preco}
-              {...register('duracao', { required: 'Campo obrigatório' })}
+              type="time"
+              step="2"
+              min="0"
+              defaultValue="00:00"
+              className={styles.input_duracao}
+              {...register('estoque', { 
+                required: 'Campo obrigatório',
+                min: {
+                  value: 0,
+                  message: 'A quantidade dever ser um número positivo!'
+                },
+                valueAsNumber: true // converte o valor para número
+              })} 
             />
-            <span style={{ userSelect: 'none', color: '#555' }}>min</span>
-          </div>
-          {errors.duracao && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.duracao.message}</span>)}
-        </div>
-      </Form.Group>
-
-      <Form.Group className={styles.formGroup} controlId='formConsultaTaxa'>
-        <div style={{ marginBottom: '1rem' }}>
-          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
-          <div className={styles.div_preco}>
-            <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
-            <Form.Control
-              type="number"
-              step="0.01"
-              placeholder="59,00"
-              className={styles.input_preco}
-              {...register('taxa')}
-            />
-          </div>
-          {errors.taxa && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.taxa.message}</span>)}
+          {errors.duracao && (<span className={styles.error}>{errors.duracao.message}</span>)}
         </div>
       </Form.Group>
 
@@ -147,7 +155,7 @@ export default function ConsultaForm ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formConsultaVacinas'>
         <Form.Label>Vacinas aplicadas</Form.Label>
         <Form.Control as="textarea" rows={2} 
-          placeholder='Exemplo de vacinas aplicadas: Vacina antirrábica.'
+          placeholder='Exemplo de vacina aplicada: Vacina antirrábica.'
           {...register('vacinas_aplicadas')}        
         />
         {errors.vacinas_aplicadas && <span className={styles.error}>{errors.vacinas_aplicadas.message}</span>}
@@ -156,7 +164,7 @@ export default function ConsultaForm ({ onSubmit, initialData }) {
       <Form.Group className={styles.formGroup} controlId='formConsultaExames'>
         <Form.Label>Exames realizados</Form.Label>
         <Form.Control as="textarea" rows={4} 
-          placeholder='Exemplo de exames realizados: Exames de sangue (hemograma, perfil hepático, perfil renal), exames de imagem (radiografias e ultrassom), exames de fezes e urina, raspados de pele, e exames clínicos gerais.'
+          placeholder='Exemplo de exames realizados: Exame de sangue (hemograma, perfil hepático, perfil renal), exames de imagem (radiografias e ultrassom), exames de fezes e urina, raspados de pele, e exames clínicos gerais.'
           {...register('exames_realizados')}        
         />
         {errors.exames_realizados && <span className={styles.error}>{errors.exames_realizados.message}</span>}
