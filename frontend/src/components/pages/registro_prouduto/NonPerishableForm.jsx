@@ -161,7 +161,7 @@ export default function NonPerishableForm  ({ onSubmit, initialData }) {
               {...register('preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.preco.message}</span>)}
+          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
         </div>
       </Form.Group>
 
