@@ -63,7 +63,6 @@ export default function ProductRegistration() {
         default:
           return <ProductTypeSelection onSelect={handleTypeSelect} />;
       }
-      return <div>{renderStep()}</div>
     };
   
   return (

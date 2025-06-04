@@ -1,0 +1,10 @@
+.home_container {
+    margin-top: 10rem;
+    padding: 1rem;
+}
+
+button {
+    width: 100%;
+    border-style: none;
+    padding: 0.5rem 0 0.5rem 0;
+}

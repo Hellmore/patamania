@@ -5,6 +5,8 @@ import React, {useState} from 'react';
 import { useNavigate } from  "react-router-dom";
 import axios, { AxiosHeaders, HttpStatusCode } from 'axios';
 
+import { useAuth } from '../../context/AuthContext';
+
 import logo_google from '../img/google.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
 import arrow_back from '../img/arrow_back.svg';
@@ -19,6 +21,7 @@ function Login() {
   
     const onSubmit = async (data) => {
     setIsSubmitting(true);
+    setSubmitError(''); // Limpa erros anteriores
 
     try {
       const response = await axios.post('http://localhost:3001/login', 
@@ -32,21 +35,20 @@ function Login() {
     }
     );
 
-    if(response.status === HttpStatusCode.OK) {
-      alert("Login realizado com sucesso");
-      navigate('/');
-    } else {
-      throw new Error(response.data?.message || 'Resposta inválida');
+    if(response.status === 200) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      navigate('/'); // Redireciona para a página inicial após o login bem-sucedido
     }
-    } catch (error) {
+      } catch (error) {
         console.log("Erro completo:", error); // Inspecione o erro no console
         
         if (error.response) {
           // Erro com resposta do servidor (4xx/5xx)
-          if (error.response.status === 409) {
+          if (error.response.status === 404) {
             setError('email', {
               type: 'manual',
-              message: 'E-mail já cadastrado'
+              message: 'E-mail não encontrado'
             });
           } else {
             setSubmitError(error.response.data?.message || 'Erro no servidor');
@@ -56,8 +58,11 @@ function Login() {
           setSubmitError('Sem resposta do servidor');
         } else {
           // Erro ao configurar a requisição
-          setSubmitError('Erro ao enviar dados');
+          setSubmitError('Erro ao acessar o servidor');
         }
+      }
+      finally {
+        setIsSubmitting(false); // Reseta o estado de submissão
       }
   };
   return (

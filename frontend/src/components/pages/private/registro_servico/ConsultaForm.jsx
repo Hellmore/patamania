@@ -2,14 +2,21 @@ import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 
 import styles from './styles.module.css';
+import arrow_back from '../../../img/arrow_back.svg';
 
-export default function ConsultaForm ({ onSubmit, initialData }) {
+export default function ConsultaForm ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.servicoForm}>
+    <Form onSubmit={handleSubmit(onSubmit)} className={styles.servicoForm}>
+      <div
+        className={styles.arrow_back}
+        onClick={() => onBack()}  
+      >
+        <img src={arrow_back} alt="Voltar" />
+      </div>
       <h2>Cadastro de Serviço - Consulta Veterinária</h2>
       
       {/* Outros campos comuns */}
@@ -173,6 +180,6 @@ export default function ConsultaForm ({ onSubmit, initialData }) {
       <div className={styles.formActions}>
         <button type="submit">Cadastrar</button>
       </div>
-    </form>
+    </Form>
   );
 };

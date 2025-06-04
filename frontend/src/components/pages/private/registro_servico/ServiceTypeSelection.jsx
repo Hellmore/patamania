@@ -1,9 +1,9 @@
 import styles from './styles.module.css';
 
-import dog_walking from '../../img/dog_walking.png';
-import dog_house from '../../img/dog_house.png';
-import heart_dog_paw from '../../img/heart_dog_paw.png';
-import tosa from '../../img/tosa.png';
+import dog_walking from '../../../img/dog_walking.png';
+import dog_house from '../../../img/dog_house.png';
+import heart_dog_paw from '../../../img/heart_dog_paw.png';
+import tosa from '../../../img/tosa.png';
 
 export default function ServiceTypeSelection ({ onSelect }) {
     return (
