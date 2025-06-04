@@ -16,8 +16,13 @@ import PageHospedagem from './components/pages/PageHospedagem';
 import PagePasseios from './components/pages/PagePasseios';
 import PagePromocoes from './components/pages/PagePromocoes';
 import PageNotFound from './components/pages/PageNotFound';
-import CadastrarProduto from './components/pages/registro_prouduto/index';
-import CadastrarServico from './components/pages/registro_servico/index';
+
+// Páginas administrativas
+import HomeAdmin from './components/pages/private/HomeAdmin';
+import CadastrarProduto from './components/pages/private/registro_prouduto/index';
+import CadastrarServico from './components/pages/private/registro_servico/index';
+
+// import { AuthProvider } from './context/AuthContext';
 
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,14 +32,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  // const [dados, setDados] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get('https://miniature-space-waffle-qrwp9x6qj5gcgjq-3001.app.github.dev/users')
-  //     .then(res => setDados(res.data))
-  //     .catch(err => console.error(err));
-  // }, []);
-
   return (
     <Router>
       <Routes>
@@ -59,10 +56,13 @@ function App() {
 
           <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
         </Route>
-        <Route element={<LayoutNavbarOnly />}>
-          <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>
-          <Route exact path="/cadastrar_servico" element={<CadastrarServico />}/>
-        </Route>
+        {/* <AuthProvider> */}
+          <Route element={<LayoutNavbarOnly />}>
+            <Route exact path='/home_admin' element={<HomeAdmin/>}></Route>
+            <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>
+            <Route exact path="/cadastrar_servico" element={<CadastrarServico />}/>
+          </Route>
+        {/* </AuthProvider> */}
       </Routes>
     </Router>
   );

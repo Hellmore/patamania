@@ -1,12 +1,8 @@
 import {Link} from 'react-router-dom';
 import { Outlet, useLocation } from "react-router-dom";
 
-// import Container from './Container';
-
-import Contain from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navb from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Dropdown, Space, Typography } from 'antd';
 
 import styles from "./Navbar.module.css";
 import logo from "../img/Logo Patamania.png";
@@ -40,6 +36,57 @@ function useWindowSize() {
 }
 
 function Navbar() {
+const items = [
+  {
+    key: '1',
+    label: 'Produtos',
+    children: [
+      {
+        key: '1-1',
+        label: <Link className={styles.without_undeline} to="/alimentos">Alimentos</Link>,
+      },
+      {
+        key: '1-2',
+        label: <Link className={styles.without_undeline} to="/acessorios">Acessórios</Link>,
+      },
+      {
+        key: '1-3',
+        label: <Link className={styles.without_undeline} to="/higiene">Higiene</Link>,
+      },
+      {
+        key: '1-4',
+        label: <Link className={styles.without_undeline} to="/farmacia">Farmácia Pet</Link>,
+      },
+    ],
+  },
+  {
+    key: '2',
+    label: 'Serviços',
+    children: [
+      {
+        key: '2-1',
+        label: <Link className={styles.without_undeline} to="/banho_&_tosa">Banho e Tosa</Link>,
+      },
+      {
+        key: '2-2',
+        label: <Link className={styles.without_undeline} to="/consultas">Consultas Veterinárias</Link>,
+      },
+      {
+        key: '2-3',
+        label: <Link className={styles.without_undeline} to="/passeios">Passeios</Link>,
+      },
+      {
+        key: '2-4',
+        label: <Link className={styles.without_undeline} to="/hospedagem">Hospedagem</Link>,
+      },
+    ],
+  },
+  {
+    key: '3',
+    label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
+  },
+];
+
   const windowSize = useWindowSize();
   const location = useLocation();
 
@@ -53,40 +100,25 @@ function Navbar() {
       </Navb.Brand>
     
       <Navb>
-        <NavDropdown
-          title={<img src={menu} className={styles.icon_menu}></img>}
-          menuVariant="light"
-          className={styles.custom_dropdown}
+        <Dropdown
+          menu={{
+            items,
+            selectable: true,
+            autoFocus: true,
+            onClick: (e) => {
+              if (e.key === '1') {
+                e.domEvent.stopPropagation();
+                e.domEvent.preventDefault();
+              }
+            },
+          }}
         >
-          {/* Dropdown de Produtos (com subitens) */}
-          <NavDropdown.ItemText className={styles.dropdown_header}>Produtos</NavDropdown.ItemText>
-          {windowSize.width > 320 ? (
-            <NavDropdown drop="end"> {/* "end" alinha o submenu à direita */}
-              <NavDropdown.Item as={Link} to="/alimentos">Alimentos</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/acessorios">Acessórios</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/higiene">Higiene</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/farmacia">Farmácia Pet</NavDropdown.Item>
-            </NavDropdown>
-          ) : (
-            <NavDropdown drop="start"> {/* "end" alinha o submenu à direita */}
-              <NavDropdown.Item as={Link} to="/alimentos">Alimentos</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/acessorios">Acessórios</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/higiene">Higiene</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/farmacia">Farmácia Pet</NavDropdown.Item>
-            </NavDropdown>
-          )}
-
-          {/* Dropdown de Serviços (com subitens) */}
-          <NavDropdown.ItemText className={styles.dropdown_header}>Serviços</NavDropdown.ItemText>
-          <NavDropdown drop="end">
-          <NavDropdown.Item as={Link} to="/banho_&_tosa">Banho e Tosa</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/consultas">Consultas Veterinárias</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/passeios">Passeios</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/hospedagem">Hospedagem</NavDropdown.Item>
-          </NavDropdown>
-
-          <NavDropdown.Item as={Link} to="/promocoes">Promoções</NavDropdown.Item>
-        </NavDropdown>
+          <Typography.Link>
+            <Space>
+              <img src={menu} className={styles.icon_menu} />
+            </Space>
+          </Typography.Link>
+        </Dropdown>
       </Navb>
         <div className={styles.search}>
         <div><IoSearch className={styles.icon_search}/></div>

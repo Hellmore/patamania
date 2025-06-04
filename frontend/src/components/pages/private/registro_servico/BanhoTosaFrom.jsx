@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 
 import styles from './styles.module.css';
-import arrow_back from '../../img/arrow_back.svg';
+import arrow_back from '../../../img/arrow_back.svg';
 
-export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
+export default function BanhoTosaForm  ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
@@ -17,11 +17,11 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
       >
         <img src={arrow_back} alt="Voltar" />
       </div>
-      <h2>Cadastro de Serviço - Passeio</h2>
+      <h2>Cadastro de Serviço - Banho & Tosa</h2>
       
       {/* Outros campos comuns */}
-      
-      <Form.Group className={styles.formGroup} controlId='formPasseioNome'>
+
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaNome'>
         <Form.Label>Nome do Serviço<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           {...register('nome', { required: 'Campo obrigatório' })}
@@ -30,16 +30,18 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
         {errors.nome && <span className={styles.error}>{errors.nome.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioDescricao'>
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaDescricao'>
         <Form.Label>Descrição<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control as="textarea" rows={4} 
-          placeholder='Exemplo de descrição: Oferecemos caminhada de longa duração para seu pet ficar saudável...'
+        <Form.Control 
+          as="textarea" 
+          rows={4} 
+          placeholder='Exemplo de descrição: Oferecemos higienização completa para seu animal de estimação...'
           {...register('descricao', { required: 'Campo obrigatório' })}        
         />
         {errors.descricao && <span className={styles.error}>{errors.descricao.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioPreco'>
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaPreco'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Preço<span style={{ color: 'red' }}>*</span></Form.Label>
           <div className={styles.div_preco}>
@@ -50,14 +52,20 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
               min={0}
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('preco', { required: 'Campo obrigatório' })}
-            />
+              {...register('preco', { 
+                required: 'Campo obrigatório',
+                min: {
+                  value: 0,
+                  message: 'A quantidade dever ser um número positivo!'
+                },
+                valueAsNumber: true // converte o valor para número
+              })}             />
           </div>
           {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
         </div>
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioTaxa'>
+            <Form.Group className={styles.formGroup} controlId='formBanhoTosaTaxa'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
           <div className={styles.div_preco}>
@@ -65,17 +73,23 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
             <Form.Control
               type="number"
               step="0.01"
-              min="0"
+              min={0}
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('taxa')}
+              {...register('taxa', {
+                min: {
+                  value: 0,
+                  message: 'A quantidade dever ser um número positivo!'
+                },
+                valueAsNumber: true // converte o valor para número
+              })} 
             />
           </div>
           {errors.taxa && (<span className={styles.error}>{errors.taxa.message}</span>)}
         </div>
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioLocalizacao'>
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaLocalizacao'>
         <Form.Label>Localização<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           placeholder='Exemplo de localização: Em toda região de Campinas - SP.'
@@ -84,10 +98,10 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
         {errors.localizacao && <span className={styles.error}>{errors.localizacao.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioResponsavel'>
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaResponsavel'>
         <Form.Label>Profissional Responsável<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
-          placeholder='Exemplo de Profissional Responsável: Lilly'
+          placeholder='Exemplo de Profissional Responsável: lolla'
           {...register('responsavel', { required: 'Campo obrigatório' })}
         />
         {errors.responsavel && <span className={styles.error}>{errors.responsavel.message}</span>}
@@ -98,12 +112,11 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Duração<span style={{ color: 'red' }}>*</span></Form.Label>
             <Form.Control
               type="time"
-              // step={60} // passo de 1 minuto
-              step="2"
               min="0"
+              step={60} // permite apenas minutos inteiros
               defaultValue="00:00"
               className={styles.input_duracao}
-              {...register('estoque', { 
+              {...register('duracao', { 
                 required: 'Campo obrigatório',
                 min: {
                   value: 0,
@@ -116,7 +129,7 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
         </div>
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioImagem'>
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaImagem'>
         <Form.Label>Imagem</Form.Label>
         <Form.Control
           type="file"
@@ -125,7 +138,7 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
             validate: {
               isImage: FileList => {
                 if (!FileList?.[0]) return true;
-                return FileList[0].type.startsWith('image/') || 'Apenas arquivo de imagem é permitido';
+                return FileList[0].type.startsWith('image/') || 'Apenas arquivos de imagem são permitidos';
               }
             }
           })}
@@ -133,39 +146,23 @@ export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
         {errors.imagem && <span className={styles.error}>{errors.imagem.message}</span>}
       </Form.Group>
 
-      {/* Campo específico para serviços de passeio */}
-      <Form.Group className={styles.formGroup} controlId='formPasseioTipo'>
-        <Form.Label>
-          Tipo de passeio<span style={{ color: 'red' }}>*</span>
-        </Form.Label>
-        <Form.Select 
-          aria-label="tipo_passeio" 
-          {...register('tipo_passeio', { required: 'Campo obrigatório' })} 
-          defaultValue="" // Define a opção padrão como vazia
-        >
-          <option value="" disabled>Selecione uma opção</option>
-          <option value="1">Atlético</option>
-          <option value="2">Comum</option>
-          <option value="3">Aquático</option>
-        </Form.Select>
-        {errors.tipo_passeio && <span className={styles.error}>{errors.tipo_passeio.message}</span>}
+      {/* Campo específico para serviços de consulta */}
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaTipoTosa'>
+        <Form.Label>Tipo de tosa</Form.Label>
+        <Form.Control 
+          {...register('tipo_tosa')}
+          placeholder='Exemplo de tosa: Tosa higiênica'
+        />
+        {errors.tipo_tosa && <span className={styles.error}>{errors.tipo_tosa.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formPasseioIntensidade'>
-        <Form.Label>
-          Intensidade de atividade<span style={{ color: 'red' }}>*</span>
-        </Form.Label>
-        <Form.Select 
-          aria-label="nivelamento" 
-          {...register('nivelamento', { required: 'Campo obrigatório' })} 
-          defaultValue="" // Define a opção padrão como vazia
-        >
-          <option value="" disabled>Selecione uma opção</option>
-          <option value="1">Leve</option>
-          <option value="2">Intermediária</option>
-          <option value="3">Intensa</option>
-        </Form.Select>
-        {errors.nivelamento && <span className={styles.error}>{errors.nivelamento.message}</span>}
+      <Form.Group className={styles.formGroup} controlId='formBanhoTosaProdutosUtilizados'>
+        <Form.Label>Produtos utilizados<span style={{ color: 'red' }}>*</span></Form.Label>
+        <Form.Control as="textarea" rows={3} 
+          placeholder='Exemplo de produtos utilizados: máquina de tosa com lâminas de diferentes tamanhos, xampu, condicionador, etc...'
+          {...register('produtos_utilizados')}        
+        />
+        {errors.produtos_utilizados && <span className={styles.error}>{errors.produtos_utilizados.message}</span>}
       </Form.Group>
 
       <div className={styles.formActions}>

@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 
 import styles from './styles.module.css';
-import arrow_back from '../../img/arrow_back.svg';
+import arrow_back from '../../../img/arrow_back.svg';
 
 export default function NonPerishableForm  ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({

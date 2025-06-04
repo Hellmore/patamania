@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 
-import coleira from '../../img/coleira.png';
-import cookie from '../../img/cookie.png';
+import coleira from '../../../img/coleira.png';
+import cookie from '../../../img/cookie.png';
 
 export default function ProductTypeSelection ({ onSelect }) {
     return (
