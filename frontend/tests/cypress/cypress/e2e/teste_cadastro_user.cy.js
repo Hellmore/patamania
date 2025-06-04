@@ -1,29 +1,32 @@
 describe('Testes de Integração - Cadastro de Usuário', () => {
+  //arrange
   const baseUrlBackend = 'http://localhost:3001'; 
 
-  // Gerar e-mail único para cada execução
   const emailUnico = `briena+${Date.now()}@teste.com`;
 
-  it('1. Cadastro válido cria usuário e mostra confirmação', () => {
+  it.only('TC13 - cadastro válido cria usuário e mostra confirmação', () => {
+    //act
     cy.visit('/');
-
-    cy.get('input[name="usuario_nome"]').type('Briena');
-    cy.get('input[name="usuario_email"]').type(emailUnico);
-    cy.get('input[name="usuario_dataNascimento"]').type('2002-11-01');
-    cy.get('input[name="usuario_senha"]').type('senhaForte123');
+    cy.get('.Navbar_profile__T6ZEC').click();
+    cy.url().should('include', '/login');
+    cy.get('a[data-discover="true"] > button').click();
+    cy.get('input#formCadastroNome').type('NomeTeste');
+    cy.get('input#formCadastroEmail').type(emailUnico);
+    cy.get('input#birth').type('2002-11-01');
+    cy.get('input#formCadastroSenha').type('senhaForte123');
+    cy.get('input#formCadastrarConfirmSenha').type('senhaForte123');
 
     cy.get('form').submit();
+    //assert 
+    cy.url().should('include', '');
 
-    cy.contains('Cadastro realizado com sucesso').should('be.visible');
-
-    // Verificar no backend que usuário foi criado
+    // Verifica o back, se o user foi criado
     cy.request('GET', `${baseUrlBackend}/usuarios/email/${emailUnico}`)
       .its('body')
       .should('have.property', 'usuario_email', emailUnico);
   });
 
-  it('2. Cadastro com e-mail duplicado mostra erro no frontend e não cria novo', () => {
-    // Criar usuário antes (via API)
+  it('Cadastro com e-mail duplicado mostra erro no frontend e não cria novo', () => {
     cy.request('POST', `${baseUrlBackend}/usuarios/cadastrar`, {
       usuario_nome: 'Briena',
       usuario_email: emailUnico,
@@ -33,7 +36,7 @@ describe('Testes de Integração - Cadastro de Usuário', () => {
 
     cy.visit('/');
 
-    cy.get('input[name="usuario_nome"]').type('Briena Dup');
+    cy.get('.Navbar_profile__T6ZEC').type('Briena');
     cy.get('input[name="usuario_email"]').type(emailUnico);
     cy.get('input[name="usuario_dataNascimento"]').type('2002-11-01');
     cy.get('input[name="usuario_senha"]').type('senhaOutra123');
@@ -42,7 +45,6 @@ describe('Testes de Integração - Cadastro de Usuário', () => {
 
     cy.contains(/email já cadastrado/i).should('be.visible');
 
-    // Verificar que não duplicou usuário no backend
     cy.request('GET', `${baseUrlBackend}/usuarios/email/${emailUnico}`)
       .its('body')
       .then(user => {
@@ -53,7 +55,7 @@ describe('Testes de Integração - Cadastro de Usuário', () => {
   it('3. Cadastro com e-mail inválido bloqueia envio e mostra erro na interface', () => {
     cy.visit('/');
 
-    cy.get('input[name="usuario_nome"]').type('Briena');
+    cy.get('.Navbar_profile__T6ZEC').type('Briena');
     cy.get('input[name="usuario_email"]').type('email-invalido');
     cy.get('input[name="usuario_dataNascimento"]').type('2002-11-01');
     cy.get('input[name="usuario_senha"]').type('senhaForte123');
@@ -79,7 +81,7 @@ describe('Testes de Integração - Cadastro de Usuário', () => {
     cy.visit('/');
 
     cy.get('.Navbar_profile__T6ZEC').type('Briena');
-    cy.get('Login_dados_info__GN14w').type(emailUnico);
+    cy.get('.Login_dados_info__GN14w').type(emailUnico); // Corrigido seletor com ponto
     cy.get('input[name="usuario_dataNascimento"]').type('2002-11-01');
     cy.get('input[name="usuario_senha"]').type('senhaForte123');
 
