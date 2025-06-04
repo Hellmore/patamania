@@ -1,15 +1,23 @@
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
+import { Link } from 'react-router-dom';
 
 import styles from './styles.module.css';
+import arrow_back from '../../img/arrow_back.svg';
 
-export default function FoodForm ({ onSubmit, initialData }) {
+export default function FoodForm ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
-
+  
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
+    <Form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
+      <div
+        className={styles.arrow_back}
+        onClick={() => onBack()}  
+      >
+        <img src={arrow_back} alt="Voltar" />
+      </div>
       <h2>Cadastro de Alimento</h2>
       
       <Form.Group className={styles.formGroup} controlId='formFoodNome'>
@@ -168,6 +176,6 @@ export default function FoodForm ({ onSubmit, initialData }) {
       <div className={styles.formActions}>
         <button type="submit">Cadastrar</button>
       </div>
-    </form>
+    </Form>
   );
 };

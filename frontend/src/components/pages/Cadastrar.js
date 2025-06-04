@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import logo_google from '../img/google.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
-import arrow_back from '../img/arrow_back.png';
+import arrow_back from '../img/arrow_back.svg';
 
 import styles from './Cadastrar.module.css'
 
