@@ -1,13 +1,17 @@
+import { Link } from 'react-router-dom';
+
 import styles from './styles.module.css';
 
 import dog_walking from '../../../img/dog_walking.png';
 import dog_house from '../../../img/dog_house.png';
 import heart_dog_paw from '../../../img/heart_dog_paw.png';
 import tosa from '../../../img/tosa.png';
+import arrow_back from '../../../img/arrow_back.svg';
 
 export default function ServiceTypeSelection ({ onSelect }) {
     return (
       <div className={styles.selectionContainer}>
+        <div className={`${styles.arrow_back} ${styles.fit_arrow}`}><Link to="/home_admin"><img src={arrow_back} alt="voltar para home"/></Link></div>
         <h2>Que tipo de serviço deseja cadastrar?</h2>
         
         <div className={styles.optionsGrid}>
