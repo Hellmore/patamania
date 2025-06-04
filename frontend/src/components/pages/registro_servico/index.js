@@ -52,20 +52,24 @@ export default function ServiceRegistration() {
       // Após o sucesso, pode avançar para step 3 (confirmação)
       setStep(3);
     };
-  
+    
+    const handleBack = () => {
+      setStep(1);
+    };
+
     const renderStep = () => {
       switch (step) {
         case 1:
-          return <ServiceTypeSelection  onSelect={handleTypeSelect} />;
+          return <ServiceTypeSelection  onSelect={(type) => {setSelectedType(type); setStep(2);}}/>;
         case 2:
           if (selectedType === 'consulta') {
-            return <ConsultaForm onSubmit={handleSubmitForm} initialData={formData} />;
+            return <ConsultaForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>;
           } else if (selectedType === 'hospedagem') {
-            return <HospedagemForm onSubmit={handleSubmitForm} initialData={formData} />;
+            return <HospedagemForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>;
           } else if (selectedType === 'passeio') {
-            return <PasseioForm onSubmit={handleSubmitForm} initialData={formData} />;
+            return <PasseioForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>;
           } else {
-            return <BanhoTosaForm onSubmit={handleSubmitForm} initialData={formData} />;
+            return <BanhoTosaForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>;
           }
         case 3:
           return <ConfirmationScreen />;

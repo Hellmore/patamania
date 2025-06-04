@@ -2,14 +2,21 @@ import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 
 import styles from './styles.module.css';
+import arrow_back from '../../img/arrow_back.svg';
 
-export default function PasseioForm  ({ onSubmit, initialData }) {
+export default function PasseioForm  ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className={styles.servicoForm}>
+      <div
+        className={styles.arrow_back}
+        onClick={() => onBack()}  
+      >
+        <img src={arrow_back} alt="Voltar" />
+      </div>
       <h2>Cadastro de Serviço - Passeio</h2>
       
       {/* Outros campos comuns */}
