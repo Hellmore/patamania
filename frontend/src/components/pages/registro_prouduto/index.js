@@ -27,6 +27,10 @@ export default function ProductRegistration() {
     // dado específico para produto não perecível
     garantia: ''
     });
+
+    const handleBack = () => {
+      setStep(1);
+    };
   
     const handleTypeSelect = (type) => {
       setSelectedType(type);
@@ -49,16 +53,17 @@ export default function ProductRegistration() {
     const renderStep = () => {
       switch (step) {
         case 1:
-          return <ProductTypeSelection onSelect={handleTypeSelect} />;
+          return <ProductTypeSelection onSelect={(type) => {setSelectedType(type); setStep(2);}}/>;
         case 2:
           return selectedType === 'alimento' 
-            ? <FoodForm onSubmit={handleSubmitForm} initialData={formData} />
-            : <NonPerishableForm onSubmit={handleSubmitForm} initialData={formData} />;
+            ? <FoodForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>
+            : <NonPerishableForm onSubmit={handleSubmitForm} initialData={formData} onBack={handleBack}/>;
         case 3:
           return <ConfirmationScreen />;
         default:
           return <ProductTypeSelection onSelect={handleTypeSelect} />;
       }
+      return <div>{renderStep()}</div>
     };
   
   return (

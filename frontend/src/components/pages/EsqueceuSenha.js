@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 
-import styles from './EsqueceuSenha.module.css'; // Certifique-se de ter este arquivo CSS
-import arrow_back from '../img/arrow_back.png';
+import styles from './EsqueceuSenha.module.css'; 
+import arrow_back from '../img/arrow_back.svg';
 import logo_patamania from '../img/Logo Patamania + nome.png';
 
 function EsqueceuSenha() {

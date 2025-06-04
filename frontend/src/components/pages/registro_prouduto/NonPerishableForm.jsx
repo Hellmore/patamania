@@ -3,14 +3,21 @@ import Form from 'react-bootstrap/Form';
 import React, { useState } from 'react';
 
 import styles from './styles.module.css';
+import arrow_back from '../../img/arrow_back.svg';
 
-export default function NonPerishableForm  ({ onSubmit, initialData }) {
+export default function NonPerishableForm  ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
 
    return (
     <Form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
+      <div
+        className={styles.arrow_back}
+        onClick={() => onBack()}  
+      >
+        <img src={arrow_back} alt="Voltar" />
+      </div>
       <h2>Cadastro de Produto Não Perecível</h2>
       
       <Form.Group className={styles.formGroup} controlId='formNonPerishableNome'>
