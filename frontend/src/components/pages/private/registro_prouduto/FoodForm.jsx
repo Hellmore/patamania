@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
 
 import styles from './styles.module.css';
 import arrow_back from '../../../img/arrow_back.svg';
@@ -11,6 +12,8 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
   });
   
   return (
+    <Container fluid className="p-0"> {/* fluid container for full width */}
+
     <Form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
       <div
         className={styles.arrow_back}
@@ -177,5 +180,7 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
         <button type="submit">Cadastrar</button>
       </div>
     </Form>
+    </Container>
+
   );
 };

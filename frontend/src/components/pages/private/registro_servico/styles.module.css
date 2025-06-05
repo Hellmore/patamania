@@ -1,5 +1,5 @@
 .container {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -9,7 +9,7 @@
 }
 
 .selectionContainer {
-  height: 600px;
+  width: 100%;
   text-align: center;
   margin-top: 6em;
 }
@@ -19,10 +19,17 @@
   font-size: 25px;
 }
 
+.flexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .optionsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap: 1rem;
   margin-top: 2rem;
 }
 
@@ -32,6 +39,8 @@
 }
 
 .optionCard {
+  width: 25rem;
+  height: 15rem;
   border: 1px solid #ddd;
   padding: 1.5rem;
   border-radius: 8px;
@@ -45,11 +54,14 @@
 }
 
 .servicoForm {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+    width: 80vw;
+    max-width: none;
+    background: white;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
 
 .formGroup {
   margin-bottom: 1.5rem;
@@ -83,21 +95,22 @@
   text-align: right;
 }
 
-.formActions button {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.2s;
-}
-
-.formActions button:hover {
-  background: #2980b9;
-}
-
+  .formActions button {
+    background: #2D6B6A;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  
+  .formActions button:hover {
+    background: #ffffff00;
+    color: black;
+    border: black solid 1px;
+  }
 .confirmation {
   text-align: center;
   padding: 2rem;

@@ -1,0 +1,107 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.defaultBackground {
+  background-color: #A7CBC9;
+  display: flex;
+  width: 100%;
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 1rem;
+}
+
+.produtoBackground {
+  background-color: #2D6B6A;
+  display: flex;
+  width: 100%;
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 1rem;
+}
+
+.title {
+  color: white;
+  margin-left: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.icons_left {
+  justify-content: center;
+  display: flex;
+  margin-top: 2px;
+}
+
+.logo {
+  width: 3.5em;
+  cursor: pointer;
+  margin-left: 1em;
+  padding: 3px;
+}
+
+.menu {
+  color: white;
+  font-size: 3em;
+  transform: translateY(15%);
+  cursor: pointer;
+}
+
+
+.profile {
+  cursor: pointer;
+}
+
+.icons_right {
+  margin-left: 65em;
+  margin-top: 10px;
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .icons_right {
+    margin-left: 7em;
+  }
+
+  .search {
+    margin-left: 7em;
+  }
+}
+
+@media (max-width: 320px) {
+  .logo {
+    width: 2.5em;
+    margin-left: 0.5em;
+  }
+
+  .custom_dropdown {
+    position: absolute;
+    right: 12em;
+  }
+
+  .icon_menu {
+    width: 28px;
+  }
+
+  .icons_right {
+    position: absolute;
+    top: 10%;
+    margin-left: 13em;
+  }
+
+  .search {
+    margin-left: 0.5em;
+  }
+
+  .shop_cart, .profile {
+    width: 2.3em;
+  }
+
+  .navbar {
+    position: relative;
+  }
+
+}
