@@ -18,6 +18,7 @@ import PagePromocoes from './components/pages/PagePromocoes';
 import PageNotFound from './components/pages/PageNotFound';
 
 // Páginas administrativas
+import LayoutAdmin from './components/layout/LayoutAdmin';
 import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
 import CadastrarServico from './components/pages/private/registro_servico/index';
@@ -56,13 +57,12 @@ function App() {
 
           <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
         </Route>
-        {/* <AuthProvider> */}
-          <Route element={<LayoutNavbarOnly />}>
-            <Route exact path='/home_admin' element={<HomeAdmin/>}></Route>
-            <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>
-            <Route exact path="/cadastrar_servico" element={<CadastrarServico />}/>
-          </Route>
         {/* </AuthProvider> */}
+        <Route element={<LayoutAdmin/>}>
+          <Route exact path="/home_admin" element={<HomeAdmin/>}></Route>
+          <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>
+          <Route exact path="/cadastrar_servico" element={<CadastrarServico />}/>
+        </Route>
       </Routes>
     </Router>
   );
