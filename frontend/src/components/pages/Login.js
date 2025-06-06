@@ -18,6 +18,7 @@ function Login() {
   const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const { login } = useAuth(); // Hook de autenticação
   
     const onSubmit = async (data) => {
     setIsSubmitting(true);
@@ -34,11 +35,17 @@ function Login() {
       }
     }
     );
+      await login({
+        usuario_email: data.email,
+        usuario_senha: data.password
+      });
 
     if(response.status === 200) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.usuario));
       navigate('/'); // Redireciona para a página inicial após o login bem-sucedido
+    } else {
+      throw new Error(response.data?.message || 'Resposta inválida');
     }
       } catch (error) {
         console.log("Erro completo:", error); // Inspecione o erro no console
@@ -49,6 +56,11 @@ function Login() {
             setError('email', {
               type: 'manual',
               message: 'E-mail não encontrado'
+            });
+          } else if (error.response.status === 401) {
+            setError('password', {
+              type: 'manual',
+              message: 'Senha inválida'
             });
           } else {
             setSubmitError(error.response.data?.message || 'Erro no servidor');
