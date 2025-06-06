@@ -272,12 +272,57 @@ input[type=checkbox]:checked:after {
 }
 
 @media (max-width: 768px) {
+  .right {
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .right p {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .title_login {
+    font-size: 28px;
+    margin-top: 7rem;
+  }
+
+  .part_login {
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  h3 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .patamania {
+    z-index: 1;
+    margin-top: -63rem;
+    width: 100px;
+  }
+
   .container {
     width: 100%;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 1rem;
     margin-top: -5rem;
   }
+
+.right button {
+    padding: 10px 15px;
+    width: 75%;
+    align-items: center;
+    justify-content: center;
+}
 
   .form_login {
     width: 100%;
@@ -301,7 +346,7 @@ input[type=checkbox]:checked:after {
   .right {
     display: block;
     text-align: center;
-    margin: 2rem 0;
+    margin-top: -12rem;
   }
 
   /* Mostra o botão de login abaixo do formulário (mobile) */
@@ -327,7 +372,7 @@ input[type=checkbox]:checked:after {
     margin: 0 auto;
   }
 
-  input, button {
+  input {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
