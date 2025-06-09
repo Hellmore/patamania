@@ -10,7 +10,20 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
-    
+      try {
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser && token) {
+          setUser(parsedUser);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+    }
+    } catch (e) {
+      console.error("Erro ao parsear user:", e);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
+
     if (storedUser && token) {
       setUser(JSON.parse(storedUser));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

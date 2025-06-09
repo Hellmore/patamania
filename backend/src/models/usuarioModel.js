@@ -55,6 +55,18 @@ const buscarPorEmail = (email) => {
     });
 };
 
+const atualizarRefreshToken = (usuario_id, refreshToken) => {
+    return new Promise((resolve, reject) => {
+        const query = 'UPDATE usuario SET usuario_refresh_token = ? WHERE usuario_id = ?';
+        db.query(query, [refreshToken, usuario_id], (err, result) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+};
+
 const atualizar = (id, usuario) => {
     return new Promise((resolve, reject) => {
         const query = `
@@ -97,6 +109,7 @@ module.exports = {
     listarTodos,
     buscarPorId,
     buscarPorEmail,
+    atualizarRefreshToken,
     atualizar,
     excluir
 };

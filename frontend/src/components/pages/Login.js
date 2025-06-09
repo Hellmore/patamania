@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { data, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import {useState} from 'react';
 import { useNavigate } from  "react-router-dom";
-import axios, { AxiosHeaders, HttpStatusCode } from 'axios';
+import axios from 'axios';
 
 import { useAuth } from '../../context/AuthContext';
 
@@ -19,7 +19,7 @@ function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const { login } = useAuth(); // Hook de autenticação
-
+  
   const onSubmit = async (data) => {
   setIsSubmitting(true);
   setSubmitError(''); // Limpa erros anteriores
@@ -36,22 +36,23 @@ function Login() {
     }
   );
 
+  
   console.log(response.data);
-
+  
   if (response.status === 200) {
-      const { usuario } = response.data; // Desestruturação para obter o usuário
-      console.log(usuario); // Remover aqui depois de testar
+    const { usuario, token } = response.data;
+    console.log(usuario); // Remover aqui depois de testar
 
-      if (usuario) {
-        const tipoUsuario = usuario.tipo?.toUpperCase();
+    if (usuario) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(usuario));
 
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      await login({
+        usuario_email: data.email,
+        usuario_senha: data.password
+      });
 
-        await login({
-          usuario_email: data.email,
-          usuario_senha: data.password
-        });
+        const tipoUsuario = usuario.tipo?.toUpperCase() || '';
 
         if (tipoUsuario === 'ADMIN') {
           navigate('/home_admin');
@@ -59,8 +60,7 @@ function Login() {
           navigate('/');
         }
       } else {
-        console.error('Usuário não encontrado na resposta');
-        setSubmitError('Usuário não encontrado na resposta');
+        setSubmitError('Dados do usuários não retornados');
       }
     } else {
       throw new Error(response.data?.message || 'Resposta inválida');
