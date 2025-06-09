@@ -1,9 +1,16 @@
 const express = require('express'); 
 const bodyParser = require('body-parser');
-require('dotenv').config();
+// require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 const cors = require('cors');
-
 const app = express(); 
+
+// ----------------------
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+
+// Debug final (remova depois)
+console.log('JWT_SECRET carregado:', process.env.JWT_SECRET ? '✔️' : '❌');
+// ----------------------
 
 // Middlewares
 app.use(cors());

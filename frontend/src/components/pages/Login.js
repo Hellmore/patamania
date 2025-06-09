@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { data, Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { useNavigate } from  "react-router-dom";
 import axios, { AxiosHeaders, HttpStatusCode } from 'axios';
 
@@ -18,37 +18,67 @@ function Login() {
   const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  
-    const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    setSubmitError(''); // Limpa erros anteriores
+  const { login } = useAuth(); // Hook de autenticação
 
-    try {
-      const response = await axios.post('http://localhost:3001/login', 
+  const onSubmit = async (data) => {
+  setIsSubmitting(true);
+  setSubmitError(''); // Limpa erros anteriores
+  
+  try {
+    const response = await axios.post('http://localhost:3001/login', 
       {
-        usuario_email: data.email,
-        usuario_senha: data.password
-      }, {
+      usuario_email: data.email,
+      usuario_senha: data.password
+    }, {
       headers: {
-        'Content-Type': 'application/json' //Para enviar no backends
+      'Content-Type': 'application/json' 
       }
     }
-    );
+  );
 
-    if(response.status === 200) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.usuario));
-      navigate('/'); // Redireciona para a página inicial após o login bem-sucedido
+  console.log(response.data);
+
+  if (response.status === 200) {
+      const { usuario } = response.data; // Desestruturação para obter o usuário
+      console.log(usuario); // Remover aqui depois de testar
+
+      if (usuario) {
+        const tipoUsuario = usuario.tipo?.toUpperCase();
+
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.usuario));
+
+        await login({
+          usuario_email: data.email,
+          usuario_senha: data.password
+        });
+
+        if (tipoUsuario === 'ADMIN') {
+          navigate('/home_admin');
+        } else {
+          navigate('/');
+        }
+      } else {
+        console.error('Usuário não encontrado na resposta');
+        setSubmitError('Usuário não encontrado na resposta');
+      }
+    } else {
+      throw new Error(response.data?.message || 'Resposta inválida');
     }
       } catch (error) {
-        console.log("Erro completo:", error); // Inspecione o erro no console
+        console.log("Erro completo:", error); 
         
-        if (error.response) {
+        if (error.response) { 
           // Erro com resposta do servidor (4xx/5xx)
           if (error.response.status === 404) {
             setError('email', {
               type: 'manual',
               message: 'E-mail não encontrado'
+            });
+          } else if (error.response.status === 401) {
+            setError('password', {
+              type: 'manual',
+              message: 'Senha inválida'
             });
           } else {
             setSubmitError(error.response.data?.message || 'Erro no servidor');
@@ -65,9 +95,10 @@ function Login() {
         setIsSubmitting(false); // Reseta o estado de submissão
       }
   };
+
   return (
     <>
-      <container className={styles.container}>
+      <div className={styles.container}>
         <div className={styles.form_login}>
           <div className={styles.arrow_back}><Link to="/"><img src={arrow_back} alt="" /></Link></div>
           <div className={styles.part_login}>
@@ -96,7 +127,7 @@ function Login() {
             </Form.Group>
 
             <Form.Group controlId='formLoginPassword'>
-              <Form.Label className={styles.email_senha} for="password">Senha<span style={{ color: 'red' }}>*</span></Form.Label>
+              <Form.Label className={styles.email_senha}>Senha<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control 
                 className={styles.dados_info} 
                 type="password"
@@ -113,7 +144,7 @@ function Login() {
                   type="checkbox" 
                   id="remember" 
                   name="remember"/>
-                <label for="remember">Lembrar-me</label>
+                <label>Lembrar-me</label>
                 <Link className={styles.link} to="/esqueci_senha">Esqueceu a senha?</Link>
               </div>
               <div className={styles.button}>
@@ -128,12 +159,16 @@ function Login() {
           </Form>
         </div>
         <div className={styles.right}>
-          <h3>Seja Bem-vindo(a) de volta à</h3>
-          <img className={styles.patamania} src={logo_patamania} alt="Logo Patamania" />
-          <p>Não possui conta?</p>
-          <Link to="/cadastrar"><button>Cadastrar</button></Link> 
+          <div className={styles.mobile_screen_p1}>
+            <h3>Seja Bem-vindo(a) de volta à</h3>
+            <img className={styles.patamania} src={logo_patamania} alt="Logo Patamania" />
+          </div>
+          <div className={styles.mobile_screen_p2}>
+            <p>Não possui conta?</p>
+            <Link to="/cadastrar"><button>Cadastrar</button></Link> 
+          </div>
         </div>
-      </container>
+      </div>
     </>
   )
 }
