@@ -40,7 +40,7 @@ function Navbar() {
 
   return (    
     <Navb collapseOnSelect className={isRotaClara ? styles.produtoBackground : styles.defaultBackground} fixed='top' expand="lg">
-      <Navb.Brand href="/home_admin">
+      <Navb.Brand as={Link} to="/home_admin">
         <img className={styles.logo} src={logo} alt="patamania" />
         <span className={styles.title}>Dashboard</span>
       </Navb.Brand>
