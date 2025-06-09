@@ -82,7 +82,6 @@
 }
 
 .social_list img {
-    /* border: solid black 0.5px; */
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
     padding: 6px;
@@ -272,13 +271,6 @@ input[type=checkbox]:checked:after {
 }
 
 @media (max-width: 768px) {
-  .right {
-    background-color: transparent;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-  }
-
   .right p {
     text-align: center;
     align-items: center;
@@ -342,14 +334,18 @@ input[type=checkbox]:checked:after {
     margin-bottom: 1rem;
   }
 
-  /* Mostra a logo no topo (mobile) */
   .right {
+    height: 0;
     display: block;
     text-align: center;
     margin-top: -12rem;
+    background-color: transparent;
   }
 
-  /* Mostra o botão de login abaixo do formulário (mobile) */
+  .mobile_screen_p1 {
+    margin-top: 9.5rem;
+  }
+
   .form_login {
     display: flex;
     flex-direction: column;
@@ -357,7 +353,6 @@ input[type=checkbox]:checked:after {
     margin-top: 2rem;
   }
 
-  /* Ajustes no formulário para mobile */
   .form_section {
     padding: 1rem;
   }
