@@ -1,15 +1,26 @@
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
+import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
 
 import styles from './styles.module.css';
+import arrow_back from '../../../img/arrow_back.svg';
 
-export default function FoodForm ({ onSubmit, initialData }) {
+export default function FoodForm ({ onSubmit, initialData, onBack }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
-
+  
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
+    <Container fluid className="p-0"> {/* fluid container for full width */}
+
+    <Form onSubmit={handleSubmit(onSubmit)} className={styles.productForm}>
+      <div
+        className={styles.arrow_back}
+        onClick={() => onBack()}  
+      >
+        <img src={arrow_back} alt="Voltar" />
+      </div>
       <h2>Cadastro de Alimento</h2>
       
       <Form.Group className={styles.formGroup} controlId='formFoodNome'>
@@ -146,33 +157,30 @@ export default function FoodForm ({ onSubmit, initialData }) {
         {errors.estoque && <span className={styles.error}>{errors.estoque.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup} controlId='formFoodPreco'>
+      <Form.Group className={styles.formGroup} controlId='formNonPerishablePreco'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Preço<span style={{ color: 'red' }}>*</span></Form.Label>
           <div className={styles.div_preco}>
             <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
             <Form.Control
               type="number"
+              min="0.00"
               step="0.01"
-              min="0"
+              placeholder="59,00"
               className={styles.input_preco}
-              {...register('estoque', { 
-                required: 'Campo obrigatório',
-                min: {
-                  value: 0,
-                  message: 'A quantidade dever ser um número positivo!'
-                },
-                valueAsNumber: true // converte o valor para número
-              })} 
+              {...register('preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span style={{ color: 'red', fontSize: '0.85rem' }}>{errors.preco.message}</span>)}
+          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
         </div>
       </Form.Group>
+
       
       <div className={styles.formActions}>
         <button type="submit">Cadastrar</button>
       </div>
-    </form>
+    </Form>
+    </Container>
+
   );
 };

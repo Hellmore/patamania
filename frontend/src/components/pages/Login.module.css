@@ -139,7 +139,7 @@
   display: flex;
   color: #A7CBC9;
   font-size: 15px;
-  gap: 5px;
+  gap: 1rem;
 }
 
 input[type=checkbox] {
@@ -220,6 +220,11 @@ input[type=checkbox]:checked:after {
   margin-bottom: 24px;
 }
 
+.erro {
+  color: red;
+  margin-top: 0em;
+}
+
 @media (max-width: 1920px) {
   .container {
     height: 600px;
@@ -244,9 +249,12 @@ input[type=checkbox]:checked:after {
   }
 
   .remember {
-    width: 100em;
+    width: 100rem;
   }
   
+  .link {
+    margin-left: 19.8em;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -263,6 +271,65 @@ input[type=checkbox]:checked:after {
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem;
+    margin-top: -5rem;
+  }
 
+  .form_login {
+    width: 100%;
+    padding: 2rem;
+    margin-top: 1rem;
+  }
+
+  .arrow_back{
+    margin-left: -19.9rem;
+    margin-bottom: 1rem;
+  }
+
+
+  .title_login {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 1rem;
+  }
+
+  /* Mostra a logo no topo (mobile) */
+  .right {
+    display: block;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  /* Mostra o botão de login abaixo do formulário (mobile) */
+  .form_login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  /* Ajustes no formulário para mobile */
+  .form_section {
+    padding: 1rem;
+  }
+
+  .form_ection h2 {
+    text-align: center;
+  }
+
+  form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+  }
 }

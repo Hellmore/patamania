@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import logo_google from '../img/google.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
-import arrow_back from '../img/arrow_back.png';
+import arrow_back from '../img/arrow_back.svg';
 
 import styles from './Cadastrar.module.css'
 
@@ -105,7 +105,6 @@ function Cadastrar() {
               <div className={styles.image}><img src={logo_google} alt="Google" /></div>
             </div>
           </div>
-
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId='formCadastroNome'>
               <Form.Label className={styles.label_dados}>Nome<span style={{ color: 'red' }}>*</span></Form.Label>

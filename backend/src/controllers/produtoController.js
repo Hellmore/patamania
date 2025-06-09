@@ -76,7 +76,6 @@ const listarTodos = async (req, res) => {
     }
 };
 
-// Aqui substitui id por produto_id para padronizar
 const buscarPorId = async (req, res) => {
     const { produto_id } = req.params;
 
@@ -87,11 +86,10 @@ const buscarPorId = async (req, res) => {
         }
         res.json(produto);
     } catch (error) {
-        res.status(500).send("Erro ao buscar produto: " + error.message);
+            return res.status(404).send("Produto não encontrado.");
     }
 };
 
-// Também substitui id por produto_id e ajusta checagem de produto_estoque para !== undefined
 const atualizar = async (req, res) => {
     const { produto_id } = req.params;
     const {

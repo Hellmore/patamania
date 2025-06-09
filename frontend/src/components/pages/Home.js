@@ -25,17 +25,15 @@ function Home() {
 
   return (
     <section className={styles.home_container}>
-      {userType === 'admin' ? (
-        <div className={styles.admin}>
-          <div className={styles.principal}>
-            <div className={styles.imagens}>
-              <img className={styles.arbusto_verde} src={arbusto_verde}/>
+      <div className={styles.principal}>
+          <div className={styles.imagens}>
+            <img className={styles.arbusto_verde} src={arbusto_verde}/>
               <img className={styles.dog}  src={dog}/>
               <img className={styles.arbusto_verde_musgo} src={arbusto_verde_musgo}/>
               <img className={styles.racao} src={racao}/>
             </div>
             <div className={styles.prim_part}>
-              <h1>Comida para Pet</h1>
+            <h1>Comida para Pet</h1>
               <p>Aqui temos comida para pet e muito mais!</p>
               <a className={styles.button_buscar} href="/">Buscar Produtos</a>
             </div>
@@ -57,45 +55,8 @@ function Home() {
           <div className={styles.banner}>
             <img src={banner_conheca} />
             <a className={styles.button_peca} href="/">Peça agora</a>
-          </div>
-        </div>
-        ) : (
-          <div className={styles.cliente}>
-            <p>Olá admin</p>
-            <div className={styles.principal}>
-              <div className={styles.imagens}>
-                <img className={styles.arbusto_verde} src={arbusto_verde}/>
-                <img className={styles.dog}  src={dog}/>
-                <img className={styles.arbusto_verde_musgo} src={arbusto_verde_musgo}/>
-                <img className={styles.racao} src={racao}/>
-              </div>
-              <div className={styles.prim_part}>
-                <h1>Comida para Pet</h1>
-                <p>Aqui temos comida para pet e muito mais!</p>
-                <a className={styles.button_buscar} href="/">Buscar Produtos</a>
-              </div>
-            </div>
-            <div className={styles.cont_carousel}>
-              <Carousel 
-                data-bs-theme="dark"
-                prevIcon={<img className={styles.arrow_back} src={arrow} alt="Voltar" />}
-                nextIcon={<img className={styles.arrow_skip} src={arrow} alt="Avançar" />}
-              >
-                <Carousel.Item>
-                  <img className="d-block w-100" src={oferta_tosa} alt="Oferta de Tosa" />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img className="d-block w-100" src={anuncio_vacinacao} alt="Anúncio de Vacinação" />
-                </Carousel.Item>
-              </Carousel>
-            </div>
-            <div className={styles.banner}>
-              <img src={banner_conheca} />
-              <a className={styles.button_peca} href="/">Peça agora</a>
-            </div>
-          </div>
-        )}
-       </section>
+      </div>
+    </section>
   );
 }
 
