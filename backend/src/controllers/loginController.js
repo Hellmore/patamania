@@ -29,20 +29,45 @@ const login = async (req, res) => {
             tipo: usuario.usuario_tipo
         };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: '1h',
+        const JWT_SECRET = process.env.JWT_SECRET;
+        const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+
+        if (!JWT_SECRET) {
+            throw new Error('JWT_SECRET não está configurado');
+        }
+
+        const token = jwt.sign(
+            payload, 
+            JWT_SECRET, { 
+                expiresIn: '1h' 
         });
+
+        console.log('🔑 JWT_SECRET na hora do uso:', process.env.JWT_SECRET);
+
+                
+        const refreshToken = jwt.sign(
+            { id: usuario.usuario_id },
+            JWT_REFRESH_SECRET, { 
+                expiresIn: '7d' 
+        });
+        
+        await usuarioModel.atualizarRefreshToken(usuario.usuario_id, refreshToken);
 
         res.status(200).json({
             mensagem: 'Login realizado com sucesso!',
             token,
+            refreshToken,
             usuario: payload
         });
 
-    } catch (err) {
-        res.status(500).send('Erro ao fazer login: ' + err.message);
-    }
-};
+        } catch (err) {
+            console.error('Erro detalhado:', err); // Log mais informativo
+            res.status(500).json({ 
+            error: 'Erro no servidor',
+            details: process.env.NODE_ENV === 'development' ? err.message : undefined
+            });
+        }
+    };
 
 module.exports = {
     login

@@ -95,7 +95,7 @@ const items = [
 
   return (    
     <Navb collapseOnSelect className={isRotaClara ? styles.produtoBackground : styles.defaultBackground} fixed='top' expand="lg">
-      <Navb.Brand href="/">
+      <Navb.Brand as={Link} to="/">
         <img className={styles.logo} src={logo} alt="patamania" />
       </Navb.Brand>
     

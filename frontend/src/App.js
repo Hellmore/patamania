@@ -23,48 +23,74 @@ import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
 import CadastrarServico from './components/pages/private/registro_servico/index';
 
-// import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useAuth } from './context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+function PrivateRoute({ children }) {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+//   useEffect(() => {
+//     // Verifica se o usuário está autenticado
+//     axios.get('/api/auth/check')
+//       .then(response => {
+//         setIsAuthenticated(response.data.isAuthenticated);
+//       })
+//       .catch(error => {
+//         console.error('Erro ao verificar autenticação:', error);
+//       });
+//   }, []);
+
+//   return isAuthenticated ? children : <Login />;
+// }
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Carregando...</div>; // Ou um spinner
+  }
+
+  return user ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Rotas que usam layout padrão */}
-        <Route element={<LayoutDefault />}>
-          <Route exact path="/" element={<Home />}/>
-          <Route exact path="/alimentos" element={<PageAlimentos />}/>
-          <Route exact path="/acessorios" element={<PageAcessorios />}/>
-          <Route exact path="/higiene" element={<PageHigiene />}/>
-          <Route exact path="/farmacia" element={<PageFarmacia />}/>
-          <Route exact path="/banho_&_tosa" element={<PageBanhoTosa />}/>
-          <Route exact path="/consultas" element={<PageConsultas />}/>
-          <Route exact path="/passeios" element={<PagePasseios />}/>
-          <Route exact path="/hospedagem" element={<PageHospedagem />}/>
-          <Route exact path="/promocoes" element={<PagePromocoes />}/>
-          <Route exact path="/page_not_found" element={<PageNotFound />}/>
-        </Route>
-        {/* Rotas que não usam layout padrão */}
-        <Route element={<LayoutEmpty />}>
-          <Route exact path="/login" element={<Login />}/>
-          <Route exact path="/cadastrar" element={<Cadastrar />}/>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Rotas que usam layout padrão */}
+          <Route element={<LayoutDefault />}>
+            <Route exact path="/" element={<Home />}/>
+            <Route exact path="/alimentos" element={<PageAlimentos />}/>
+            <Route exact path="/acessorios" element={<PageAcessorios />}/>
+            <Route exact path="/higiene" element={<PageHigiene />}/>
+            <Route exact path="/farmacia" element={<PageFarmacia />}/>
+            <Route exact path="/banho_&_tosa" element={<PageBanhoTosa />}/>
+            <Route exact path="/consultas" element={<PageConsultas />}/>
+            <Route exact path="/passeios" element={<PagePasseios />}/>
+            <Route exact path="/hospedagem" element={<PageHospedagem />}/>
+            <Route exact path="/promocoes" element={<PagePromocoes />}/>
+            <Route exact path="/page_not_found" element={<PageNotFound />}/>
+          </Route>
+          {/* Rotas que não usam layout padrão */}
+          <Route element={<LayoutEmpty />}>
+            <Route exact path="/login" element={<Login />}/>
+            <Route exact path="/cadastrar" element={<Cadastrar />}/>
+            <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
+          </Route>
 
-          <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
-        </Route>
-        {/* </AuthProvider> */}
-        <Route element={<LayoutAdmin/>}>
-          <Route exact path="/home_admin" element={<HomeAdmin/>}></Route>
-          <Route exact path="/cadastrar_produto" element={<CadastrarProduto />}/>
-          <Route exact path="/cadastrar_servico" element={<CadastrarServico />}/>
-        </Route>
-      </Routes>
-    </Router>
+          {/* Rotas protegidas */}
+          <Route element={<LayoutAdmin/>}>
+              <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin/></PrivateRoute>}></Route>
+              <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
+              <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>}/>
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
