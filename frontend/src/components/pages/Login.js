@@ -5,7 +5,7 @@ import {useState} from 'react';
 import { useNavigate } from  "react-router-dom";
 import axios from 'axios';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth, login } from '../../context/AuthContext';
 
 import logo_google from '../img/google.png'
 import logo_patamania from '../img/Logo Patamania + nome.png'
@@ -35,13 +35,9 @@ function Login() {
       }
     }
   );
-
-  
-  console.log(response.data);
-  
+ 
   if (response.status === 200) {
     const { usuario, token } = response.data;
-    console.log(usuario); // Remover aqui depois de testar
 
     if (usuario) {
       localStorage.setItem('token', token);
