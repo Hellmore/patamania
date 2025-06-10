@@ -1,5 +1,7 @@
 import {Link} from 'react-router-dom';
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+import { useAuth } from '../../context/AuthContext';
 
 import Navb from 'react-bootstrap/Navbar';
 import { Dropdown, Space, Typography } from 'antd';
@@ -7,11 +9,12 @@ import { Dropdown, Space, Typography } from 'antd';
 import styles from "./Navbar.module.css";
 import logo from "../img/Logo Patamania.png";
 import shopchart from "../img/Shopping Cart.png";
-import profile from "../img/Profile.png";
+import profile_img from "../img/Profile.png";
 import { IoSearch } from "react-icons/io5";
 import menu from "../img/menu.png";
 
 import React, { useState } from 'react';
+import { Avatar, Button } from 'antd';
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = React.useState({
@@ -36,29 +39,58 @@ function useWindowSize() {
 }
 
 function Navbar() {
-const items = [
-  {
-    key: '1',
-    label: 'Produtos',
-    children: [
-      {
-        key: '1-1',
-        label: <Link className={styles.without_undeline} to="/alimentos">Alimentos</Link>,
-      },
-      {
-        key: '1-2',
-        label: <Link className={styles.without_undeline} to="/acessorios">Acessórios</Link>,
-      },
-      {
-        key: '1-3',
-        label: <Link className={styles.without_undeline} to="/higiene">Higiene</Link>,
-      },
-      {
-        key: '1-4',
-        label: <Link className={styles.without_undeline} to="/farmacia">Farmácia Pet</Link>,
-      },
-    ],
-  },
+  const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+  const [color, setColor] = useState(ColorList[0]);
+
+  const changeColor = () => {
+    const randomColor = ColorList[Math.floor(Math.random() * ColorList.length)];
+    setColor(randomColor);
+  };
+
+  const { user, logout } = useAuth();
+
+  const profile = [
+    {
+      key: '1',
+      label: <Link className={styles.without_undeline} to="/profile">Perfil</Link>,
+    },
+    {
+      key: '2',
+      label: <Link className={styles.without_undeline} to="/profile/edit">Editar Perfil</Link>,
+    },
+    {
+      key: '3',
+      label: <Link className={styles.without_undeline} to="/profile/orders">Meus Pedidos</Link>,
+    },
+    {
+      key: '4',
+      label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
+    },
+  ]
+
+  const items = [
+    {
+      key: '1',
+      label: 'Produtos',
+      children: [
+        {
+          key: '1-1',
+          label: <Link className={styles.without_undeline} to="/alimentos">Alimentos</Link>,
+        },
+        {
+          key: '1-2',
+          label: <Link className={styles.without_undeline} to="/acessorios">Acessórios</Link>,
+        },
+        {
+          key: '1-3',
+          label: <Link className={styles.without_undeline} to="/higiene">Higiene</Link>,
+        },
+        {
+          key: '1-4',
+          label: <Link className={styles.without_undeline} to="/farmacia">Farmácia Pet</Link>,
+        },
+      ],
+    },
   {
     key: '2',
     label: 'Serviços',
@@ -98,7 +130,7 @@ const items = [
       <Navb.Brand as={Link} to="/">
         <img className={styles.logo} src={logo} alt="patamania" />
       </Navb.Brand>
-    
+      
       <Navb>
         <Dropdown
           menu={{
@@ -125,8 +157,30 @@ const items = [
           <div><input className={styles.barra_search} type="text" placeholder="Buscar produto" /></div>
         </div>
           <div className={styles.icons_right}>
-          <div><Link to="/profile"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
-          <div><Link to="/login"><img className={styles.profile} src={profile} alt="profile" /></Link></div>
+            { user ? (
+              <div className={styles.user_info}>
+                <div><Link to="/profile"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
+                <div>
+                  <Dropdown
+                    menu={{
+                      items: profile,
+                      selectable: true,
+                      autoFocus: true,
+                    }}
+                  >
+                    <Avatar 
+                      style={{ backgroundColor: color, cursor: 'pointer' }} 
+                      size={40} 
+                      onClick={changeColor}
+                    >
+                      {user.nome.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </Dropdown>
+              </div>
+              </div>
+            ) : (
+              <div><Link to="/login"><img className={styles.profile} src={profile_img} alt="profile" /></Link></div>
+            )}         
         </div>
       </Navb>
   );
