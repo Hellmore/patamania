@@ -30,18 +30,14 @@ function Navbar() {
   const profile = [
     {
       key: '1',
-      label: <Link className={styles.without_undeline} to="/profile">Perfil</Link>,
+      label: <Link className={styles.without_undeline} to="/profile_admin">Perfil</Link>,
     },
     {
       key: '2',
-      label: <Link className={styles.without_undeline} to="/profile/edit">Editar Perfil</Link>,
+      label: <Link className={styles.without_undeline} to="/profile_admin/edit">Editar Perfil</Link>,
     },
     {
       key: '3',
-      label: <Link className={styles.without_undeline} to="/profile/orders">Meus Pedidos</Link>,
-    },
-    {
-      key: '4',
       label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
     },
   ]
