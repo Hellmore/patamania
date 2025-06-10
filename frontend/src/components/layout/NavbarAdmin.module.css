@@ -56,9 +56,14 @@
 }
 
 .icons_right {
-  margin-left: 65em;
+  width: 100%;
+  margin-left: 65.5em;
   margin-top: 10px;
-  display: flex;
+}
+
+.without_undeline {
+  text-decoration: none;
+
 }
 
 @media (max-width: 1024px) {

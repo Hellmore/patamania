@@ -41,7 +41,8 @@ function useWindowSize() {
 function Navbar() {
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
   const [color, setColor] = useState(ColorList[0]);
-
+  
+  //Função para alterar a cor do avatar
   const changeColor = () => {
     const randomColor = ColorList[Math.floor(Math.random() * ColorList.length)];
     setColor(randomColor);
@@ -118,8 +119,6 @@ function Navbar() {
     label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
   },
 ];
-
-  const windowSize = useWindowSize();
   const location = useLocation();
 
   const rotasClaras = ['/'];
@@ -162,6 +161,7 @@ function Navbar() {
                 <div><Link to="/profile"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
                 <div>
                   <Dropdown
+                    className={styles.dropdown}
                     menu={{
                       items: profile,
                       selectable: true,
