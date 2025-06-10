@@ -68,6 +68,17 @@ const buscarPorId = async (req, res) => {
         if (!usuario) {
             return res.status(404).send('Usuário não encontrado.');
         }
+
+        const usuarioFormatado = {
+            id: usuario.usuario_id,
+            nome: usuario.usuario_nome,
+            email: usuario.usuario_email,
+            dataNascimento: usuario.usuario_dataNascimento,
+            tipo: usuario.usuario_tipo,
+            pais: usuario.usuario_pais,
+            dataInscricao: usuario.usuario_dataInscricao,
+        }
+
         res.json(usuario);
     } catch (err) {
         res.status(500).send('Erro ao buscar usuário: ' + err.message);

@@ -23,30 +23,20 @@ import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
 import CadastrarServico from './components/pages/private/registro_servico/index';
 
-import { AuthProvider } from './context/AuthContext';
+// Perfil do usuário
+import Profile from './components/pages/profile/Profile';
+import EditProfile from './components/pages/profile/EditProfile';
+import Orders from './components/pages/profile/Orders';
+
 
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 function PrivateRoute({ children }) {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   useEffect(() => {
-//     // Verifica se o usuário está autenticado
-//     axios.get('/api/auth/check')
-//       .then(response => {
-//         setIsAuthenticated(response.data.isAuthenticated);
-//       })
-//       .catch(error => {
-//         console.error('Erro ao verificar autenticação:', error);
-//       });
-//   }, []);
-
-//   return isAuthenticated ? children : <Login />;
-// }
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -87,11 +77,16 @@ function App() {
               <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin/></PrivateRoute>}></Route>
               <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
               <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>}/>
+              {/* Rotas de perfil do admin */}
+              <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>}/>
+              <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>
     </AuthProvider>
   );
 }
+
+
 
 export default App;
