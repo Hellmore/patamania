@@ -1,38 +1,241 @@
+import { useForm } from 'react-hook-form';
+import Form from 'react-bootstrap/Form';
+import { useAuth } from '../../../context/AuthContext';
+import axios, { HttpStatusCode } from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import Container from 'react-bootstrap/Container';
+
+
+import styles from './EditProfile.module.css';
+
 function EditProfile() {
+  const navigate = useNavigate();
+  const { user: authUser } = useAuth();
+const [originalUserData, setOriginalUserData] = useState(null);  const [userData, setUserData] = useState(null);
+  const { register, formState: { errors }, handleSubmit, getValues, setError } = useForm();
+  const [submitError, setSubmitError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
+  const today = new Date();
+  const eighteenYearsAgo = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/usuarios/buscar/${authUser.id}`, {
+          headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setOriginalUserData(response.data);
+      setUserData(response.data);
+            
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (authUser?.id) {
+      fetchUserData();
+    }
+  }, [authUser]);
+
+  const displayPassword = () => {
+    return '*'.repeat(8); // Sempre mostra 8 asteriscos
+  };
+
+  const maxDate = eighteenYearsAgo.toISOString().split('T')[0]; // formato yyyy-mm-dd
+
+const onSubmit = async (data) => {
+  setIsSubmitting(true);
+  
+  try {
+    const updateData = {};
+    
+    // Verifica e adiciona apenas campos alterados
+    if (data.name !== userData.usuario_nome) updateData.usuario_nome = data.name;
+    if (data.email !== userData.usuario_email) updateData.usuario_email = data.email;
+    if (data.pais !== userData.usuario_pais) updateData.usuario_pais = data.pais;
+    
+    // Tratamento especial para data
+    const formattedDate = data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : null;
+    if (formattedDate !== (userData.usuario_dataNascimento?.split('T')[0] || null)) {
+      updateData.usuario_dataNascimento = formattedDate;
+    }
+    
+    // Tratamento especial para senha
+    if (data.password && data.password !== '********') {
+      updateData.usuario_senha = data.password;
+    }
+    
+    // Se não há nada para atualizar
+    if (Object.keys(updateData).length === 0) {
+      alert('Nenhuma alteração foi feita');
+      setIsSubmitting(false);
+      return;
+    }
+    
+    const response = await axios.put(
+      `http://localhost:3001/usuarios/atualizar/${authUser.id}`,
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    if (response.data.success) {
+      // Atualiza os dados locais com a resposta do servidor
+      setUserData(prev => ({
+        ...prev,
+        ...updateData
+      }));
+      alert(response.data.message);
+      navigate('/profile_admin')
+    } else {
+      throw new Error(response.data.message || 'Erro ao atualizar');
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar:', error);
+    alert(error.response?.data?.message || error.message || 'Erro ao atualizar dados');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+  // Valida se a data de nascimento tem idade maior ou igual a 18
+  const validateAge = (value) => {
+    if (!value) return false; // required já trata, mas double check
+    const birthDate = new Date(value);
+    const now = new Date();
+    let age = now.getFullYear() - birthDate.getFullYear();
+    const m = now.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age >= 18 || "Você deve ser maior de 18 anos";
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
-      <form className="w-full max-w-md">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Username
-          </label>
-          <input
-            id="username"
-            type="text"
-            placeholder="Enter your username"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Save Changes
-        </button>
-      </form>
+    <Container fluid className={styles.background}>
+    <div className={styles.content}>
+      <h1 className={styles.title}>Edit Profile</h1>
+      { userData ? (
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form.Group>
+            <Form.Label className={styles.label_dados} htmlFor="nome">
+              Nome
+            </Form.Label>
+            <Form.Control
+              className={styles.dados_info}
+              autoComplete="off"
+              defaultValue={userData.usuario_nome || ''}
+              {...register("name", {
+                required: "Campo obrigatório",
+                validate: (value) =>
+                  value.trim() !== "" || "O campo não pode conter apenas espaços.",
+              })}
+              />
+              {errors.name && <p className={styles.erro}>{errors.name.message}</p>}
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label className={styles.label_dados} htmlFor="email">
+              Email
+            </Form.Label>
+            <Form.Control
+              onChange={() => setErrorMessage('')}
+              className={styles.dados_info}
+              type="email"
+              defaultValue={userData.usuario_email || ''}
+              autoComplete='off'
+              {...register("email", {
+                required: "Campo obrigatório",
+                maxLenght: {
+                  value: 100,
+                  message: "Máximo 100 caracteres"
+                }
+              })}
+            />
+            {errors.email && <p className={styles.erro}>{errors.email.message}</p>}
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label className={styles.label_dados}>Tipo</Form.Label>
+            <Form.Control 
+              className={styles.dados_info} 
+              defaultValue={userData.usuario_tipo || ''}
+              disabled
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label className={styles.label_dados}>Data de nascimento</Form.Label>
+            <Form.Control 
+              className={styles.dados_info} 
+              type="date"
+              defaultValue={userData.usuario_dataNascimento ? new Date(userData.usuario_dataNascimento).toISOString().split('T')[0] : ''}
+              max={maxDate}
+              autoComplete="off"
+              {...register("birthDate", { required: "Campo obrigatório", validate: validateAge })}
+            />
+            {errors.birthDate && <p className={styles.erro}>{errors.birthDate.message}</p>}
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label className={styles.label_dados}>Senha</Form.Label>
+            <Form.Control
+              className={styles.dados_info}
+              type="password"
+              placeholder={displayPassword()}
+              autoComplete="off"
+              {...register("password")}
+            />
+            {errors.password && <p className={styles.erro}>{errors.password.message}</p>}
+          </Form.Group>        
+              
+          <Form.Group>
+            <Form.Label className={styles.label_dados} htmlFor="pais">
+              País
+            </Form.Label>
+            <Form.Control
+              defaultValue={userData.usuario_pais || ''}
+              className={styles.dados_info}
+              autoComplete="off"
+              {...register("pais", {
+                required: "Campo obrigatório",
+                validate: (value) =>
+                  value.trim() !== "" || "O campo não pode conter apenas espaços.",
+              })}
+              />
+              {errors.pais && <p className={styles.erro}>{errors.pais.message}</p>}
+          </Form.Group>
+
+          <div className={styles.button}>
+            <input 
+              className={styles.submit_button} 
+              type="submit" 
+              value={isSubmitting ? "Salvando..." : "Salvar"} 
+              disabled={isSubmitting}
+            />
+          </div>
+        </Form>
+      ) : (
+        <p>Carregando os dados...</p>
+      )}
     </div>
+    </Container>
   );
 }
 

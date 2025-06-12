@@ -75,11 +75,11 @@ function Profile() {
                         <div className={styles.userData}>
                             <p><strong>Nome:</strong> {userData.usuario_nome || 'Não informado'}</p>
                             <p><strong>Email:</strong> {userData.usuario_email || 'Não informado'}</p>
-                            <p><strong>Senha:</strong> {displayPassword()}</p>
                             <p><strong>Tipo:</strong> {userData.usuario_tipo || 'Cliente'}</p>
                             <p><strong>Data de nascimento:</strong>
                                 {userData.usuario_dataNascimento ? new Date(userData.usuario_dataNascimento).toLocaleDateString() : 'Não informada'}
                             </p>
+                            <p><strong>Senha:</strong> {displayPassword()}</p>
                             <p><strong>País:</strong> {userData.usuario_pais || 'Não informado'}</p>
                             <p><strong>Data de cadastro:</strong> 
                                 {userData.usuario_dataInscricao ? new Date(userData.usuario_dataInscricao).toLocaleDateString() : 'Não informada'}
