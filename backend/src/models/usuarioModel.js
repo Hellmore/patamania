@@ -67,32 +67,37 @@ const atualizarRefreshToken = (usuario_id, refreshToken) => {
     });
 };
 
-const atualizar = (id, usuario) => {
-    return new Promise((resolve, reject) => {
-        const query = `
-            UPDATE usuario SET 
-                usuario_nome = ?, 
-                usuario_email = ?, 
-                usuario_senha = ?, 
-                usuario_dataNascimento = ?, 
-                usuario_tipo = ?, 
-                usuario_pais = ?
-            WHERE usuario_id = ?
-        `;
-        const values = [
-            usuario.usuario_nome,
-            usuario.usuario_email,
-            usuario.usuario_senha,
-            usuario.usuario_dataNascimento,
-            usuario.usuario_tipo,
-            usuario.usuario_pais,
-            id
-        ];
-        db.query(query, values, (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
+const atualizar = (id, dados) => {
+  return new Promise((resolve, reject) => {
+    const campos = [];
+    const valores = [];
+    
+    for (const [key, value] of Object.entries(dados)) {
+      if (value !== undefined && value !== null) {
+        campos.push(`${key} = ?`);
+        valores.push(value);
+      }
+    }
+    
+    if (campos.length === 0) {
+      return reject(new Error('Nenhum campo para atualizar'));
+    }
+    
+    valores.push(id);
+    
+    const query = `UPDATE usuario SET ${campos.join(', ')} WHERE usuario_id = ?`;
+    console.log('Query SQL:', query); // Log para debug
+    console.log('Valores:', valores); // Log para debug
+    
+    db.query(query, valores, (err, result) => {
+      if (err) {
+        console.error('Erro na query:', err);
+        return reject(err);
+      }
+      console.log('Resultado da atualização:', result);
+      resolve(result);
     });
+  });
 };
 
 const excluir = (id) => {

@@ -69,16 +69,6 @@ const buscarPorId = async (req, res) => {
             return res.status(404).send('Usuário não encontrado.');
         }
 
-        const usuarioFormatado = {
-            id: usuario.usuario_id,
-            nome: usuario.usuario_nome,
-            email: usuario.usuario_email,
-            dataNascimento: usuario.usuario_dataNascimento,
-            tipo: usuario.usuario_tipo,
-            pais: usuario.usuario_pais,
-            dataInscricao: usuario.usuario_dataInscricao,
-        }
-
         res.json(usuario);
     } catch (err) {
         res.status(500).send('Erro ao buscar usuário: ' + err.message);
@@ -86,40 +76,59 @@ const buscarPorId = async (req, res) => {
 };
 
 const atualizar = async (req, res) => {
-    const { usuario_id } = req.params;
-    const { 
-        usuario_nome, 
-        usuario_email, 
-        usuario_senha, 
-        usuario_dataNascimento, 
-        usuario_tipo, 
-        usuario_pais 
-    } = req.body;
+  const { usuario_id } = req.params;
+  
+  console.log('Dados recebidos:', req.body); // Log para debug
 
-    try {
-        const usuarioExistente = await usuarioModel.buscarPorId(usuario_id);
-        if (!usuarioExistente) {
-            return res.status(404).send('Usuário não encontrado.');
-        }
-
-        const senhaHashada = usuario_senha 
-            ? await bcrypt.hash(usuario_senha, 10) 
-            : usuarioExistente.usuario_senha;
-
-        const usuarioParaAtualizar = {
-            usuario_nome,
-            usuario_email,
-            usuario_senha: senhaHashada,
-            usuario_dataNascimento,
-            usuario_tipo,
-            usuario_pais
-        };
-
-        await usuarioModel.atualizar(usuario_id, usuarioParaAtualizar);
-        res.send('Usuário atualizado com sucesso!');
-    } catch (err) {
-        res.status(500).send('Erro ao atualizar usuário: ' + err.message);
+  try {
+    const usuarioExistente = await usuarioModel.buscarPorId(usuario_id);
+    if (!usuarioExistente) {
+      return res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
     }
+
+    // Preparar dados para atualização
+    const updates = {};
+    
+    if (req.body.usuario_nome) updates.usuario_nome = req.body.usuario_nome;
+    if (req.body.usuario_email) updates.usuario_email = req.body.usuario_email;
+    if (req.body.usuario_pais) updates.usuario_pais = req.body.usuario_pais;
+    
+    // Tratamento especial para data
+    if (req.body.usuario_dataNascimento) {
+      updates.usuario_dataNascimento = new Date(req.body.usuario_dataNascimento);
+    }
+    
+    // Tratamento especial para senha
+    if (req.body.usuario_senha && req.body.usuario_senha !== '********') {
+      updates.usuario_senha = await bcrypt.hash(req.body.usuario_senha, 10);
+    }
+
+    // Verifica se há algo para atualizar
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ success: false, message: 'Nenhum dado para atualizar' });
+    }
+
+    // Executa a atualização
+    const result = await usuarioModel.atualizar(usuario_id, updates);
+    
+    if (result.affectedRows === 0) {
+      return res.status(500).json({ success: false, message: 'Nenhuma linha afetada' });
+    }
+
+    res.json({ 
+      success: true,
+      message: 'Usuário atualizado com sucesso!',
+      changes: updates
+    });
+    
+  } catch (err) {
+    console.error('Erro detalhado:', err);
+    res.status(500).json({ 
+      success: false,
+      message: 'Erro ao atualizar usuário',
+      error: err.message
+    });
+  }
 };
 
 const excluir = async (req, res) => {
