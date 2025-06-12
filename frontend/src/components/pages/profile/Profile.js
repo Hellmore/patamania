@@ -4,7 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import arrow_back from '../../img/arrow_back.svg';
 import styles from './Profile.module.css';
 
 function Profile() {
@@ -70,6 +70,9 @@ function Profile() {
                     borderRadius: borderRadiusLG,
                 }}
                 >
+                    <div className={styles.arrow_back}>
+                        <Link to="/home_admin"><img src={arrow_back} alt="Voltar" /></Link>
+                    </div>
                     <h2>Seus Dados</h2>
                     {userData ? (
                         <div className={styles.userData}>
