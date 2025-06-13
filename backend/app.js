@@ -1,10 +1,7 @@
 const express = require('express'); 
 const bodyParser = require('body-parser');
-// require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 const cors = require('cors');
 const app = express(); 
-
-// ----------------------
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
@@ -25,6 +22,11 @@ const enderecoRoutes = require('./src/routes/enderecoRoutes');
 const produtoRoutes = require('./src/routes/produtoRoutes');
 const loginRoutes = require('./src/routes/loginRoutes');
 const agendamentoRoutes = require('./src/routes/agendamentoRoutes');
+const servicoRoutes = require('./src/routes/servicoRoutes');
+const banhoETosaRoutes = require('./src/routes/banhoETosaRoutes');
+const consultaVeterinariaRoutes = require('./src/routes/consultaVeterinariaRoutes');
+const passeioRoutes = require('./src/routes/passeioRoutes');
+const hospedagemRoutes = require('./src/routes/hospedagemRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
@@ -33,6 +35,11 @@ app.use('/enderecos', enderecoRoutes);
 app.use('/produtos', produtoRoutes);
 app.use('/login', loginRoutes);
 app.use('/agendamentos', agendamentoRoutes);
+app.use('/servicos', servicoRoutes);
+app.use('/banho-e-tosa', banhoETosaRoutes);
+app.use('/consulta-veterinaria', consultaVeterinariaRoutes);
+app.use('/passeio', passeioRoutes);
+app.use('/hospedagem', hospedagemRoutes);
 
 // Middleware de tratamento de erros (deve vir após as rotas)
 app.use((err, req, res, next) => {
