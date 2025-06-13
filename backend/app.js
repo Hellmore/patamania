@@ -24,6 +24,7 @@ const animalRoutes = require('./src/routes/animalRoutes');
 const enderecoRoutes = require('./src/routes/enderecoRoutes');
 const produtoRoutes = require('./src/routes/produtoRoutes');
 const loginRoutes = require('./src/routes/loginRoutes');
+const agendamentoRoutes = require('./src/routes/agendamentoRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
@@ -31,6 +32,7 @@ app.use('/animais', animalRoutes);
 app.use('/enderecos', enderecoRoutes);
 app.use('/produtos', produtoRoutes);
 app.use('/login', loginRoutes);
+app.use('/agendamentos', agendamentoRoutes);
 
 // Middleware de tratamento de erros (deve vir após as rotas)
 app.use((err, req, res, next) => {
