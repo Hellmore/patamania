@@ -1,5 +1,66 @@
 const produtoModel = require('../models/produtoModel');
 
+function verificarTipo(produto, res) {
+    const {
+        produto_nome,
+        produto_tipo,
+        produto_tamanho,
+        produto_composicao,
+        produto_marca,
+        produto_lote,
+        produto_fabricante,
+        produto_origem,
+        produto_instrucoes,
+        produto_validade,
+        produto_codigobarras,
+        produto_estoque,
+        produto_garantia,
+        produto_preco
+    } = produto;
+
+    if (produto_tipo === 'NAO PERECIVEL' && 
+        (
+            !produto_nome ||
+            !produto_tipo ||
+            !produto_tamanho ||
+            !produto_composicao ||
+            !produto_marca ||
+            !produto_lote ||
+            !produto_fabricante ||
+            !produto_origem ||
+            !produto_instrucoes ||
+            !produto_codigobarras ||
+            produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
+            !produto_garantia ||
+            !produto_preco
+        )
+    ) {
+        return res.status(400).send("Preencha os campos obrigatórios!");
+    } 
+    
+    if (produto_tipo === 'PERECIVEL' && 
+        (
+            !produto_nome ||
+            !produto_tipo ||
+            !produto_tamanho ||
+            !produto_composicao ||
+            !produto_marca ||
+            !produto_lote ||
+            !produto_fabricante ||
+            !produto_origem ||
+            !produto_instrucoes ||
+            !produto_validade ||
+            !produto_codigobarras ||
+            produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
+            !produto_preco
+        ) 
+    ) {
+        return res.status(400).send("Preencha os campos obrigatórios!");
+    } 
+
+    return true; // Retorna verdadeiro se a validação passar
+}
+
 const cadastrar = async (req, res) => {
     const {
         produto_nome,
@@ -14,27 +75,22 @@ const cadastrar = async (req, res) => {
         produto_validade,
         produto_codigobarras,
         produto_estoque,
-        produto_status,
-        produto_imagem
+        produto_imagem,
+        produto_garantia,
+        produto_preco
     } = req.body;
-    
-    if (
-        !produto_nome ||
-        !produto_tipo ||
-        !produto_tamanho ||
-        !produto_composicao ||
-        !produto_marca ||
-        !produto_lote ||
-        !produto_fabricante ||
-        !produto_origem ||
-        !produto_instrucoes ||
-        !produto_validade ||
-        !produto_codigobarras ||
-        produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
-        !produto_status ||
-        !produto_imagem
-    ) {
-        return res.status(400).send("Todos os campos são obrigatórios.");
+
+    // Verifica se a validação dos campos obrigatórios passou
+    const validacao = verificarTipo(req.body, res);
+    if (validacao !== true) {
+        return; // Se a validação falhar, não continua
+    }
+
+    let produto_status;
+    if (produto_estoque > 0) {
+        produto_status = 'DISPONIVEL';
+    } else {
+        produto_status = 'ESGOTADO';
     }
 
     try {
@@ -52,7 +108,9 @@ const cadastrar = async (req, res) => {
             produto_imagem,
             produto_codigobarras,
             produto_estoque,
-            produto_status
+            produto_status,
+            produto_preco,
+            produto_garantia
         );
         res.status(201).send("Produto cadastrado com sucesso!");
     } catch (error) {

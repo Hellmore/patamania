@@ -26,10 +26,10 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
       <Form.Group className={styles.formGroup} controlId='formFoodNome'>
         <Form.Label>Nome do Produto<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
-          {...register('nome', { required: 'Campo obrigatório' })}
+          {...register('produto_nome', { required: 'Campo obrigatório' })}
           placeholder='Exemplo de Produto'
         />
-        {errors.nome && <span className={styles.error}>{errors.nome.message}</span>}
+        {errors.produto_nome && <span className={styles.error}>{errors.produto_nome.message}</span>}
       </Form.Group>
 
       {/* Outros campos comuns */}
@@ -39,78 +39,80 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
         </Form.Label>
         <Form.Select 
           aria-label="tamanho" 
-          {...register('tamanho', { required: 'Campo obrigatório' })} 
+          {...register('produto_tamanho', { required: 'Campo obrigatório' })} 
           defaultValue="" // Define a opção padrão como vazia
         >
           <option value="" disabled>Selecione uma opção</option>
-          <option value="1">Pequeno</option>
-          <option value="2">Médio</option>
-          <option value="3">Grande</option>
+          <option value="P">Pequeno</option>
+          <option value="M">Médio</option>
+          <option value="G">Grande</option>
         </Form.Select>
-        {errors.tamanho && <span className={styles.error}>{errors.tamanho.message}</span>}
+        {errors.produto_tamanho && <span className={styles.error}>{errors.produto_tamanho.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodComposicao'>
         <Form.Label>Composição<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control as="textarea" rows={3} 
           placeholder='Exemplo de composição: farinha de vísceras de aves, gordura suína...'
-          {...register('composicao', { required: 'Campo obrigatório' })}        
+          {...register('produto_composicao', { required: 'Campo obrigatório' })}        
         />
-        {errors.composicao && <span className={styles.error}>{errors.composicao.message}</span>}
+        {errors.produto_composicao && <span className={styles.error}>{errors.produto_composicao.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodMarca'>
-        <Form.Label>Marca</Form.Label>
+        <Form.Label>Marca<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           placeholder='Exemplo de marca: Royal Canin'
-          {...register('marca')}
+          {...register('produto_marca', { required: 'Campo obrigatório' })}
         />
-        {errors.marca && <span className={styles.error}>{errors.marca.message}</span>}
+        {errors.produto_marca && <span className={styles.error}>{errors.produto_marca.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodLote'>
         <Form.Label>Lote<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
+          type='number'
+          min={0}
           placeholder='Exemplo de lote: 250522'
-          {...register('lote', { required: 'Campo obrigatório' })}
+          {...register('produto_lote', { required: 'Campo obrigatório' })}
         />
-        {errors.lote && <span className={styles.error}>{errors.lote.message}</span>}
+        {errors.produto_lote && <span className={styles.error}>{errors.produto_lote.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodFabricante'>
         <Form.Label>Fabricante<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           placeholder='Exemplo de fabricante: Mars Incorporated'
-          {...register('fabricante', { required: 'Campo obrigatório' })}
+          {...register('produto_fabricante', { required: 'Campo obrigatório' })}
         />
-        {errors.fabricante && <span className={styles.error}>{errors.fabricante.message}</span>}
+        {errors.produto_fabricante && <span className={styles.error}>{errors.produto_fabricante.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodOrigem'>
         <Form.Label>Origem<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           placeholder='Exemplo de origem: Fabricado no Brasil'
-          {...register('origem', { required: 'Campo obrigatório' })}
+          {...register('produto_origem', { required: 'Campo obrigatório' })}
         />
-        {errors.origem && <span className={styles.error}>{errors.origem.message}</span>}
+        {errors.produto_origem && <span className={styles.error}>{errors.produto_origem.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodInstrucoes'>
-        <Form.Label>Instruções</Form.Label>
+        <Form.Label>Instruções<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control as="textarea" rows={4} 
           placeholder='Exemplo de composição: Abra o produto, pegue apenas a quantidade necessária para seu pet...'
-          {...register('instrucoes')}        
+          {...register('produto_instrucoes', { required: 'Campo obrigatório' })}        
         />
-        {errors.instrucoes && <span className={styles.error}>{errors.instrucoes.message}</span>}
+        {errors.produto_instrucoes && <span className={styles.error}>{errors.produto_instrucoes.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodValidade'>
         <Form.Label>Validade<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           type='date' style={{width: '10em'}}
-          {...register('validade', { required: 'Campo obrigatório' })}
+          {...register('produto_validade', { required: 'Campo obrigatório' })}
         />
-        {errors.validade && <span className={styles.error}>{errors.validade.message}</span>}
+        {errors.produto_validade && <span className={styles.error}>{errors.produto_validade.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodImagem'>
@@ -118,7 +120,7 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
         <Form.Control
           type="file"
           accept="image/*"
-          {...register('imagem', {
+          {...register('produto_imagem', {
             validate: {
               isImage: FileList => {
                 if (!FileList?.[0]) return true;
@@ -127,16 +129,16 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
             }
           })}
         />
-        {errors.imagem && <span className={styles.error}>{errors.imagem.message}</span>}
+        {errors.produto_imagem && <span className={styles.error}>{errors.produto_imagem.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodCodBarras'>
         <Form.Label>Código de barras<span style={{ color: 'red' }}>*</span></Form.Label>
         <Form.Control 
           placeholder='Exemplo de código de barras: 7891234567897'
-          {...register('codigo_barras', { required: 'Campo obrigatório' })}
+          {...register('produto_codigobarras', { required: 'Campo obrigatório' })}
         />
-        {errors.codigo_barras && <span className={styles.error}>{errors.codigo_barras.message}</span>}
+        {errors.produto_codigobarras && <span className={styles.error}>{errors.produto_codigobarras.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formFoodEstoque'>
@@ -145,7 +147,7 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
           placeholder='Exemplo de estoque: 15'
           type='number' 
           min="0"
-          {...register('estoque', { 
+          {...register('produto_estoque', { 
             required: 'Campo obrigatório',
             min: {
               value: 0,
@@ -154,7 +156,7 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
             valueAsNumber: true // converte o valor para número
           })}
         />
-        {errors.estoque && <span className={styles.error}>{errors.estoque.message}</span>}
+        {errors.produto_estoque && <span className={styles.error}>{errors.produto_estoque.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formNonPerishablePreco'>
@@ -168,10 +170,10 @@ export default function FoodForm ({ onSubmit, initialData, onBack }) {
               step="0.01"
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('preco', { required: 'Campo obrigatório' })}
+              {...register('produto_preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
+          {errors.produto_preco && (<span className={styles.error}>{errors.produto_preco.message}</span>)}
         </div>
       </Form.Group>
 

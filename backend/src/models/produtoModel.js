@@ -14,7 +14,9 @@ const cadastrar = (
     produto_imagem,
     produto_codigobarras,
     produto_estoque,
-    produto_status
+    produto_status,
+    produto_preco,
+    produto_garantia
 ) => {
     const query = `
         INSERT INTO produto 
@@ -32,9 +34,11 @@ const cadastrar = (
             produto_imagem, 
             produto_codigobarras, 
             produto_estoque, 
-            produto_status
+            produto_status,
+            produto_preco,
+            produto_garantia
         ) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     return new Promise((resolve, reject) => {
@@ -54,7 +58,9 @@ const cadastrar = (
                 produto_imagem,
                 produto_codigobarras,
                 produto_estoque,
-                produto_status
+                produto_status,
+                produto_preco,
+                produto_garantia
             ],
             (err, result) => {
                 if (err) return reject(err);
