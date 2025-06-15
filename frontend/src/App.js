@@ -22,6 +22,7 @@ import LayoutAdmin from './components/layout/LayoutAdmin';
 import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
 import CadastrarServico from './components/pages/private/registro_servico/index';
+import ListarUsuario from './components/pages/private/listar_usuarios/ListarUsuario';
 
 // Perfil do usuário
 import Profile from './components/pages/profile/Profile';
@@ -77,6 +78,7 @@ function App() {
               <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin/></PrivateRoute>}></Route>
               <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
               <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>}/>
+              <Route exact path="/listar_usuarios" element={<PrivateRoute><ListarUsuario/></PrivateRoute>}/>
               {/* Rotas de perfil do admin */}
               <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>}/>
               <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
