@@ -27,6 +27,8 @@ const banhoETosaRoutes = require('./src/routes/banhoETosaRoutes');
 const consultaVeterinariaRoutes = require('./src/routes/consultaVeterinariaRoutes');
 const passeioRoutes = require('./src/routes/passeioRoutes');
 const hospedagemRoutes = require('./src/routes/hospedagemRoutes');
+const avaliacaoProdutoRoutes = require('./src/routes/avaliacaoProdutoRoutes');
+const avaliacaoServicoRoutes = require('./src/routes/avaliacaoServicoRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
@@ -40,6 +42,8 @@ app.use('/banho-e-tosa', banhoETosaRoutes);
 app.use('/consulta-veterinaria', consultaVeterinariaRoutes);
 app.use('/passeio', passeioRoutes);
 app.use('/hospedagem', hospedagemRoutes);
+app.use('/avaliacoes-produto', avaliacaoProdutoRoutes);
+app.use('/avaliacoes-servico', avaliacaoServicoRoutes);
 
 // Middleware de tratamento de erros (deve vir após as rotas)
 app.use((err, req, res, next) => {
