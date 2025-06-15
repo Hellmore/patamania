@@ -14,7 +14,7 @@ export default function ProductRegistration() {
   const [step, setStep] = useState(1);
   const [selectedType, setSelectedType] = useState(null);
   const [formData, setFormData] = useState({
-    produto_name: '',
+    produto_nome: '',
     produto_tamanho: '',
     produto_composicao: '',
     produto_marca: '',
@@ -42,49 +42,56 @@ export default function ProductRegistration() {
     };
   
     const handleSubmitForm = async (data) => {
-      let tipo;
-      if (selectedType === 'PERECIVEL') {
-        tipo = 'PERECIVEL';
-        data.produto_garantia = null; //Como produto perecível não possui garantia, aplica como null para armazenar no bd
-      } else {
-        tipo = 'NAO PERECIVEL';
-        // Verifica se o campo de validade está vazio e define como null
-        if (!data.produto_validade) {
-            data.produto_validade = null; // ou undefined
-        }
-      }
-      //Envio para a api
       try {
+        // Preparando os dados básicos
+        if (!data.produto_validade && selectedType === 'NAO PERECIVEL') {
+          data.produto_validade = null;
+        } else if (data.produto_garantia == '' && selectedType === 'PERECIVEL') {
+          data.produto_garantia = null;
+        }
         const dadosCompletos = {
           ...data,
-          usuarioId: user.id, // Associa ao usuário logado
-          ...formData,
-          ...data,
-          produto_tipo: tipo
+          usuario_id: user.id,
+          produto_tipo: selectedType
         };
-        console.log('Dados completos:', dadosCompletos);
+        // Se tiver imagem converter para base64
+        if (data.produto_imagem && data.produto_imagem.length > 0) {
+          const file = data.produto_imagem[0];
+          const base64data = await convertToBase64(file);
+          dadosCompletos.produto_imagem = base64data;  
+        } else {
+          dadosCompletos.produto_imagem = null;
+        }
 
-        const response = await axios.post('http://localhost:3001/produtos/cadastro', 
+        // Envia para o backend
+        const response = await axios.post('http://localhost:3001/produtos/cadastro',
           dadosCompletos,
           {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-              'Content-Type': 'application/json'
-            }
+           headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json' 
+           } 
           }
         );
-
         if (response.status === HttpStatusCode.Created) {
-          // Após o sucesso, pode avançar para step 3 (confirmação)
           setStep(3);
         }
-        // Redirecionar ou limpar formulário
       } catch (error) {
         console.error('Erro no cadastro:', error.response?.data || error.message);
         alert('Erro ao cadastrar produto');
       }
     };
-  
+      
+    // Função para auxiliar na conversão para base64
+    const convertToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    };
+
     const renderStep = () => {
       switch (step) {
         case 1:

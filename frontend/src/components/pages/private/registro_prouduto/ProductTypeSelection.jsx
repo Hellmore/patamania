@@ -15,7 +15,7 @@ export default function ProductTypeSelection ({ onSelect }) {
         <div className={styles.optionsGrid}>
           <div 
             className={styles.optionCard}
-            onClick={() => onSelect('NAO_PERECIVEL')}
+            onClick={() => onSelect('NAO PERECIVEL')}
           >
             <img src={coleira} className={styles.produto} alt="Produto não perecível" />
             <h3>Produto não perecível</h3>
