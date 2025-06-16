@@ -92,6 +92,8 @@ const atualizar = async (req, res) => {
     if (req.body.usuario_nome) updates.usuario_nome = req.body.usuario_nome;
     if (req.body.usuario_email) updates.usuario_email = req.body.usuario_email;
     if (req.body.usuario_pais) updates.usuario_pais = req.body.usuario_pais;
+    if (req.body.usuario_cargo) updates.usuario_cargo = req.body.usuario_cargo;
+    if (req.body.usuario_tipo) updates.usuario_tipo = req.body.usuario_tipo;
     
     // Tratamento especial para data
     if (req.body.usuario_dataNascimento) {

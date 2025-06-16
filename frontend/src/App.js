@@ -85,7 +85,7 @@ function App() {
               <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>}/>
               <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
               {/* Rota da ação da listagem de usuários */}
-              <Route exact path="/editar_user" element={<PrivateRoute><EditUSer/></PrivateRoute>}/>
+              <Route path="/edit_user/:usuario_id" element={<PrivateRoute><EditUSer/></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>

@@ -54,7 +54,7 @@ const getLevelKeys = items1 => {
 const levelKeys = getLevelKeys(items);
 
 export default function HomeAdmin() {
-    const [stateOpenKeys, setStateOpenKeys] = useState(['2', '23']);
+    const [stateOpenKeys, setStateOpenKeys] = useState([]);
     const onOpenChange = openKeys => {
       const currentOpenKey = openKeys.find(key => stateOpenKeys.indexOf(key) === -1);
       // open

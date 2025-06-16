@@ -1,25 +1,27 @@
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { useAuth } from '../../../context/AuthContext';
-import axios, { HttpStatusCode } from 'axios';
-import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-
+import { Flex, Spin } from 'antd';
 
 import styles from './EditProfile.module.css';
 
 function EditProfile() {
   const navigate = useNavigate();
   const { user: authUser } = useAuth();
-const [originalUserData, setOriginalUserData] = useState(null);  const [userData, setUserData] = useState(null);
+  const [originalUserData, setOriginalUserData] = useState(null);  
+  const [userData, setUserData] = useState(null);
   const { register, formState: { errors }, handleSubmit, getValues, setError } = useForm();
   const [submitError, setSubmitError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
-
+  const { usuario_id } = useParams();
+  
   const today = new Date();
   const eighteenYearsAgo = new Date(
     today.getFullYear() - 18,
@@ -27,28 +29,33 @@ const [originalUserData, setOriginalUserData] = useState(null);  const [userData
     today.getDate()
   );
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+    useEffect(() => {
+    const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/usuarios/buscar/${authUser.id}`, {
-          headers: {
+      const response = await axios.get(`http://localhost:3001/usuarios/buscar/${usuario_id}`, {
+        headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       setOriginalUserData(response.data);
       setUserData(response.data);
-            
-      } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (authUser?.id) {
-      fetchUserData();
+      setLoading(false);
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+    } finally {
+      setLoading(false);
     }
-  }, [authUser]);
+    };
+    fetchUser();
+  }, [usuario_id]);
+  
+  if (loading) {
+    return (
+      <Flex className={styles.content} align='center' gap='middle'>
+          <Spin size="large" />
+      </Flex>
+      )
+    } 
 
   const displayPassword = () => {
     return '*'.repeat(8); // Sempre mostra 8 asteriscos
@@ -86,7 +93,7 @@ const onSubmit = async (data) => {
     }
     
     const response = await axios.put(
-      `http://localhost:3001/usuarios/atualizar/${authUser.id}`,
+      `http://localhost:3001/usuarios/atualizar/${usuario_id}`,
       updateData,
       {
         headers: {
@@ -103,7 +110,7 @@ const onSubmit = async (data) => {
         ...updateData
       }));
       alert(response.data.message);
-      navigate('/profile_admin')
+      navigate('/listar_usuarios')
     } else {
       throw new Error(response.data.message || 'Erro ao atualizar');
     }
@@ -173,11 +180,15 @@ const onSubmit = async (data) => {
 
           <Form.Group>
             <Form.Label className={styles.label_dados}>Tipo</Form.Label>
-            <Form.Control 
+            <Form.Select 
               className={styles.dados_info} 
               defaultValue={userData.usuario_tipo || ''}
-              disabled
-            />
+              {...register('usuario_tipo', { required: 'Campo obrigatório' })} 
+            >
+              <option value="ADMIN">ADMIN</option>
+              <option value="CLIENTE">CLIENTE</option>
+            </Form.Select>
+            {errors.usuario_tipo && <p className={styles.erro}>{errors.usuario_tipo.message}</p>}
           </Form.Group>
 
           <Form.Group>
@@ -232,7 +243,7 @@ const onSubmit = async (data) => {
           </div>
         </Form>
       ) : (
-        <p>Carregando os dados...</p>
+        <div className={styles.content} loading={loading}></div>
       )}
     </div>
     </Container>
