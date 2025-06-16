@@ -37,6 +37,9 @@ const compraRoutes = require('./src/routes/compraRoutes');
 const cupomDescontoRoutes = require('./src/routes/cupomDescontoRoutes');
 const avaliacaoProdutoRoutes = require('./src/routes/avaliacaoProdutoRoutes');
 const avaliacaoServicoRoutes = require('./src/routes/avaliacaoServicoRoutes');
+const historicoAnimalRoutes = require('./src/routes/historicoAnimalRoutes');
+const logAcessoRoutes = require('./src/routes/logAcessoRoutes');
+const logErroRoutes = require('./src/routes/logErroRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
@@ -60,11 +63,17 @@ app.use('/compra', compraRoutes);
 app.use('/cupons', cupomDescontoRoutes);
 app.use('/avaliacoes-produto', avaliacaoProdutoRoutes);
 app.use('/avaliacoes-servico', avaliacaoServicoRoutes);
+app.use('/historico-animal', historicoAnimalRoutes);
+app.use('/log-acesso', logAcessoRoutes);
+app.use('/log-erro', logErroRoutes);
 
-// Middleware de tratamento de erros (deve vir após as rotas)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Erro interno no servidor' });
+app.use((req, res, next) => {
+  const erro = new Error(`Rota ${req.originalUrl} não encontrada.`);
+  erro.status = 404;
+  next(erro);  
 });
+
+const errorHandlerMiddleware = require('./src/middlewares/errorHandlerMiddleware');
+app.use(errorHandlerMiddleware);
 
 module.exports = app;
