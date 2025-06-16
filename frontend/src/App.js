@@ -29,6 +29,8 @@ import Profile from './components/pages/profile/Profile';
 import EditProfile from './components/pages/profile/EditProfile';
 import Orders from './components/pages/profile/Orders';
 
+//Edição do usuário
+import EditUSer from './components/pages/private/listar_usuarios/EditUser';
 
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -82,6 +84,8 @@ function App() {
               {/* Rotas de perfil do admin */}
               <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>}/>
               <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
+              {/* Rota da ação da listagem de usuários */}
+              <Route exact path="/editar_user" element={<PrivateRoute><EditUSer/></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>

@@ -2,50 +2,79 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useAuth } from '../../../../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Estilização
 import dayjs from 'dayjs';
 import { SearchOutlined, DeleteFilled, EditFilled } from '@ant-design/icons';
-import { Button, Input, Space, Table, Flex, Spin, Dropdown } from 'antd';
+import { Button, Input, Space, Table, Flex, Spin, Dropdown, message} from 'antd';
 import Highlighter from 'react-highlight-words';
 import styles from './ListarUsuario.module.css';
+
+// Importanto o alerta de deleção
+import AlertDelecao from './AlertDelecao';
 
 export default function ListarUsuarios() {
     const { Column, ColumnGroup } = Table;
     const { user } = useAuth();
     const [users, setUsers]  = useState([]);
+    const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
-    // Menu do botão ação
-    const onMenuClick = e => {
-        console.log('click', e);
-    };
-
-    const items = [
-        {
-            key: '1',
-            icon: <EditFilled />,
-            label: <Link className={styles.without_undeline} to="/edit_produto">Editar</Link>,
-        },
-        {
-            key: '2',
-            icon: <DeleteFilled />,
-            label: <Link className={styles.without_undeline} to="/deletar_produto">Deletar</Link>,
-        },
-    ];
-    const dataSource = users.map((user) => ({
+    // Transformando os dados recebidos
+    const processedData = dataSource.map((user) => ({
         ...user,
         key: user.usuario_id,
         usuario_dataNascimento: user.usuario_dataNascimento
             ? dayjs(user.usuario_dataNascimento).format('DD/MM/YYYY')
             : '',
     }));
+
+    const items = (record) => [
+        {
+            key: '1',
+            icon: <EditFilled />,
+            label: (
+                <span onClick={() => navigate(`/edit_user/${record.usuario_id}`)}>
+                    Editar
+                </span>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <AlertDelecao 
+                    onConfirm={() => handleDelete(record.usuario_id)}
+                />
+            ),
+        },
+    ];
+   
+    // Função para deletar usuário
+    const handleDelete = async (userId) => {
+        setLoading(true);
+        try {
+        await axios.delete(`http://localhost:3001/usuarios/deletar/${userId}`, {
+            headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        
+        message.success('Usuário deletado com sucesso!');
+        setDataSource(prev => prev.filter(user => user.usuario_id !== userId));
+        } catch (error) {
+            message.error('Erro ao deletar usuário: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     
     useEffect(() => {
         const fetchUsers = async () => {
@@ -56,7 +85,7 @@ export default function ListarUsuarios() {
                         'Content-Type': 'application/json'
                     }
                 });
-                setUsers(response.data);
+                setDataSource(response.data);
                 setLoading(false);
             } catch (err) {
                 setError(err.response?.data?.message || err.message);
@@ -69,14 +98,14 @@ export default function ListarUsuarios() {
     
     if (loading) {
         return (
-            <Flex align='center' gap='middle'>
+            <Flex className={styles.content} align='center' gap='middle'>
                 <Spin size="large" />
-                <Spin />
             </Flex>
         )
-    } if (error) return <div>Erro: {error}</div>;
+    } 
     
-
+    if (error) return <div>Erro: {error}</div>;
+    
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -107,14 +136,14 @@ export default function ListarUsuarios() {
                 size="small"
                 style={{ width: 90 }}
                 >
-                Search
+                Pesquisar
             </Button>
             <Button
                 onClick={() => clearFilters && handleReset(clearFilters)}
                 size="small"
                 style={{ width: 90 }}
                 >
-                Reset
+                Resetar
             </Button>
             <Button
                 type="link"
@@ -125,7 +154,7 @@ export default function ListarUsuarios() {
                     setSearchedColumn(dataIndex);
                 }}
                 >
-                Filter
+                Filtrar
             </Button>
             <Button
                 type="link"
@@ -134,14 +163,14 @@ export default function ListarUsuarios() {
                 close();
             }}
             >
-                close
+                Fechar
             </Button>
             </Space>
         </div>
         ),
         filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />,
-        onFilter: (value, record) =>
-        record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilter: (value, rcord) =>
+        rcord[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
         filterDropdownProps: {
         onOpenChange(open) {
             if (open) {
@@ -209,7 +238,6 @@ export default function ListarUsuarios() {
                 key: 'usuario_dataNascimento',
                 width: '15%',
             },
-            getColumnSearchProps('usuario_dataNascimento'),
         ),
         Object.assign(
             {
@@ -218,7 +246,6 @@ export default function ListarUsuarios() {
                 key: 'usuario_pais',
                 width: '12%',
             },
-            getColumnSearchProps('usuario_pais'),
         ),
         Object.assign(
             {
@@ -227,7 +254,9 @@ export default function ListarUsuarios() {
                 width: '20%',
                 render:(_, record) => (
                             <Flex align="flex-start" gap="small" vertical>
-                                <Dropdown.Button menu={{ items, onClick: onMenuClick }}>Ações</Dropdown.Button>
+                            <Dropdown menu={{ items: items(record) }} trigger={['click']}>
+                                <Button>Ações</Button>
+                            </Dropdown>
                             </Flex>
                         )
             },
@@ -240,18 +269,12 @@ export default function ListarUsuarios() {
                 <h3>Listagem de Usuários</h3>
             </div>
             <div className={styles.content}>
-                <Table columns={columns} className={styles.table} dataSource={dataSource}>
-                    <Column
-                        title="Action"
-                        key="action"
-                        render={(_, record) => (
-                            <Space size="middle">
-                            <a>Invite {record.lastName}</a>
-                            <a>Delete</a>
-                            </Space>
-                        )}
-                    />
-                </Table>
+                <Table 
+                    columns={columns} 
+                    className={styles.table} 
+                    dataSource={processedData} 
+                    rowKey="usuario_id"
+                    loading={loading}/>
             </div>
         </>
     )
