@@ -102,6 +102,12 @@ const atualizar = (id, dados) => {
 
 const excluir = (id) => {
     return new Promise((resolve, reject) => {
+        // Deletando primeiro a chave estrangeira
+        db.query('DELETE FROM carrinho WHERE usuario_id = ?', [id], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+        // Deletando o usuário
         db.query('DELETE FROM usuario WHERE usuario_id = ?', [id], (err, result) => {
             if (err) return reject(err);
             resolve(result);
