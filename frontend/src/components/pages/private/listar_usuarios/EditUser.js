@@ -13,7 +13,6 @@ import styles from './EditUser.module.css';
 import { Link } from 'react-router-dom';
 
 export default function EditUSer() {
-    
     const navigate = useNavigate();
     const { user: authUser } = useAuth();
     const [originalUserData, setOriginalUserData] = useState(null);  

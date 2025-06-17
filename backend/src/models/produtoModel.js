@@ -103,7 +103,9 @@ const atualizar = (
     produto_imagem,
     produto_codigobarras,
     produto_estoque,
-    produto_status
+    produto_status,
+    produto_garantia,
+    produto_preco
 ) => {
     const query = `
         UPDATE produto SET
@@ -120,7 +122,9 @@ const atualizar = (
             produto_imagem = ?,
             produto_codigobarras = ?,
             produto_estoque = ?,
-            produto_status = ?
+            produto_status = ?,
+            produto_garantia = ?,
+            produto_preco = ?
         WHERE produto_id = ?
     `;
 
@@ -142,6 +146,8 @@ const atualizar = (
                 produto_codigobarras,
                 produto_estoque,
                 produto_status,
+                produto_garantia,
+                produto_preco,
                 produto_id
             ],
             (err, result) => {
