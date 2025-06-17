@@ -42,6 +42,7 @@ export default function ProductRegistration() {
     };
   
     const handleSubmitForm = async (data) => {
+      console.log(data);
       try {
         // Preparando os dados básicos
         if (!data.produto_validade && selectedType === 'NAO PERECIVEL') {
