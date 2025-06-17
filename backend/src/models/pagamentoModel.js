@@ -4,19 +4,17 @@ const cadastrar = (
     pagamento_forma,
     pagamento_status,
     usuario_id,
-    pagamento_valor_final,
-    endereco_id,
     nome_usuario,
+    endereco_id,
     codigo_seguranca,
     cupom // pode ser null
 ) => {
-    const query = `CALL sp_inserir_pagamento_com_compra(?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `CALL sp_inserir_pagamento_com_compra(?, ?, ?, ?, ?, ?, ?)`;
 
     return new Promise((resolve, reject) => {
         db.query(query, [
             pagamento_forma,
             pagamento_status,
-            pagamento_valor_final,
             usuario_id,
             nome_usuario,
             endereco_id,
@@ -28,6 +26,7 @@ const cadastrar = (
         });
     });
 };
+
 
 
 const listarTodos = () => {

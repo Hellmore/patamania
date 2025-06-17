@@ -5,13 +5,14 @@ const cadastrar = async (req, res) => {
         pagamento_forma,
         pagamento_status,
         usuario_id,
-        pagamento_valor_final,
-        endereco_id
+        nome_usuario,
+        endereco_id,
+        codigo_seguranca,
+        cupom
     } = req.body;
 
-    // Verificação dos campos obrigatórios
-    if (!pagamento_forma || !pagamento_status || !usuario_id || !pagamento_valor_final || !endereco_id) {
-        return res.status(400).send("Campos obrigatórios: pagamento_forma, pagamento_status, usuario_id, pagamento_valor_final, endereco_id");
+    if (!pagamento_forma || !pagamento_status || !usuario_id || !nome_usuario || !endereco_id || !codigo_seguranca) {
+        return res.status(400).send("Campos obrigatórios: pagamento_forma, pagamento_status, usuario_id, nome_usuario, endereco_id, codigo_seguranca");
     }
 
     try {
@@ -19,8 +20,10 @@ const cadastrar = async (req, res) => {
             pagamento_forma,
             pagamento_status,
             usuario_id,
-            pagamento_valor_final,
-            endereco_id
+            nome_usuario,
+            endereco_id,
+            codigo_seguranca,
+            cupom || null // pode enviar NULL se não houver cupom
         );
         res.status(201).send("Pagamento registrado com sucesso");
     } catch (err) {
@@ -28,6 +31,7 @@ const cadastrar = async (req, res) => {
         res.status(500).send("Erro ao registrar pagamento: " + err.message);
     }
 };
+
 
 
 const listarTodos = async (req, res) => {

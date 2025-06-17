@@ -21,7 +21,8 @@ const cadastrar = async (req, res) => {
         );
         res.status(201).send("Cupom cadastrado com sucesso!");
     } catch (err) {
-        res.status(500).send("Erro ao cadastrar cupom: " + err.message);
+    console.error("Erro ao cadastrar cupom:", err);
+    res.status(500).send("Erro ao cadastrar cupom: " + err.message);
     }
 };
 
