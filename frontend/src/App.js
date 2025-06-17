@@ -33,6 +33,9 @@ import Orders from './components/pages/profile/Orders';
 //Edição do usuário
 import EditUSer from './components/pages/private/listar_usuarios/EditUser';
 
+//Edição do produto
+import EditProduct from './components/pages/private/listar_produtos/EditProduct';
+
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -89,6 +92,7 @@ function App() {
               {/* Rota para gerenciar produtos */}
               <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
               <Route exact path="/listar_produtos" element={<PrivateRoute><ListarProdutos /></PrivateRoute>}/>
+              <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct/></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>
