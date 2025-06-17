@@ -29,9 +29,11 @@ const cadastrar = async (req, res) => {
     );
     res.status(201).send("Endereço cadastrado com sucesso!");
   } catch (error) {
-    res.status(500).send("Erro ao cadastrar endereço.");
+    console.error(error); 
+    res.status(500).send("Erro ao cadastrar endereço: " + error.message);
   }
 };
+
 
 const listar = async (req, res) => {
   try {
