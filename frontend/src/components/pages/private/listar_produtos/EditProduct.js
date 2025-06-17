@@ -86,46 +86,6 @@ export default function EditProduct() {
           updateData.produto_imagem = productData.produto_imagem;
         }
         
-        // Verifica e adiciona apenas campos alterados
-        // if (data.nome !== productData.produto_nome) updateData.produto_nome = data.nome;
-        // if (data.tipo !== productData.produto_tipo) updateData.produto_tipo = data.tipo;
-        // if (data.tamanho !== productData.produto_tamanho) updateData.produto_tamanho = data.tamanho;
-        // if (data.composicao !== productData.produto_composicao) updateData.produto_composicao = data.composicao;
-        // if (data.marca !== productData.produto_marca) updateData.produto_marca = data.marca;
-        // if (data.lote !== productData.produto_lote) updateData.produto_lote = data.lote;
-        // if (data.fabricante !== productData.produto_fabricante) updateData.produto_fabricante = data.fabricante;
-        // if (data.origem !== productData.produto_origem) updateData.produto_origem = data.origem;
-        // if (data.instrucoes !== productData.produto_instrucoes) updateData.produto_instrucoes = data.instrucoes;
-        // if (data.validade !== productData.produto_validade) updateData.produto_validade = data.validade;
-        // if (data.imagem !== productData.produto_imagem) updateData.produto_imagem = data.imagem;
-        // if (data.codigobarras !== productData.produto_codigobarras) updateData.produto_codigobarras = data.codigobarras;
-        // if (data.estoque !== productData.produto_estoque) updateData.produto_estoque = data.estoque;
-        // if (data.garantia !== productData.produto_garantia) updateData.produto_garantia = data.garantia;
-        // if (data.preco !== productData.produto_preco) updateData.produto_preco = data.preco;
-        
-        // if (productData.produto_tipo !== data.tipo && data.tipo === "PERECIVEL") {
-        //     updateData.garantia = null;    
-        // }
-    
-        // Tratamento especial para data
-        // const formattedDate = data.validade ? new Date(data.validade).toISOString().split('T')[0] : null;
-        // if (formattedDate !== (productData.produto_validade?.split('T')[0] || null)) {
-        //   updateData.produto_validade = formattedDate;
-        // }   
-
-        // if (!data.produto_validade && data.produto_tipo === 'NAO PERECIVEL') {
-        //   updateData.produto_validade = null;
-        // } else if (data.produto_garantia == '' && data.produto_tipo === 'PERECIVEL') {
-        //   updateData.produto_garantia = null;
-        // }
-                
-        // Se não há nada para atualizar
-        // if (Object.keys(updateData).length === 0) {
-        //   alert('Nenhuma alteração foi feita');
-        //   setIsSubmitting(false);
-        //   return;
-        // }
-        
         const response = await axios.put(
           `http://localhost:3001/produtos/atualizar/${produto_id}`,
           updateData,
