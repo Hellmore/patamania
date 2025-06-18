@@ -7,7 +7,12 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 // Debug final (remova depois)
 console.log('JWT_SECRET carregado:', process.env.JWT_SECRET ? '✔️' : '❌');
-// ----------------------
+
+const autenticarToken = require('./src/middlewares/jwtMiddleware');
+const logAcessoMiddleware = require('./src/middlewares/logAcessoMiddleware');
+
+app.use(autenticarToken);
+app.use(logAcessoMiddleware);
 
 // Middlewares
 app.use(cors());
@@ -38,7 +43,6 @@ const cupomDescontoRoutes = require('./src/routes/cupomDescontoRoutes');
 const avaliacaoProdutoRoutes = require('./src/routes/avaliacaoProdutoRoutes');
 const avaliacaoServicoRoutes = require('./src/routes/avaliacaoServicoRoutes');
 const historicoAnimalRoutes = require('./src/routes/historicoAnimalRoutes');
-const logAcessoRoutes = require('./src/routes/logAcessoRoutes');
 const logErroRoutes = require('./src/routes/logErroRoutes');
 
 // Uso das rotas
@@ -64,7 +68,6 @@ app.use('/cupons', cupomDescontoRoutes);
 app.use('/avaliacoes-produto', avaliacaoProdutoRoutes);
 app.use('/avaliacoes-servico', avaliacaoServicoRoutes);
 app.use('/historico-animal', historicoAnimalRoutes);
-app.use('/log-acesso', logAcessoRoutes);
 app.use('/log-erro', logErroRoutes);
 
 // Middleware de tratamento de erros 
@@ -82,7 +85,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-const errorHandlerMiddleware = require('./src/middlewares/errorHandlerMiddleware');
-app.use(errorHandlerMiddleware);
+const logErrosMiddleware = require('./src/middlewares/logErrosMiddleware');
+app.use(logErrosMiddleware);
 
 module.exports = app;
