@@ -2,7 +2,7 @@ const agendamentoModel = require('../models/agendamentoModel');
 
 const cadastrar = async (req, res) => {
     const {
-        agendamento_id,
+        //agendamento_id,
         cliente_id,
         animal_id,
         servico_id,
@@ -10,10 +10,10 @@ const cadastrar = async (req, res) => {
     } = req.body;
     
     if (
-        !agendamento_id,
-        !cliente_id,
-        !animal_id,
-        !servico_id,
+        //!agendamento_id,
+        !cliente_id ||
+        !animal_id ||
+        !servico_id ||
         !agendamento_status
     ) {
         return res.status(400).send("Todos os campos de agendamento são obrigatórios.");
@@ -21,7 +21,7 @@ const cadastrar = async (req, res) => {
 
     try {
         await agendamentoModel.cadastrar(
-        agendamento_id,
+        //agendamento_id,
         cliente_id,
         animal_id,
         servico_id,

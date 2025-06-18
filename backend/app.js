@@ -67,10 +67,19 @@ app.use('/historico-animal', historicoAnimalRoutes);
 app.use('/log-acesso', logAcessoRoutes);
 app.use('/log-erro', logErroRoutes);
 
-app.use((req, res, next) => {
-  const erro = new Error(`Rota ${req.originalUrl} não encontrada.`);
-  erro.status = 404;
-  next(erro);  
+// Middleware de tratamento de erros 
+app.use((err, req, res, next) => {
+    // Log detalhado do erro
+    console.error(`[ERRO] ${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
+    console.error(err.stack);
+
+    // Controla resposta conforme ambiente
+    const isDevelopment = process.env.NODE_ENV !== 'production';
+
+    res.status(500).json({
+        error: 'Erro interno no servidor',
+        ...(isDevelopment && { message: err.message, stack: err.stack })
+    });
 });
 
 const errorHandlerMiddleware = require('./src/middlewares/errorHandlerMiddleware');
