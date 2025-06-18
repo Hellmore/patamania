@@ -4,44 +4,40 @@ import { useRef } from 'react';
 import { useAuth } from '../../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-// Estilização
 import dayjs from 'dayjs';
 import { SearchOutlined, EditFilled } from '@ant-design/icons';
 import { Button, Input, Space, Table, Flex, Spin, Dropdown, message} from 'antd';
 import Highlighter from 'react-highlight-words';
-import styles from './ListarUsuario.module.css';
-
-// Importanto o alerta de deleção
+import styles from './ListarProdutos.module.css';
 import AlertDelecao from './AlertDelecao';
 
-export default function ListarUsuarios() {
+export default function ListarProdutos() {
     const { Column, ColumnGroup } = Table;
     const { user } = useAuth();
-    const [users, setUsers]  = useState([]);
+    const [products, setProducts] = useState([]);
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
-
+    const searchInput = useRef(null);  
+    
     // Transformando os dados recebidos
-    const processedData = dataSource.map((user) => ({
-        ...user,
-        key: user.usuario_id,
-        usuario_dataNascimento: user.usuario_dataNascimento
-            ? dayjs(user.usuario_dataNascimento).format('DD/MM/YYYY')
+    const processedData = dataSource.map((products) => ({
+        ...products,
+        key: products.produto_id,
+        produto_validade: products.produto_validade
+            ? dayjs(products.produto_validade).format('DD/MM/YYYY')
             : '',
-    }));
+    }));    
 
     const items = (record) => [
         {
             key: '1',
             icon: <EditFilled />,
             label: (
-                <span onClick={() => navigate(`/edit_user/${record.usuario_id}`)}>
+                <span onClick={() => navigate(`/edit_product/${record.produto_id}`)}>
                     Editar
                 </span>
             ),
@@ -50,36 +46,35 @@ export default function ListarUsuarios() {
             key: '2',
             label: (
                 <AlertDelecao 
-                    onConfirm={() => handleDelete(record.usuario_id)}
+                    onConfirm={() => handleDelete(record.produto_id)}
                 />
             ),
         },
     ];
-   
-    // Função para deletar usuário
-    const handleDelete = async (userId) => {
+
+    // Função para deletar produto
+    const handleDelete = async (productID) => {
         setLoading(true);
         try {
-        await axios.delete(`http://localhost:3001/usuarios/deletar/${userId}`, {
+        await axios.delete(`http://localhost:3001/produtos/deletar/${productID}`, {
             headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
         
-        message.success('Usuário deletado com sucesso!');
-        setDataSource(prev => prev.filter(user => user.usuario_id !== userId));
+        message.success('Produto deletado com sucesso!');
+        setDataSource(prev => prev.filter(products => products.produto_id !== productID));
         } catch (error) {
-            message.error('Erro ao deletar usuário: ' + error.message);
+            message.error('Erro ao deletar produto: ' + error.message);
         } finally {
             setLoading(false);
         }
     };
 
-    
-    useEffect(() => {
-        const fetchUsers = async () => {
+        useEffect(() => {
+        const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/usuarios/lista',  {
+                const response = await axios.get('http://localhost:3001/produtos/lista',  {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
@@ -93,9 +88,9 @@ export default function ListarUsuarios() {
             }
         };
 
-        fetchUsers();
+        fetchProducts();
     }, []);
-    
+
     if (loading) {
         return (
             <Flex className={styles.content} align='center' gap='middle'>
@@ -103,9 +98,9 @@ export default function ListarUsuarios() {
             </Flex>
         )
     } 
-    
+
     if (error) return <div>Erro: {error}</div>;
-    
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -198,60 +193,116 @@ export default function ListarUsuarios() {
         Object.assign(
             {
                 title:'ID',
-                dataIndex: 'usuario_id',
-                key: 'usuario_id',
-                width: '6%',
+                dataIndex: 'produto_id',
+                key: 'produto_id',
+                width: '0.5%',
             },
-            getColumnSearchProps('usuario_id'), 
+            getColumnSearchProps('produto_id'), 
         ),
         Object.assign(
             {
                 title: 'Nome',
-                dataIndex: 'usuario_nome',
-                key: 'usuario_nome',
-                width: '20%',
+                dataIndex: 'produto_nome',
+                key: 'produto_nome',
+                width: '13%',
             },
-            getColumnSearchProps('usuario_nome')
-        ),
-        Object.assign(
-            {
-                title: 'Email',
-                dataIndex: 'usuario_email',
-                key: 'usuario_email',
-                width: '30%',
-            },
-            getColumnSearchProps('usuario_email'),
+            getColumnSearchProps('produto_nome')
         ),
         Object.assign(
             {
                 title: 'Tipo',
-                dataIndex: 'usuario_tipo',
-                key: 'usuario_tipo',
-                width: '12%',
+                dataIndex: 'produto_tipo',
+                key: 'produto_tipo',
+                width: '7%',
             },
-            getColumnSearchProps('usuario_tipo'),
+            getColumnSearchProps('produto_tipo'),
         ),
         Object.assign(
             {
-                title: 'Data de Nascimento',
-                dataIndex: 'usuario_dataNascimento',
-                key: 'usuario_dataNascimento',
-                width: '15%',
+                title: 'Tamanho',
+                dataIndex: 'produto_tamanho',
+                key: 'produto_tamanho',
+                width: '5%',
+            },
+            getColumnSearchProps('produto_tamanho'),
+        ),
+        Object.assign(
+            {
+                title: 'Marca',
+                dataIndex: 'produto_marca',
+                key: 'produto_marca',
+                width: '5%',
             },
         ),
         Object.assign(
             {
-                title: 'País',
-                dataIndex: 'usuario_pais',
-                key: 'usuario_pais',
-                width: '12%',
+                title: 'Lote',
+                dataIndex: 'produto_lote',
+                key: 'produto_lote',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Fabricante',
+                dataIndex: 'produto_fabricante',
+                key: 'produto_fabricante',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Origem',
+                dataIndex: 'produto_origem',
+                key: 'produto_origem',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Validade',
+                dataIndex: 'produto_validade',
+                key: 'produto_validade',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Código de Barras',
+                dataIndex: 'produto_codigobarras',
+                key: 'produto_codigobarras',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Estoque',
+                dataIndex: 'produto_estoque',
+                key: 'produto_estoque',
+                width: '2%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Status',
+                dataIndex: 'produto_status',
+                key: 'produto_status',
+                width: '5%',
+            },
+        ),
+        Object.assign(
+            {
+                title: 'Preço',
+                dataIndex: 'produto_preco',
+                key: 'produto_preco',
+                width: '5%',
             },
         ),
         Object.assign(
             {
                 title: 'Ações',
                 key: 'acoes',
-                width: '20%',
+                width: '5%',
                 render:(_, record) => (
                             <Flex align="flex-start" gap="small" vertical>
                             <Dropdown menu={{ items: items(record) }} trigger={['click']}>
@@ -266,16 +317,16 @@ export default function ListarUsuarios() {
     return (
         <>
             <div className={styles.title}>
-                <h3>Listagem de Usuários</h3>
+                <h3>Listagem de Produtos</h3>
             </div>
             <div className={styles.content}>
                 <Table 
                     columns={columns} 
                     className={styles.table} 
                     dataSource={processedData} 
-                    rowKey="usuario_id"
+                    rowKey="produto_id"
                     loading={loading}/>
             </div>
         </>
-    )
-};
+    );
+}

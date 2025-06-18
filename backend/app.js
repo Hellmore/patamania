@@ -37,6 +37,9 @@ const compraRoutes = require('./src/routes/compraRoutes');
 const cupomDescontoRoutes = require('./src/routes/cupomDescontoRoutes');
 const avaliacaoProdutoRoutes = require('./src/routes/avaliacaoProdutoRoutes');
 const avaliacaoServicoRoutes = require('./src/routes/avaliacaoServicoRoutes');
+const historicoAnimalRoutes = require('./src/routes/historicoAnimalRoutes');
+const logAcessoRoutes = require('./src/routes/logAcessoRoutes');
+const logErroRoutes = require('./src/routes/logErroRoutes');
 
 // Uso das rotas
 app.use('/usuarios', usuarioRoutes);
@@ -60,6 +63,9 @@ app.use('/compra', compraRoutes);
 app.use('/cupons', cupomDescontoRoutes);
 app.use('/avaliacoes-produto', avaliacaoProdutoRoutes);
 app.use('/avaliacoes-servico', avaliacaoServicoRoutes);
+app.use('/historico-animal', historicoAnimalRoutes);
+app.use('/log-acesso', logAcessoRoutes);
+app.use('/log-erro', logErroRoutes);
 
 // Middleware de tratamento de erros 
 app.use((err, req, res, next) => {
@@ -75,5 +81,8 @@ app.use((err, req, res, next) => {
         ...(isDevelopment && { message: err.message, stack: err.stack })
     });
 });
+
+const errorHandlerMiddleware = require('./src/middlewares/errorHandlerMiddleware');
+app.use(errorHandlerMiddleware);
 
 module.exports = app;

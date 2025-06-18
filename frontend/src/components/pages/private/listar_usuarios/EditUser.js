@@ -1,27 +1,33 @@
 import { useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../../../context/AuthContext';
 import axios from 'axios';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
+import { useParams } from 'react-router-dom';
 import { Flex, Spin } from 'antd';
+import { Button, Divider, notification, Space } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';  
+import styles from './EditUser.module.css';
+import { Link } from 'react-router-dom';
 
-import styles from './EditProfile.module.css';
+export default function EditUSer() {
+    const navigate = useNavigate();
+    const { user: authUser } = useAuth();
+    const [originalUserData, setOriginalUserData] = useState(null);  
+    const [userData, setUserData] = useState(null);
+    const { register, formState: { errors }, handleSubmit, getValues, setError, watch } = useForm();
+    const [submitError, setSubmitError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+    
+    const tipo = watch('tipo');
+    
+    const { usuario_id } = useParams();
 
-function EditProfile() {
-  const navigate = useNavigate();
-  const { user: authUser } = useAuth();
-  const [originalUserData, setOriginalUserData] = useState(null);  
-  const [userData, setUserData] = useState(null);
-  const { register, formState: { errors }, handleSubmit, getValues, setError } = useForm();
-  const [submitError, setSubmitError] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
-  const { usuario_id } = useParams();
-  
   const today = new Date();
   const eighteenYearsAgo = new Date(
     today.getFullYear() - 18,
@@ -29,33 +35,34 @@ function EditProfile() {
     today.getDate()
   );
 
-    useEffect(() => {
-    const fetchUser = async () => {
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
-      const response = await axios.get(`http://localhost:3001/usuarios/buscar/${usuario_id}`, {
-        headers: {
+        const response = await axios.get(`http://localhost:3001/usuarios/buscar/${usuario_id}`, {
+          headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       setOriginalUserData(response.data);
       setUserData(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Erro ao buscar dados do usuário:', error);
-    } finally {
-      setLoading(false);
-    }
+            
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchUser();
+
+    fetchUserData();
   }, [usuario_id]);
-  
-  if (loading) {
+
+if (loading) {
     return (
-      <Flex className={styles.content} align='center' gap='middle'>
-          <Spin size="large" />
-      </Flex>
-      )
-    } 
+        <Flex className={styles.content} align='center' justify='center' gap='middle'>
+            <Spin size="large" />
+        </Flex>
+    )
+} 
 
   const displayPassword = () => {
     return '*'.repeat(8); // Sempre mostra 8 asteriscos
@@ -63,8 +70,8 @@ function EditProfile() {
 
   const maxDate = eighteenYearsAgo.toISOString().split('T')[0]; // formato yyyy-mm-dd
 
-const onSubmit = async (data) => {
-  setIsSubmitting(true);
+  const onSubmit = async (data) => {
+      setIsSubmitting(true);
   
   try {
     const updateData = {};
@@ -73,7 +80,13 @@ const onSubmit = async (data) => {
     if (data.name !== userData.usuario_nome) updateData.usuario_nome = data.name;
     if (data.email !== userData.usuario_email) updateData.usuario_email = data.email;
     if (data.pais !== userData.usuario_pais) updateData.usuario_pais = data.pais;
+    if (data.cargo !== userData.usuario_cargo) updateData.usuario_cargo = data.cargo;
+    if (data.tipo !== userData.usuario_tipo) updateData.usuario_tipo = data.tipo;
     
+    if (userData.usuario_tipo !== data.tipo && data.tipo === "CLIENTE") {
+        data.cargo = null;    
+    }
+
     // Tratamento especial para data
     const formattedDate = data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : null;
     if (formattedDate !== (userData.usuario_dataNascimento?.split('T')[0] || null)) {
@@ -137,7 +150,7 @@ const onSubmit = async (data) => {
   return (
     <Container fluid className={styles.background}>
     <div className={styles.content}>
-      <h1 className={styles.title}>Edit Profile</h1>
+      <h1 className={styles.title}>Editar Usuário</h1>
       { userData ? (
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group>
@@ -169,7 +182,7 @@ const onSubmit = async (data) => {
               autoComplete='off'
               {...register("email", {
                 required: "Campo obrigatório",
-                maxLenght: {
+                maxLength: {
                   value: 100,
                   message: "Máximo 100 caracteres"
                 }
@@ -181,15 +194,30 @@ const onSubmit = async (data) => {
           <Form.Group>
             <Form.Label className={styles.label_dados}>Tipo</Form.Label>
             <Form.Select 
+              aria-label="tipo" 
+              {...register('tipo', { required: 'Campo obrigatório' })} 
               className={styles.dados_info} 
-              defaultValue={userData.usuario_tipo || ''}
-              {...register('usuario_tipo', { required: 'Campo obrigatório' })} 
+              defaultValue={userData.usuario_tipo === "ADMIN" ? "ADMIN" : "CLIENTE"}
             >
-              <option value="ADMIN">ADMIN</option>
-              <option value="CLIENTE">CLIENTE</option>
+                <option value="ADMIN">Administrador</option>
+                <option value="CLIENTE">Cliente</option>
             </Form.Select>
-            {errors.usuario_tipo && <p className={styles.erro}>{errors.usuario_tipo.message}</p>}
+            {errors.tipo && <span className={styles.error}>{errors.tipo.message}</span>}
           </Form.Group>
+
+          {tipo === "ADMIN" && (
+            <Form.Group>
+                <Form.Label className={styles.label_dados} htmlFor="cargo">
+                Cargo
+                </Form.Label>
+                <Form.Control
+                className={styles.dados_info}
+                defaultValue={userData.usuario_cargo || ''}
+                {...register("cargo")}
+                />
+                {errors.cargo && <p className={styles.erro}>{errors.cargo.message}</p>}
+            </Form.Group>
+          )}
 
           <Form.Group>
             <Form.Label className={styles.label_dados}>Data de nascimento</Form.Label>
@@ -234,6 +262,11 @@ const onSubmit = async (data) => {
           </Form.Group>
 
           <div className={styles.button}>
+            <div className={styles.cancel_button}>
+                <Link className={styles.cancel} to="/listar_usuarios" alt="Cancelar alteração">
+                Cancelar
+                </Link>
+            </div>
             <input 
               className={styles.submit_button} 
               type="submit" 
@@ -243,11 +276,9 @@ const onSubmit = async (data) => {
           </div>
         </Form>
       ) : (
-        <div className={styles.content} loading={loading}></div>
+        <p>Carregando os dados...</p>
       )}
     </div>
     </Container>
   );
 }
-
-export default EditProfile;
