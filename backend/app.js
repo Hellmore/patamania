@@ -10,9 +10,11 @@ console.log('JWT_SECRET carregado:', process.env.JWT_SECRET ? '✔️' : '❌');
 
 const logOperacaoMiddleware = require('./src/middlewares/logOperacaoMiddleware');
 const logAcessoMiddleware = require('./src/middlewares/logAcessoMiddleware');
+const logSistemaMiddleware = require('./src/middlewares/logSistemaMiddleware');
 
 app.use(logAcessoMiddleware);
 app.use(logOperacaoMiddleware);
+app.use(logSistemaMiddleware);
 
 // Middlewares
 app.use(cors());
