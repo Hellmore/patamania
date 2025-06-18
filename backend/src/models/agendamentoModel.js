@@ -1,7 +1,6 @@
 const db = require('../utils/db');
 
 const cadastrar = (        
-    agendamento_id,
     cliente_id,
     animal_id,
     servico_id,
@@ -10,19 +9,17 @@ const cadastrar = (
     const query = `
         INSERT INTO agendamento 
         (        
-        agendamento_id,
         cliente_id,
         animal_id,
         servico_id,
         agendamento_status
         ) 
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?)
     `;
     return new Promise((resolve, reject) => {
         db.query(
             query, 
             [        
-                agendamento_id,
                 cliente_id,
                 animal_id,
                 servico_id,
