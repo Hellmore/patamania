@@ -1,4 +1,5 @@
 const db = require('../utils/db');
+const jwt = require('jsonwebtoken');
 const UAParser = require('ua-parser-js');
 
 const parser = new UAParser();
@@ -6,9 +7,21 @@ const parser = new UAParser();
 const logAcessoMiddleware = (req, res, next) => {
   const startTime = Date.now();
 
+  // 🔑 Decodificar o token, se existir
+  const token = req.headers.authorization?.split(' ')[1];
+  let usuario_id = null;
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      usuario_id = decoded.id;  // 🔥 Pega o ID do usuário no token
+      req.usuario = decoded;    // Se quiser, deixa disponível no req
+    } catch (error) {
+      console.warn('Token inválido no log de acesso (seguindo sem usuário_id)');
+    }
+  }
+
   res.on('finish', () => {
-    const usuario_id = req.usuario?.id || null; 
-    // no Postman, é necessário colocar o header User-Agente que é: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/113.0.0.0 Safari/537.36"
     const ip = req.ip || req.connection.remoteAddress || 'Desconhecido';
     const userAgent = req.headers['user-agent'] || 'Desconhecido';
 
