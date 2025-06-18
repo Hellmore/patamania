@@ -8,11 +8,11 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 // Debug final (remova depois)
 console.log('JWT_SECRET carregado:', process.env.JWT_SECRET ? '✔️' : '❌');
 
-const autenticarToken = require('./src/middlewares/jwtMiddleware');
+const logOperacaoMiddleware = require('./src/middlewares/logOperacaoMiddleware');
 const logAcessoMiddleware = require('./src/middlewares/logAcessoMiddleware');
 
-app.use(autenticarToken);
 app.use(logAcessoMiddleware);
+app.use(logOperacaoMiddleware);
 
 // Middlewares
 app.use(cors());
