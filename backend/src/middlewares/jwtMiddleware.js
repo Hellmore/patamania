@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const autenticarToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
-    // O header Authorization costuma ser "Bearer <token>"
+    // no Postman, é necessário colocar o header Authorization que é: "Bearer <token gerado no login>"
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
@@ -15,7 +15,7 @@ const autenticarToken = (req, res, next) => {
             return res.status(403).json({ mensagem: 'Token inválido ou expirado.' });
         }
 
-        // Se o token for válido, guarda os dados do usuário na requisição
+        // se o token for válido, guarda os dados do usuário na requisição
         req.usuario = usuario;
 
         next();
