@@ -46,7 +46,7 @@ export default function ServiceTypeSelection ({ onSelect }) {
 
           <div 
             className={styles.optionCard}
-            onClick={() => onSelect('banho_tosa')}
+            onClick={() => onSelect('banho e tosa')}
           >
             <img src={tosa} className={styles.servico} alt="Banho e Tosa" />
             <h3>Banho & Tosa</h3>

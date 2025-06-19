@@ -1,50 +1,34 @@
 const servicoModel = require('../models/servicoModel');
 
 const cadastrar = async (req, res) => {
-  const {
-    servico_nome,
-    servico_descricao,
-    servico_categoria,
-    servico_preco,
-    servico_disponibilidade,
-    servico_localizacao,
-    servico_profissionalresponsavel,
-    servico_responsavelagendamento,
-    servico_duracao,
-    servico_taxa
-  } = req.body;
-
-  if (
-    !servico_nome ||
-    !servico_descricao ||
-    !servico_categoria ||
-    servico_preco === undefined ||
-    !servico_disponibilidade ||
-    !servico_localizacao ||
-    !servico_profissionalresponsavel ||
-    servico_responsavelagendamento === undefined ||
-    servico_duracao === undefined ||
-    servico_taxa === undefined
-  ) {
-    return res.status(400).send("Todos os campos são obrigatórios.");
-  }
-
   try {
-    await servicoModel.cadastrar(
-      servico_nome,
-      servico_descricao,
-      servico_categoria,
-      servico_preco,
-      servico_disponibilidade,
-      servico_localizacao,
-      servico_profissionalresponsavel,
-      servico_responsavelagendamento,
-      servico_duracao,
-      servico_taxa
+    const { servico } = req.body;
+
+    // 1. Cadastrar serviço principal
+    const servicoResult = await servicoModel.cadastrar(
+      servico.nome,
+      servico.descricao,
+      servico.categoria,
+      servico.preco,
+      servico.disponibilidade,
+      servico.localizacao,
+      servico.profissionalResponsavel,
+      servico.responsavelAgendamento,
+      servico.duracao,
+      servico.taxa
     );
-    res.status(201).send("Serviço cadastrado com sucesso!");
+
+    res.status(201).json({
+      success: true,
+      message: 'Serviço cadastrado com sucesso'
+    });
   } catch (error) {
-    res.status(500).send("Erro ao cadastrar serviço: " + error.message);
+    console.error('Erro no cadastro serviço:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao cadastrar serviço',
+      error: error.message
+    });
   }
 };
 
