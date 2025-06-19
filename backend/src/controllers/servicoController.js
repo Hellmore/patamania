@@ -41,6 +41,19 @@ const listarTodos = async (req, res) => {
   }
 };
 
+const listarComResponsaveisECriador  = async (req, res) => {
+  try {
+    const servicos = await servicoModel.listarComResponsaveisECriador();
+    res.status(200).json(servicos);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao listar serviços',
+      error: error.message
+    });
+  }
+};
+
 const buscarPorId = async (req, res) => {
   const { servico_id } = req.params;
   try {
@@ -124,6 +137,7 @@ const deletar = async (req, res) => {
 module.exports = {
   cadastrar,
   listarTodos,
+  listarComResponsaveisECriador,
   buscarPorId,
   atualizar,
   deletar

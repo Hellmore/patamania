@@ -59,6 +59,27 @@ const listarTodos = () => {
   });
 };
 
+const listarComResponsaveisECriador  = () => {
+  return new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        s.*, 
+        responsavel.usuario_nome as profissional_nome,
+        criador.usuario_nome as criador_nome,
+        criador.usuario_email as criador_email
+      FROM servico s
+      LEFT JOIN usuario responsavel ON s.servico_profissionalresponsavel = responsavel.usuario_id
+      LEFT JOIN usuario criador ON s.servico_responsavelagendamento = criador.usuario_id
+    `;
+
+    
+    db.query(query, (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
+    });
+  });
+};
+
 const buscarPorId = (servico_id) => {
   return new Promise((resolve, reject) => {
     db.query('SELECT * FROM servico WHERE servico_id = ?', [servico_id], (err, results) => {
@@ -132,6 +153,7 @@ const deletar = (servico_id) => {
 module.exports = {
   cadastrar,
   listarTodos,
+  listarComResponsaveisECriador,
   buscarPorId,
   atualizar,
   deletar
