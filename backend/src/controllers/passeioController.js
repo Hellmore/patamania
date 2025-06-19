@@ -5,13 +5,12 @@ const animalModel = require('../models/animalModel');
 const cadastrar = async (req, res) => {
   const {
     servico_id,
-    passeio_duracao,
     passeio_tipo,
     passeio_nivelatividade,
     animal_id
   } = req.body;
 
-  if (!servico_id || !passeio_duracao || !passeio_tipo || !passeio_nivelatividade || !animal_id) {
+  if (!servico_id || !passeio_tipo || !passeio_nivelatividade || !animal_id) {
     return res.status(400).send("Todos os campos são obrigatórios.");
   }
 
@@ -32,7 +31,6 @@ const cadastrar = async (req, res) => {
 
     await passeioModel.cadastrar(
       servico_id,
-      passeio_duracao,
       passeio_tipo,
       passeio_nivelatividade,
       animal_id
