@@ -1,5 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 
+import { Link } from 'react-router-dom';
+
 import { useEffect, useState } from 'react';
 
 import styles from './Home.module.css';
@@ -54,7 +56,7 @@ function Home() {
           </div>
           <div className={styles.banner}>
             <img src={banner_conheca} />
-            <a className={styles.button_peca} href="/">Peça agora</a>
+            <Link className={styles.button_peca} to="/servicos">Peça agora</Link>
       </div>
     </section>
   );

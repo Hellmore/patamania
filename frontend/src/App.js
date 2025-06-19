@@ -16,6 +16,7 @@ import PageHospedagem from './components/pages/PageHospedagem';
 import PagePasseios from './components/pages/PagePasseios';
 import PagePromocoes from './components/pages/PagePromocoes';
 import PageNotFound from './components/pages/PageNotFound';
+import PageServicos from './components/pages/PageServicos';
 
 // Páginas administrativas
 import LayoutAdmin from './components/layout/LayoutAdmin';
@@ -71,6 +72,7 @@ function App() {
             <Route exact path="/hospedagem" element={<PageHospedagem />}/>
             <Route exact path="/promocoes" element={<PagePromocoes />}/>
             <Route exact path="/page_not_found" element={<PageNotFound />}/>
+            <Route exact path="/servicos" element={<PageServicos />} />
           </Route>
           {/* Rotas que não usam layout padrão */}
           <Route element={<LayoutEmpty />}>

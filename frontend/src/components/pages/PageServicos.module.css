@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
+.servicos_container {
+  padding: 120px 20px 50px 20px;
+  background-color: #fdf8f3;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  color: #4d3f2f;
+  
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.titulo {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 1000;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.servicos_grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.servico_card {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.servico_card:hover {
+  transform: scale(1.05);
+}
+
+.icone {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+}
+
+.botao_agendar {
+  background-color: #2e7c73;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.botao_agendar:hover {
+  background-color: #1e5d55;
+}
+
+@media (max-width: 1024px) {
+  .servicos_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .titulo {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .servicos_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .titulo {
+    font-size: 2rem;
+  }
+}
