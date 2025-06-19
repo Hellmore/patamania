@@ -25,6 +25,7 @@ import CadastrarProduto from './components/pages/private/registro_prouduto/index
 import CadastrarServico from './components/pages/private/registro_servico/index';
 import ListarUsuario from './components/pages/private/listar_usuarios/ListarUsuario';
 import ListarProdutos from './components/pages/private/listar_produtos/ListarProdutos';
+import ListarServicos from './components/pages/private/listar_servicos/ListarServicos';
 
 // Perfil do usuário
 import Profile from './components/pages/profile/Profile';
@@ -95,6 +96,8 @@ function App() {
               <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
               <Route exact path="/listar_produtos" element={<PrivateRoute><ListarProdutos /></PrivateRoute>}/>
               <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct/></PrivateRoute>}/>
+              {/* Rota de gerenciar serviços */}
+              <Route exact path="listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>

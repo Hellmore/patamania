@@ -56,7 +56,7 @@ export default function ListarProdutos() {
     const handleDelete = async (productID) => {
         setLoading(true);
         try {
-        await axios.delete(`http://localhost:3001/produtos/deletar/${productID}`, {
+        await axios.delete(`http://localhost:3001/produtos/${productID}`, {
             headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
