@@ -1,36 +1,27 @@
 const agendamentoModel = require('../models/agendamentoModel');
 
 const cadastrar = async (req, res) => {
-    const {
-        //agendamento_id,
-        cliente_id,
-        animal_id,
-        servico_id,
-        agendamento_status
-    } = req.body;
-    
-    if (
-        //!agendamento_id,
-        !cliente_id ||
-        !animal_id ||
-        !servico_id ||
-        !agendamento_status
-    ) {
-        return res.status(400).send("Todos os campos de agendamento são obrigatórios.");
-    }
+  const { cliente_id, animal_id, servico_id, agendamento_status } = req.body;
+  if (!cliente_id || !animal_id || !servico_id || !agendamento_status) {
+    return res.status(400).send("Todos os campos de agendamento são obrigatórios.");
+  }
 
-    try {
-        await agendamentoModel.cadastrar(
-        //agendamento_id,
-        cliente_id,
-        animal_id,
-        servico_id,
-        agendamento_status
-        );
-        res.status(201).send("Agendamento cadastrado com sucesso!");
-    } catch (error) {
-        res.status(500).send("Erro ao cadastrar agendamento: " + error.message);
-    }
+  try {
+    const resultado = await agendamentoModel.cadastrar(cliente_id, animal_id, servico_id, agendamento_status);
+    const agendamento_id = resultado.insertId;
+
+    const servico = await servicoModel.buscarPorId(servico_id);
+
+    res.status(201).json({
+      message: "Agendamento cadastrado com sucesso!",
+      agendamento_id,
+      servico_categoria: servico.servico_categoria,
+      servico_id,
+      animal_id
+    });
+  } catch (error) {
+    res.status(500).send("Erro ao cadastrar agendamento: " + error.message);
+  }
 };
 
 const listarTodos = async (req, res) => {
