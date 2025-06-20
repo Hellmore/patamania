@@ -87,7 +87,7 @@ export default function EditProduct() {
         }
         
         const response = await axios.put(
-          `http://localhost:3001/produtos/atualizar/${produto_id}`,
+          `http://localhost:3001/produtos/${produto_id}`,
           updateData,
           {
             headers: {

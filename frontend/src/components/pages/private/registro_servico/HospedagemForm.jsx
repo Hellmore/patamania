@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import styles from './styles.module.css';
 import arrow_back from '../../../img/arrow_back.svg';
 
-export default function HospedagemSForm ({ onSubmit, initialData, onBack }) {
+export default function HospedagemSForm ({ onSubmit, initialData, onBack, profissionais }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: initialData
   });
@@ -19,26 +19,22 @@ export default function HospedagemSForm ({ onSubmit, initialData, onBack }) {
       </div>
       <h2>Cadastro de Serviço - Hospedagem</h2>
       
-      <Form.Group className={styles.formGroup}>
+      <Form.Group className={styles.formGroup} controlId='formPasseioNome'>
         <Form.Label>Nome do Serviço<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control
-          type="text" 
-          {...register('nome', { required: 'Campo obrigatório' })}
+        <Form.Control 
+          {...register('servico_nome', { required: 'Campo obrigatório' })}
           placeholder='Exemplo de Serviço'
         />
-        {errors.nome && <span className={styles.error}>{errors.nome.message}</span>}
+        {errors.servico_nome && <span className={styles.error}>{errors.servico_nome.message}</span>}
       </Form.Group>
 
-      {/* Outros campos comuns */}
-      <Form.Group className={styles.formGroup}>
+      <Form.Group className={styles.formGroup} controlId='formPasseioDescricao'>
         <Form.Label>Descrição<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={4} 
-          placeholder='Exemplo de descrição: Oferecemos conforto e alimentação sempre a disposição de seu pet.'
-          {...register('descricao', { required: 'Campo obrigatório' })}        
+        <Form.Control as="textarea" rows={4} 
+          placeholder='Exemplo de descrição: Oferecemos caminhada de longa duração para seu pet ficar saudável...'
+          {...register('servico_descricao', { required: 'Campo obrigatório' })}        
         />
-        {errors.descricao && <span className={styles.error}>{errors.descricao.message}</span>}
+        {errors.servico_descricao && <span className={styles.error}>{errors.servico_descricao.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formPasseioPreco'>
@@ -52,16 +48,16 @@ export default function HospedagemSForm ({ onSubmit, initialData, onBack }) {
               min={0}
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('preco', { required: 'Campo obrigatório' })}
+              {...register('servico_preco', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.preco && (<span className={styles.error}>{errors.preco.message}</span>)}
+          {errors.servico_preco && (<span className={styles.error}>{errors.servico_preco.message}</span>)}
         </div>
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formPasseioTaxa'>
         <div style={{ marginBottom: '1rem' }}>
-          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa</Form.Label>
+          <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Taxa<span style={{ color: 'red' }}>*</span></Form.Label>
           <div className={styles.div_preco}>
             <span style={{ userSelect: 'none', color: '#555' }}>R$</span>
             <Form.Control
@@ -70,100 +66,65 @@ export default function HospedagemSForm ({ onSubmit, initialData, onBack }) {
               min="0"
               placeholder="59,00"
               className={styles.input_preco}
-              {...register('taxa')}
+              {...register('servico_taxa', { required: 'Campo obrigatório' })}
             />
           </div>
-          {errors.taxa && (<span className={styles.error}>{errors.taxa.message}</span>)}
+          {errors.servico_taxa && (<span className={styles.error}>{errors.servico_taxa.message}</span>)}
         </div>
       </Form.Group>
 
-      <Form.Group className={styles.formGroup}>
+      <Form.Group className={styles.formGroup} controlId='formPasseioLocalizacao'>
         <Form.Label>Localização<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control
-          type="text" 
+        <Form.Control 
           placeholder='Exemplo de localização: Em toda região de Campinas - SP.'
-          {...register('localizacao', { required: 'Campo obrigatório' })}
+          {...register('servico_localizacao', { required: 'Campo obrigatório' })}
         />
-        {errors.localizacao && <span className={styles.error}>{errors.localizacao.message}</span>}
+        {errors.servico_localizacao && <span className={styles.error}>{errors.servico_localizacao.message}</span>}
       </Form.Group>
 
-      <Form.Group className={styles.formGroup}>
+      <Form.Group className={styles.formGroup} controlId='formPasseioResponsavel'>
         <Form.Label>Profissional Responsável<span style={{ color: 'red' }}>*</span></Form.Label>
-        <Form.Control
-          type="text" 
-          placeholder='Exemplo de Profissional Responsável: Max'
-          {...register('responsavel', { required: 'Campo obrigatório' })}
-        />
-        {errors.responsavel && <span className={styles.error}>{errors.responsavel.message}</span>}
+        {profissionais && profissionais.length > 0 ? (
+          <Form.Select 
+            {...register('servico_profissionalresponsavel', { required: 'Campo obrigatório' })}
+          >
+            <option value="">Selecione um profissional</option>
+            {profissionais.map(prof => (
+              <option key={prof.usuario_id} value={prof.usuario_id}>
+                {prof.usuario_nome} ({prof.usuario_email})
+              </option>
+            ))}
+          </Form.Select>
+        ) : (
+          <div className={styles.error}>
+            Nenhum profissional disponível. Contate o suporte.
+          </div>
+        )}
+        {errors.servico_profissionalresponsavel && 
+          <span className={styles.error}>{errors.servico_profissionalresponsavel.message}</span>}
       </Form.Group>
 
       <Form.Group className={styles.formGroup} controlId='formPasseioDuracao'>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Label style={{ display: 'block', marginBottom: '0.3rem' }}>Duração<span style={{ color: 'red' }}>*</span></Form.Label>
-            <Form.Control
-              type="time"
-              // step={60} // passo de 1 minuto
-              step="2"
-              min="0"
-              defaultValue="00:00"
-              className={styles.input_duracao}
-              {...register('estoque', { 
-                required: 'Campo obrigatório',
-                min: {
-                  value: 0,
-                  message: 'A quantidade dever ser um número positivo!'
-                },
-                valueAsNumber: true // converte o valor para número
-              })} 
-            />
-          {errors.duracao && (<span className={styles.error}>{errors.duracao.message}</span>)}
-        </div>
-      </Form.Group>
-
-      <Form.Group className={styles.formGroup} controlId='formPasseioImagem'>
-        <Form.Label>Imagem</Form.Label>
-        <Form.Control
-          type="file"
-          accept="image/*"
-          {...register('imagem', {
-            validate: {
-              isImage: FileList => {
-                if (!FileList?.[0]) return true;
-                return FileList[0].type.startsWith('image/') || 'Apenas arquivo de imagem é permitido';
+          <Form.Control
+            type="time"
+            step={60}
+            defaultValue="00:00"
+            className={styles.input_duracao}
+            {...register('servico_duracao', { 
+              required: 'Campo obrigatório',
+              validate: {
+                validTime: value => {
+                  // Valida se está no formato HH:MM
+                  return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value) || 
+                    'Formato de hora inválido (use HH:MM)';
+                }
               }
-            }
-          })}
-        />
-        {errors.imagem && <span className={styles.error}>{errors.imagem.message}</span>}
-      </Form.Group>
-
-      {/* Campo específico para serviços de hospedagem*/}
-      <Form.Group className={styles.formGroup}>
-        <Form.Label>
-          Tipo de hospedagem<span style={{ color: 'red' }}>*</span>
-        </Form.Label>
-        <Form.Select 
-          aria-label="tipo_hospedagem" 
-          {...register('tipo_hospedagem', { required: 'Campo obrigatório' })} 
-          defaultValue="" // Define a opção padrão como vazia
-        >
-          <option value="" disabled>Selecione uma opção</option>
-          <option value="1">Hotel</option>
-          <option value="2">Recuperação</option>
-          <option value="3">Creche</option>
-        </Form.Select>
-        {errors.tipo_hospedagem && <span className={styles.error}>{errors.tipo_hospedagem.message}</span>}
-      </Form.Group>
-
-      <Form.Group className={styles.formGroup}>
-        <Form.Label>Necessidades Especiais</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={4} 
-          placeholder='Exemplo de necessidades especiais: Oferecemos serviços especiais para pets com alguma deficiência.'
-          {...register('necessidades_esp')}        
-        />
-        {errors.necessidades_esp && <span className={styles.error}>{errors.necessidades_esp.message}</span>}
+            })}
+            />
+          {errors.servico_duracao && (<span className={styles.error}>{errors.servico_duracao.message}</span>)}
+        </div>
       </Form.Group>
 
       <div className={styles.formActions}>

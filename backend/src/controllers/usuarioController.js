@@ -62,6 +62,24 @@ const listar = async (req, res) => {
     }
 };
 
+const listarAdministradores = async (req, res) => {
+  try {
+    console.log("Buscando administradores..."); // Log para debug
+    
+    const administradores = await usuarioModel.buscarAdministradores();
+    console.log("Administradores encontrados:", administradores); // Verifique os dados
+    
+    res.status(200).json(administradores);
+  } catch (error) {
+    console.error("Erro ao buscar administradores:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Erro ao buscar administradores",
+      error: error.message
+    });
+  }
+};
+
 const buscarPorId = async (req, res) => {
     const { usuario_id } = req.params;
     try {
@@ -152,6 +170,7 @@ const excluir = async (req, res) => {
 module.exports = {
     cadastrar,
     listar,
+    listarAdministradores,
     buscarPorId,
     atualizar,
     excluir,

@@ -1,13 +1,15 @@
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Alert } from 'antd';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { Flex, Spin } from 'antd';
 import styles from './Profile.module.css';
+import arrow_back from '../../img/arrow_back.svg';
 
 function Profile() {
+    const { user } = useAuth();
     const { Header, Content, Footer } = Layout;
     const items = Array.from({ length: 15 }).map((_, index) => ({
     key: index + 1,
@@ -20,6 +22,7 @@ function Profile() {
     const { user: authUser } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [userEndereco, setUserEndereco] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -38,8 +41,29 @@ function Profile() {
             }
         };
 
+        const fetchEnderecoData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/enderecos/buscar-por-user/${user.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (response.data) {
+                    setUserEndereco(response.data);
+                } else {
+                    setUserEndereco(null);
+                }
+            }  catch (error) {
+                console.error('Erro ao buscar dados do endereço:', error);
+                setUserEndereco(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (authUser?.id) {
             fetchUserData();
+            fetchEnderecoData();
         }
     }, [authUser]);
 
@@ -48,8 +72,12 @@ function Profile() {
     };
 
     if (loading) {
-        return <div>Carregando dados do usuário...</div>;
-    }
+        return (
+        <Flex className={styles.loading_content} align='center' gap='middle'>
+            <Spin size="large" />
+        </Flex>
+        )
+    } 
 
     if (!userData) {
         return <div>Não foi possível carregar os dados do usuário.</div>;
@@ -70,6 +98,7 @@ function Profile() {
                     borderRadius: borderRadiusLG,
                 }}
                 >
+                    <div className={styles.arrow_back}><Link to={userData.usuario_tipo === "ADMIN" ? ("/home_admin") : ("/")}><img src={arrow_back} alt="" /></Link></div>
                     <h2>Seus Dados</h2>
                     {userData ? (
                         <div className={styles.userData}>
@@ -84,7 +113,24 @@ function Profile() {
                             <p><strong>Data de cadastro:</strong> 
                                 {userData.usuario_dataInscricao ? new Date(userData.usuario_dataInscricao).toLocaleDateString() : 'Não informada'}
                             </p>
-                            <Link to="/profile_admin/edit"><button className={styles.button}>Editar dados</button></Link>
+                            {userData.usuario_tipo === 'CLIENTE' ? (
+                                userEndereco ? (
+                                    <div>
+                                        <p><strong>Endereço:</strong> {userEndereco?.endereco_logradouro || 'Não informado'}</p>
+                                        <p><strong>Número:</strong> {userEndereco?.endereco_numero || 'Não informado'}</p>
+                                        <p><strong>Complemento:</strong> {userEndereco?.endereco_complemento || 'Não informado'}</p>
+                                        <p><strong>Bairro:</strong> {userEndereco?.endereco_bairro || 'Não informado'}</p>
+                                        <p><strong>Cidade:</strong> {userEndereco?.endereco_cidade || 'Não informado'}</p>
+                                        <p><strong>Estado:</strong> {userEndereco?.endereco_estado || 'Não informado'}</p>
+                                        <p><strong>CEP:</strong> {userEndereco?.endereco_cep || 'Não informado'}</p>
+                                    </div>
+                                ) : (
+                                    <Alert message="Você ainda não possui nenhum endereço cadastrado!" className={styles.alert} type="warning" />
+                                )
+                            ) : (
+                                <></>
+                            )}
+                            <Link to={`/profile/${authUser.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
                         </div>
 
                     ) : (

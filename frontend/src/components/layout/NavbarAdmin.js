@@ -15,6 +15,7 @@ function redirectToHome() {
 }
 
 function Navbar() {
+  const { user: authUser } = useAuth();
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
   const [color, setColor] = useState(ColorList[0]);
   const location = useLocation();
@@ -30,11 +31,11 @@ function Navbar() {
   const profile = [
     {
       key: '1',
-      label: <Link className={styles.without_undeline} to="/profile_admin">Perfil</Link>,
+      label: <Link className={styles.without_undeline} to="/profile">Perfil</Link>,
     },
     {
       key: '2',
-      label: <Link className={styles.without_undeline} to="/profile_admin/edit">Editar Perfil</Link>,
+      label: <Link className={styles.without_undeline}  to={user?.id ? `/profile/${user.id}/edit` : "#"} >Editar Perfil</Link>,
     },
     {
       key: '3',

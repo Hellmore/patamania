@@ -55,8 +55,18 @@ const buscarPorId = (endereco_id) => {
   });
 };
 
+const buscarPorUser = (usuario_id) => {
+  const query = `SELECT * FROM endereco WHERE usuario_id = ?`;
+  return new Promise((resolve, reject) => {
+    db.query(query, [usuario_id], (err, result) => {
+      if (err) return reject(err);
+      resolve(result[0]);
+    });
+  });
+};
+
 const atualizar = (
-  endereco_id,
+  usuario_id,
   logradouro,
   numero,
   complemento,
@@ -74,13 +84,15 @@ const atualizar = (
       endereco_cidade = ?,
       endereco_estado = ?,
       endereco_cep = ?
-    WHERE endereco_id = ?
+    WHERE usuario_id = ?
   `;
 
+  console.log("Query SQL:", query);
+  console.log("Valores:", [logradouro, numero, complemento, bairro, cidade, estado, cep, usuario_id]);
   return new Promise((resolve, reject) => {
     db.query(
       query,
-      [logradouro, numero, complemento, bairro, cidade, estado, cep, endereco_id],
+      [logradouro, numero, complemento, bairro, cidade, estado, cep, usuario_id],
       (err, result) => {
         if (err) return reject(err);
         resolve(result);
@@ -103,6 +115,7 @@ module.exports = {
   cadastrar, 
   listar, 
   buscarPorId, 
+  buscarPorUser,
   atualizar, 
   deletar 
 };

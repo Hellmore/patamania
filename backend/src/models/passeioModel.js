@@ -2,7 +2,6 @@ const db = require('../utils/db');
 
 const cadastrar = async (
   servico_id,
-  passeio_duracao,
   passeio_tipo,
   passeio_nivelatividade,
   animal_id
@@ -10,12 +9,11 @@ const cadastrar = async (
   return db.promise().query(
     `INSERT INTO passeio (
       servico_id,
-      passeio_duracao,
       passeio_tipo,
       passeio_nivelatividade,
       animal_id
-    ) VALUES (?, ?, ?, ?, ?)`,
-    [servico_id, passeio_duracao, passeio_tipo, passeio_nivelatividade, animal_id]
+    ) VALUES (?, ?, ?, ?)`,
+    [servico_id, passeio_tipo, passeio_nivelatividade, animal_id]
   );
 };
 
