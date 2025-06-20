@@ -37,10 +37,10 @@ function EditProfile() {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
           });
-          if (response.data) {
-            setUserEndereco(response.data);
-          } else {
+          if (response.data.data === null) {
             setUserEndereco(null);
+          } else {
+            setUserEndereco(response.data);
           }
         } catch (error) {
           console.error('Não foi possível procurar o endereço do usuário!');

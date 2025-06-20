@@ -35,7 +35,8 @@ function Cadastrar() {
         usuario_nome: data.name,
         usuario_email: data.email,
         usuario_dataNascimento: data.birthDate,
-        usuario_senha: data.password
+        usuario_senha: data.password,
+        usuario_tipo: 'CLIENTE',
       }, {
       headers: {
         'Content-Type': 'application/json' //Para enviar no backends
@@ -106,7 +107,7 @@ function Cadastrar() {
             </div>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group controlId='formCadastroNome'>
+            <Form.Group>
               <Form.Label className={styles.label_dados}>Nome<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control
                 className={styles.dados_info}
@@ -121,7 +122,7 @@ function Cadastrar() {
               {errors.name && <p className={styles.erro}>{errors.name.message}</p>}
             </Form.Group>
 
-            <Form.Group controlId='formCadastroEmail'>
+            <Form.Group>
               <Form.Label className={styles.label_dados}>E-mail<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control
                 onChange={() => setErrorMessage('')}
@@ -140,7 +141,7 @@ function Cadastrar() {
                 {errors.email && <p className={styles.erro}>{errors.email.message}</p>}
             </Form.Group>
 
-            <Form.Group controlId='formCadastroNascimento'>
+            <Form.Group>
               <Form.Label className={styles.birth}>Data de nascimento<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control 
                 className={styles.dados_info} 
@@ -153,7 +154,7 @@ function Cadastrar() {
                 {errors.birthDate && <p className={styles.erro}>{errors.birthDate.message}</p>}
               </Form.Group>
 
-            <Form.Group controlId='formCadastroSenha'>
+            <Form.Group>
               <Form.Label className={styles.label_dados}>Senha<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control
                 className={styles.dados_info}
@@ -165,7 +166,7 @@ function Cadastrar() {
               {errors.password && <p className={styles.erro}>{errors.password.message}</p>}
             </Form.Group>
 
-            <Form.Group controlId='formCadastrarConfirmSenha'>   
+            <Form.Group>   
               <Form.Label className={styles.label_dados}>Confirmar senha<span style={{ color: 'red' }}>*</span></Form.Label>
               <Form.Control
                 className={styles.dados_info}
@@ -185,7 +186,7 @@ function Cadastrar() {
               {errors.confirmPassword && <p className={styles.erro}>{errors.confirmPassword.message}</p>}
             </Form.Group>
 
-            <Form.Group className={`mb-3 ${styles.remember}`} controlId="formCadastroRemember">
+            <Form.Group className={`mb-3 ${styles.remember}`}>
               <Form.Check type="checkbox" label="Lembrar-me" />
             </Form.Group>
 
