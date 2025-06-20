@@ -32,7 +32,7 @@ import Profile from './components/pages/profile/Profile';
 import EditProfile from './components/pages/profile/EditProfile';
 import EditEndereco from './components/pages/profile/EditEndereco'; 
 import Orders from './components/pages/profile/Orders';
-
+import CadastrarEndereco from './components/pages/profile/CadastrarEndereco';
 // Edição do usuário
 import EditUSer from './components/pages/private/listar_usuarios/EditUser';
 
@@ -105,9 +105,10 @@ function App() {
 
           {/* Rota para o edição de perfil em ambos usuários */}
           <Route element={<LayoutEmpty />}>
-              <Route exact path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>}/>
+            <Route exact path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>}/>
             <Route exact path="/profile/:id/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
             <Route exact path="/profile/:id/address" element={<PrivateRoute><EditEndereco /></PrivateRoute>}/>
+            <Route exact path="/cadastrar_endereco" element={<PrivateRoute><CadastrarEndereco /></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>

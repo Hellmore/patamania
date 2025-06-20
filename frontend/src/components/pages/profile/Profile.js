@@ -1,15 +1,17 @@
-import { Breadcrumb, Layout, Menu, theme, Alert } from 'antd';
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { Flex, Spin } from 'antd';
-import styles from './Profile.module.css';
+
+// Estilização
+import { Breadcrumb, Layout, theme, Alert, Flex, Spin, Divider, message } from 'antd';
 import arrow_back from '../../img/arrow_back.svg';
+import styles from './Profile.module.css';
+
+import AlertDelecao from './AlertDelecao';
 
 function Profile() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const { Header, Content, Footer } = Layout;
     const items = Array.from({ length: 15 }).map((_, index) => ({
     key: index + 1,
@@ -23,6 +25,24 @@ function Profile() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [userEndereco, setUserEndereco] = useState(null);
+
+    const handleDelete = async (userId) => {
+        setLoading(true);
+        try {
+        await axios.delete(`http://localhost:3001/usuarios/deletar/${userId}`, {
+            headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        
+        message.success('Conta deletada com sucesso!');
+        logout(); // Chama a função de logout após a exclusão
+        } catch (error) {
+            message.error('Erro ao deletar a conta: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -48,10 +68,10 @@ function Profile() {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                if (response.data) {
-                    setUserEndereco(response.data);
-                } else {
+                if (response.data.data === null) {
                     setUserEndereco(null);
+                } else {
+                    setUserEndereco(response.data);
                 }
             }  catch (error) {
                 console.error('Erro ao buscar dados do endereço:', error);
@@ -131,6 +151,10 @@ function Profile() {
                                 <></>
                             )}
                             <Link to={`/profile/${authUser.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
+                            <Divider style={{ borderColor: '#2D6B6A' }}>Deleção de conta</Divider>
+                            <Link to={`/profile/${authUser.id}/delete`} className={styles.btn_delete}>
+                                 <AlertDelecao onConfirm={() => handleDelete(user.id)}/>
+                            </Link>
                         </div>
 
                     ) : (
