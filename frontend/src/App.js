@@ -17,6 +17,7 @@ import PagePasseios from './components/pages/PagePasseios';
 import PagePromocoes from './components/pages/PagePromocoes';
 import PageNotFound from './components/pages/PageNotFound';
 import PageServicos from './components/pages/PageServicos';
+import PageCarrinho from './components/pages/PageCarrinho';
 
 // Páginas administrativas
 import LayoutAdmin from './components/layout/LayoutAdmin';
@@ -74,6 +75,7 @@ function App() {
             <Route exact path="/promocoes" element={<PagePromocoes />}/>
             <Route exact path="/page_not_found" element={<PageNotFound />}/>
             <Route exact path="/servicos" element={<PageServicos />} />
+            <Route exact path="/carrinho" element={<PageCarrinho />} />
           </Route>
           {/* Rotas que não usam layout padrão */}
           <Route element={<LayoutEmpty />}>

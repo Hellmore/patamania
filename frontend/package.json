@@ -2,6 +2,7 @@
   "name": "patamania",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@testing-library/dom": "^10.4.0",

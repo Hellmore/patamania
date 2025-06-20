@@ -37,6 +37,18 @@ const listarTodos = async (req, res) => {
     }
 };
 
+const buscarPorUsuario = async (req, res) => {
+  const { usuario_id } = req.params;
+
+  try {
+    const itens = await itemCarrinhoModel.buscarPorUsuario(usuario_id);
+    res.json(itens);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erro ao buscar itens do carrinho');
+  }
+};
+
 const buscarPorId = async (req, res) => {
     const { item_id } = req.params;
     try {
@@ -50,27 +62,23 @@ const buscarPorId = async (req, res) => {
 
 const atualizar = async (req, res) => {
     const { item_id } = req.params;
-    const { 
-        carrinho_id,
-        produto_id,
-        item_quantidade,
-        item_preco_unitario 
-    } = req.body;
-    if (        
-        !carrinho_id ||
-        !produto_id ||
-        !item_quantidade ||
-        !item_preco_unitario ) {
+    const { carrinho_id, produto_id, item_quantidade, item_preco_unitario } = req.body;
+
+    if (!carrinho_id || !produto_id || !item_quantidade || !item_preco_unitario) {
         return res.status(400).send("Todos os campos de Item Carrinho são obrigatórios!");
     }
+
     try {
         const existe = await itemCarrinhoModel.buscarPorId(item_id);
-        if (!existe) return res.status(404).send("Item não encontrado");
-        await itemCarrinhoModel.atualizar(            
+        if (!existe || existe.length === 0) return res.status(404).send("Item não encontrado");
+
+        await itemCarrinhoModel.atualizar(
+            item_id,
             carrinho_id,
             produto_id,
             item_quantidade,
-            item_preco_unitario );
+            item_preco_unitario
+        );
         res.send("Item atualizado com sucesso");
     } catch (err) {
         res.status(500).send("Erro ao atualizar item: " + err.message);
@@ -94,5 +102,6 @@ module.exports = {
     listarTodos,
     buscarPorId,
     atualizar,
-    deletar
+    deletar,
+    buscarPorUsuario
 };
