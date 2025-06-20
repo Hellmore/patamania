@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom' 
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import LayoutDefault from './components/layout/LayoutDefault';
 import LayoutEmpty from './components/layout/LayoutEmpty';
 import LayoutNavbarOnly from './components/layout/LayoutNavbarOnly';
@@ -18,6 +18,7 @@ import PagePromocoes from './components/pages/PagePromocoes';
 import PageNotFound from './components/pages/PageNotFound';
 import PageServicos from './components/pages/PageServicos';
 import PageCarrinho from './components/pages/PageCarrinho';
+import PagePagamento from './components/pages/PagePagamento';
 
 // Páginas administrativas
 import LayoutAdmin from './components/layout/LayoutAdmin';
@@ -63,43 +64,44 @@ function App() {
         <Routes>
           {/* Rotas que usam layout padrão */}
           <Route element={<LayoutDefault />}>
-            <Route exact path="/" element={<Home />}/>
-            <Route exact path="/alimentos" element={<PageAlimentos />}/>
-            <Route exact path="/acessorios" element={<PageAcessorios />}/>
-            <Route exact path="/higiene" element={<PageHigiene />}/>
-            <Route exact path="/farmacia" element={<PageFarmacia />}/>
-            <Route exact path="/banho_&_tosa" element={<PageBanhoTosa />}/>
-            <Route exact path="/consultas" element={<PageConsultas />}/>
-            <Route exact path="/passeios" element={<PagePasseios />}/>
-            <Route exact path="/hospedagem" element={<PageHospedagem />}/>
-            <Route exact path="/promocoes" element={<PagePromocoes />}/>
-            <Route exact path="/page_not_found" element={<PageNotFound />}/>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/alimentos" element={<PageAlimentos />} />
+            <Route exact path="/acessorios" element={<PageAcessorios />} />
+            <Route exact path="/higiene" element={<PageHigiene />} />
+            <Route exact path="/farmacia" element={<PageFarmacia />} />
+            <Route exact path="/banho_&_tosa" element={<PageBanhoTosa />} />
+            <Route exact path="/consultas" element={<PageConsultas />} />
+            <Route exact path="/passeios" element={<PagePasseios />} />
+            <Route exact path="/hospedagem" element={<PageHospedagem />} />
+            <Route exact path="/promocoes" element={<PagePromocoes />} />
+            <Route exact path="/page_not_found" element={<PageNotFound />} />
             <Route exact path="/servicos" element={<PageServicos />} />
             <Route exact path="/carrinho" element={<PageCarrinho />} />
+            <Route exact path="/pagamento" element={<PagePagamento />} />
           </Route>
           {/* Rotas que não usam layout padrão */}
           <Route element={<LayoutEmpty />}>
-            <Route exact path="/login" element={<Login />}/>
-            <Route exact path="/cadastrar" element={<Cadastrar />}/>
-            <Route exact path="/esqueci_senha" element={<EsqueceuSenha />}/>
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/cadastrar" element={<Cadastrar />} />
+            <Route exact path="/esqueci_senha" element={<EsqueceuSenha />} />
           </Route>
 
           {/* Rotas protegidas */}
-          <Route element={<LayoutAdmin/>}>
-              <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin/></PrivateRoute>}></Route>
-              <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>}/>
-              {/* Rotas de perfil do admin */}
-              <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>}/>
-              <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
-              {/* Rota da ação da listagem de usuários */}
-              <Route exact path="/listar_usuarios" element={<PrivateRoute><ListarUsuario/></PrivateRoute>}/>
-              <Route path="/edit_user/:usuario_id" element={<PrivateRoute><EditUSer/></PrivateRoute>}/>
-              {/* Rota para gerenciar produtos */}
-              <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
-              <Route exact path="/listar_produtos" element={<PrivateRoute><ListarProdutos /></PrivateRoute>}/>
-              <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct/></PrivateRoute>}/>
-              {/* Rota de gerenciar serviços */}
-              <Route exact path="listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>}/>
+          <Route element={<LayoutAdmin />}>
+            <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin /></PrivateRoute>}></Route>
+            <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>} />
+            {/* Rotas de perfil do admin */}
+            <Route exact path="/profile_admin" element={<PrivateRoute><Profile /></PrivateRoute>} />
+            <Route exact path="/profile_admin/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+            {/* Rota da ação da listagem de usuários */}
+            <Route exact path="/listar_usuarios" element={<PrivateRoute><ListarUsuario /></PrivateRoute>} />
+            <Route path="/edit_user/:usuario_id" element={<PrivateRoute><EditUSer /></PrivateRoute>} />
+            {/* Rota para gerenciar produtos */}
+            <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>} />
+            <Route exact path="/listar_produtos" element={<PrivateRoute><ListarProdutos /></PrivateRoute>} />
+            <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct /></PrivateRoute>} />
+            {/* Rota de gerenciar serviços */}
+            <Route exact path="listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>} />
           </Route>
         </Routes>
       </Router>

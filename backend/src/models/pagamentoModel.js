@@ -1,98 +1,108 @@
 const db = require('../utils/db');
 
-// Cadastro de pagamento com suporte a parcelamento
-const cadastrar = (
-    pagamento_forma,
-    pagamento_status,
-    usuario_id,
-    nome_usuario,
-    endereco_id,
-    codigo_seguranca,
-    cupom, // pode ser null
-    parcelas = 1 // default 1
+const cadastrar = async (
+  pagamento_forma,
+  pagamento_status,
+  usuario_id,
+  nome_usuario,
+  endereco_id,
+  cupom,
+  parcelas,
+  itemIds
 ) => {
-    const query = `CALL sp_inserir_pagamento_com_compra(?, ?, ?, ?, ?, ?, ?, ?)`;
+  const itemIdsString = itemIds.join(',');
+  const conn = await db.getConnection();
 
-    return new Promise((resolve, reject) => {
-        db.query(query, [
-            pagamento_forma,
-            pagamento_status,
-            usuario_id,
-            nome_usuario,
-            endereco_id,
-            codigo_seguranca,
-            cupom,
-            parcelas
-        ], (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
-    });
+  try {
+    await conn.beginTransaction();
+
+    const [rows] = await conn.query(
+      `CALL sp_inserir_pagamento_com_compra(?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        pagamento_forma,
+        pagamento_status,
+        usuario_id,
+        nome_usuario,
+        endereco_id,
+        cupom,
+        parcelas,
+        itemIdsString
+      ]
+    );
+
+    await conn.commit();
+
+    const resultado = rows[0][0]; // resultado da procedure
+
+    return {
+      pagamento_id: resultado.pagamento_id,
+      compra_id: resultado.compra_id
+    };
+  } catch (error) {
+    await conn.rollback();
+    throw error;
+  } finally {
+    conn.release();
+  }
 };
 
-const listarTodos = () => {
-    const query = `SELECT * FROM pagamento`;
-    return new Promise((resolve, reject) => {
-        db.query(query, (err, results) => err ? reject(err) : resolve(results));
-    });
+const listarTodos = async () => {
+  const [rows] = await db.query(`
+    SELECT p.pagamento_id, p.pagamento_forma, p.pagamento_status,
+           p.pagamento_valor_final, p.pagamento_data, u.usuario_nome
+    FROM pagamento p
+    JOIN usuario u ON p.usuario_id = u.usuario_id
+    ORDER BY p.pagamento_data DESC
+  `);
+  return rows;
 };
 
-const buscarPorId = (pagamento_id) => {
-    const query = `SELECT * FROM pagamento WHERE pagamento_id = ?`;
-    return new Promise((resolve, reject) => {
-        db.query(query, [pagamento_id], (err, results) => {
-            if (err) return reject(err);
-            resolve(results[0]);
-        });
-    });
+const buscarPorId = async (pagamento_id) => {
+  const [rows] = await db.query(`
+    SELECT p.*, u.usuario_nome FROM pagamento p
+    JOIN usuario u ON p.usuario_id = u.usuario_id
+    WHERE p.pagamento_id = ?
+  `, [pagamento_id]);
+  return rows[0];
 };
 
-const atualizar = (
+const atualizar = async (
+  pagamento_forma,
+  pagamento_status,
+  usuario_id,
+  pagamento_valor_final,
+  endereco_id,
+  pagamento_id
+) => {
+  const [result] = await db.query(`
+    UPDATE pagamento SET
+      pagamento_forma = ?,
+      pagamento_status = ?,
+      usuario_id = ?,
+      pagamento_valor_final = ?,
+      endereco_id = ?
+    WHERE pagamento_id = ?
+  `, [
     pagamento_forma,
     pagamento_status,
     usuario_id,
     pagamento_valor_final,
     endereco_id,
     pagamento_id
-) => {
-    const query = `
-        UPDATE pagamento SET
-            pagamento_forma = ?,
-            pagamento_status = ?,
-            usuario_id = ?,
-            pagamento_valor_final = ?,
-            endereco_id = ?
-        WHERE pagamento_id = ?
-    `;
-    return new Promise((resolve, reject) => {
-        db.query(query, [
-            pagamento_forma,
-            pagamento_status,
-            usuario_id,
-            pagamento_valor_final,
-            endereco_id,
-            pagamento_id
-        ], (err, result) => {
-            if (err) return reject(err);
-            resolve(result.affectedRows > 0);
-        });
-    });
+  ]);
+
+  return result.affectedRows > 0;
 };
 
-const deletar = (pagamento_id) => {
-    const query = `DELETE FROM pagamento WHERE pagamento_id = ?`;
-    return new Promise((resolve, reject) => {
-        db.query(query, [pagamento_id], (err, result) => {
-            if (err) return reject(err);
-            resolve(result.affectedRows > 0);
-        });
-    });
+const deletar = async (pagamento_id) => {
+  const [result] = await db.query(`DELETE FROM pagamento WHERE pagamento_id = ?`, [pagamento_id]);
+  return result.affectedRows > 0;
 };
 
 module.exports = {
-    cadastrar,
-    listarTodos,
-    buscarPorId,
-    atualizar,
-    deletar
+  cadastrar,
+  listarTodos,
+  buscarPorId,
+  atualizar,
+  deletar
 };

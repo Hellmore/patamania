@@ -20,6 +20,7 @@ export default function PageCarrinho() {
       try {
         const response = await axios.get(`/item_carrinho/usuario/${user.id}`);
         console.log("Usuário logado:", user);
+        console.log("Itens recebidos:", response.data); 
         setItens(response.data);
 
         const quantidadesIniciais = {};
@@ -39,10 +40,17 @@ export default function PageCarrinho() {
   }, [user]);
 
   const toggleSelecionado = (item_id) => {
-    const newSet = new Set(selecionados);
-    newSet.has(item_id) ? newSet.delete(item_id) : newSet.add(item_id);
-    setSelecionados(newSet);
+    setSelecionados(prevSelecionados => {
+      const novoSet = new Set(prevSelecionados);
+      if (novoSet.has(item_id)) {
+        novoSet.delete(item_id);
+      } else {
+        novoSet.add(item_id);
+      }
+      return novoSet;
+    });
   };
+
 
   function calcularTotalItem(item) {
     const preco = Number(item.produto_preco ?? 0);
