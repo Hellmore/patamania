@@ -106,7 +106,7 @@ if (loading) {
     }
     
     const response = await axios.put(
-      `http://localhost:3001/usuarios/atualizar/${usuario_id}`,
+      `http://localhost:3001/usuarios/${usuario_id}`,
       updateData,
       {
         headers: {

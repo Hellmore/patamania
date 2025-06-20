@@ -6,7 +6,7 @@ const verificarAdmin = require('../middlewares/verificarAdmin');
 
 router.get('/lista', usuarioController.listar);
 router.get('/admin', verificarToken, usuarioController.listarAdministradores);
-router.get('/buscar/:produto_id', verificarToken, usuarioController.buscarPorId); 
+router.get('/buscar/:usuario_id', verificarToken, usuarioController.buscarPorId); 
 router.post('/cadastro', usuarioController.cadastrar);
 router.put('/:usuario_id', verificarToken, verificarAdmin, usuarioController.atualizar);
 router.delete('/:usuario_id', verificarToken, verificarAdmin, usuarioController.excluir);
