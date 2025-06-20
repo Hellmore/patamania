@@ -8,7 +8,7 @@ router.get('/lista', usuarioController.listar);
 router.get('/admin', verificarToken, usuarioController.listarAdministradores);
 router.get('/buscar/:usuario_id', verificarToken, usuarioController.buscarPorId); 
 router.post('/cadastro', usuarioController.cadastrar);
-router.put('/:usuario_id', verificarToken, verificarAdmin, usuarioController.atualizar);
+router.put('/:usuario_id', verificarToken, usuarioController.atualizar);
 router.delete('/:usuario_id', verificarToken, verificarAdmin, usuarioController.excluir);
 
 module.exports = router;
