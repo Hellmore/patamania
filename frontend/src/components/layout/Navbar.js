@@ -57,7 +57,7 @@ function Navbar() {
     },
     {
       key: '2',
-      label: <Link className={styles.without_undeline} to="/profile/edit">Editar Perfil</Link>,
+      label: <Link className={styles.without_undeline} to={user?.id ? `/profile/${user.id}/edit` : "#"} >Editar Perfil</Link>,
     },
     {
       key: '3',
