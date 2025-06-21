@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
-
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 import Navb from 'react-bootstrap/Navbar';
-import { Dropdown, Space, Typography } from 'antd';
+import { Dropdown, Space, Typography, Avatar, Button } from 'antd';
 
 import styles from "./Navbar.module.css";
 import logo from "../img/Logo Patamania.png";
@@ -14,7 +12,6 @@ import { IoSearch } from "react-icons/io5";
 import menu from "../img/menu.png";
 
 import React, { useState } from 'react';
-import { Avatar, Button } from 'antd';
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = React.useState({
@@ -31,7 +28,6 @@ function useWindowSize() {
     }
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -75,7 +71,7 @@ function Navbar() {
   const items = [
     {
       key: '1',
-      label: 'Produtos'
+      label: <Link className={styles.without_undeline} to="/alimentos">Produtos</Link>,
     },
     {
       key: '2',
@@ -113,17 +109,7 @@ function Navbar() {
       
       <Navb>
         <Dropdown
-          menu={{
-            items,
-            selectable: true,
-            autoFocus: true,
-            onClick: (e) => {
-              if (e.key === '1') {
-                e.domEvent.stopPropagation();
-                e.domEvent.preventDefault();
-              }
-            },
-          }}
+          menu={{ items }}
         >
           <Typography.Link>
             <Space>
@@ -140,11 +126,7 @@ function Navbar() {
             <div>
               <Dropdown
                 className={styles.dropdown}
-                menu={{
-                  items: profile,
-                  selectable: true,
-                  autoFocus: true,
-                }}
+                menu={{ items: profile }}
               >
                 <Avatar 
                   style={{ backgroundColor: color, cursor: 'pointer' }} 
