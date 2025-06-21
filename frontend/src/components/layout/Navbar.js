@@ -158,7 +158,7 @@ function Navbar() {
           <div className={styles.icons_right}>
             { user ? (
               <div className={styles.user_info}>
-                <div><Link to="/profile"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
+                <div><Link to="/carrinho"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
                 <div>
                   <Dropdown
                     className={styles.dropdown}
