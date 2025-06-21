@@ -7,15 +7,16 @@ const cadastrar = async (req, res) => {
         animal_raca,
         animal_porte,
         animal_descricao,
-        animal_pelagem
+        animal_pelagem,
+        usuario_id
     } = req.body;
 
-    if (!animal_nome || !animal_dataNascimento || !animal_raca || !animal_porte || !animal_descricao || !animal_pelagem) {
+    if (!animal_nome || !animal_dataNascimento || !animal_raca || !animal_porte || !animal_descricao || !animal_pelagem || !usuario_id) {
         return res.status(400).send("Todos os campos obrigatórios devem ser preenchidos.");
     }
 
     try {
-        await animalModel.cadastrar(animal_nome, animal_dataNascimento, animal_raca, animal_porte, animal_descricao, animal_pelagem);
+        await animalModel.cadastrar(animal_nome, animal_dataNascimento, animal_raca, animal_porte, animal_descricao, animal_pelagem, usuario_id);
         res.status(201).send("Animal cadastrado com sucesso!");
     } catch (error) {
         res.status(500).send("Erro ao cadastrar animal: " + error.message);
@@ -85,10 +86,22 @@ const deletar = async (req, res) => {
     }
 };
 
+const listarPorUsuario = async (req, res) => {
+  const { usuario_id } = req.params;
+
+  try {
+    const animais = await animalModel.listarPorUsuario(usuario_id);
+    res.json(animais);
+  } catch (error) {
+    res.status(500).send("Erro ao listar animais por usuário: " + error.message);
+  }
+};
+
 module.exports = {
     cadastrar,
     listarTodos,
     buscarPorId,
     atualizar,
-    deletar
+    deletar,
+    listarPorUsuario
 };

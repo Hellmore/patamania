@@ -1,44 +1,53 @@
 const hospedagemModel = require('../models/hospedagemModel');
 const servicoModel = require('../models/servicoModel');
 const animalModel = require('../models/animalModel');
+const agendamentoModel = require('../models/agendamentoModel');
 
 const cadastrar = async (req, res) => {
-  const {
-    servico_id,
-    hospedagem_tipo,
-    hospedagem_necessidadesespeciais,
-    animal_id
-  } = req.body;
+    const {
+        animal_id,
+        hospedagem_tipo,
+        hospedagem_necessidadesespeciais
+    } = req.body;
 
-  if (!servico_id || !hospedagem_tipo || !hospedagem_necessidadesespeciais || !animal_id) {
-    return res.status(400).send("Todos os campos são obrigatórios.");
-  }
+    const servico_id = 4; // id fixo para HOSPEDAGEM (ajuste conforme seu banco)
+    const agendamento_status = 'PENDENTE';
 
-  try {
-    const servico = await servicoModel.buscarPorId(servico_id);
-    if (!servico) {
-      return res.status(400).send("Serviço associado não encontrado.");
+    if (!animal_id || !hospedagem_tipo || !hospedagem_necessidadesespeciais) {
+        return res.status(400).send('Campos obrigatórios não preenchidos.');
     }
 
-    if (servico.servico_categoria !== 'HOSPEDAGEM') {
-      return res.status(400).send("O serviço_id informado não corresponde a um serviço do tipo HOSPEDAGEM.");
-    }
+    try {
+        // 1. Cadastrar agendamento
+        const agendamentoResult = await agendamentoModel.cadastrar(
+            req.usuario.id, // usuario_id vindo do token
+            animal_id,
+            servico_id,
+            agendamento_status,
+            new Date()
+        );
 
-    const animal = await animalModel.buscarPorId(animal_id);
-    if (!animal) {
-        return res.status(400).send("O animal informado não existe.");
-    }
+        const agendamento_id = agendamentoResult.insertId;
 
-    await hospedagemModel.cadastrar(
-      servico_id,
-      hospedagem_tipo,
-      hospedagem_necessidadesespeciais,
-      animal_id
-    );
-    res.status(201).send("Hospedagem cadastrada com sucesso!");
-  } catch (error) {
-    res.status(500).send("Erro ao cadastrar hospedagem: " + error.message);
-  }
+        // 2. Cadastrar hospedagem vinculando ao agendamento
+        const hospedagemResult = await hospedagemModel.cadastrar(
+            servico_id,
+            hospedagem_tipo,
+            hospedagem_necessidadesespeciais,
+            animal_id,
+            agendamento_id
+        );
+
+        res.status(201).json({
+            message: 'Agendamento de hospedagem cadastrado com sucesso!',
+            agendamento_id,
+            hospedagem_id: hospedagemResult.insertId
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Erro ao cadastrar hospedagem: ' + error.message);
+    }
 };
 
 const listarTodos = async (req, res) => {

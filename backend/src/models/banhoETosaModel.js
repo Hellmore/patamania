@@ -1,15 +1,25 @@
 const db = require('../utils/db');
 
-const cadastrar = (servico_id, banhoetosa_tipotosa, banhoetosa_produtosutilizados, animal_id) => {
-    const query = `INSERT INTO banho_e_tosa 
-        (servico_id, banhoetosa_tipotosa, banhoetosa_produtosutilizados, animal_id) 
-        VALUES (?, ?, ?, ?)`;
+const cadastrar = (agendamento_id, servico_id, animal_id, banhoetosa_tipotosa, banhoetosa_produtosutilizados) => {
+    const query = `
+        INSERT INTO banho_e_tosa (
+            agendamento_id, 
+            servico_id, 
+            animal_id, 
+            banhoetosa_tipotosa, 
+            banhoetosa_produtosutilizados
+        ) VALUES (?, ?, ?, ?, ?)
+    `;
 
     return new Promise((resolve, reject) => {
-        db.query(query, [servico_id, banhoetosa_tipotosa, banhoetosa_produtosutilizados, animal_id], (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
+        db.query(
+            query,
+            [agendamento_id, servico_id, animal_id, banhoetosa_tipotosa, banhoetosa_produtosutilizados],
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            }
+        );
     });
 };
 

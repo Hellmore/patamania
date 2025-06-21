@@ -1,35 +1,38 @@
 const db = require('../utils/db');
 
 const cadastrar = (
-  servico_id,
-  hospedagem_tipo,
-  hospedagem_necessidadesespeciais,
-  animal_id
+    servico_id,
+    hospedagem_tipo,
+    hospedagem_necessidadesespeciais,
+    animal_id,
+    agendamento_id
 ) => {
-  const query = `
-    INSERT INTO hospedagem (
-      servico_id,
-      hospedagem_tipo,
-      hospedagem_necessidadesespeciais,
-      animal_id
-    ) VALUES (?, ?, ?, ?)
-  `;
-
-  return new Promise((resolve, reject) => {
-    db.query(
-      query,
-      [
+    const query = `
+      INSERT INTO hospedagem (
         servico_id,
         hospedagem_tipo,
         hospedagem_necessidadesespeciais,
-        animal_id
-      ],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
+        animal_id,
+        agendamento_id
+      ) VALUES (?, ?, ?, ?, ?)
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(
+            query,
+            [
+                servico_id,
+                hospedagem_tipo,
+                hospedagem_necessidadesespeciais,
+                animal_id,
+                agendamento_id
+            ],
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            }
+        );
+    });
 };
 
 const listarTodos = () => {
