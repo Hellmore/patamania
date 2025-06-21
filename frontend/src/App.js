@@ -86,11 +86,8 @@ function App() {
             <Route path="/agendamentos/consulta-veterinaria" element={<PageAgendamentoConsultaVeterinaria />} />
             <Route path="/agendamentos/passeio" element={<PageAgendamentoPasseio />} />
             <Route path="/agendamentos/hospedagem" element={<PageAgendamentoHospedagem />} />
-<<<<<<< Updated upstream
             <Route path="/profile/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
-=======
             <Route path="/profile/animais" element={<PageMeusAnimais />} />
->>>>>>> Stashed changes
           </Route>
 
           {/* Layout vazio */}
