@@ -13,7 +13,7 @@ import racao from '../img/ração metade.png';
 
 import oferta_tosa from '../img/Oferta de pacote de tosa.png';
 import anuncio_vacinacao from '../img/Anúncio vacinação.png';
-import CarouselProdutos from './CarouselProdutos';
+import CarouselProdutos from './CarouselProdutos.jsx';
 import { produtosHigiene, produtosAcessorios } from './mockProdutos';
 import arrow from '../img/arrow.png';
 

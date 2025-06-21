@@ -50,3 +50,27 @@
     display: flex;
     justify-content: center;
 }
+
+
+.footer {
+    width: 100%;
+    display: absolute;
+    align-items: center;
+    margin-top: 25rem;
+    background-color: transparent;
+}
+
+.content_footer {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 1080px) {
+    .footer {
+    width: 100%;
+    display: absolute;
+    align-items: center;
+    margin-top: 53em;
+}
+}
