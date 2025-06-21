@@ -1,0 +1,24 @@
+.container {
+    margin-top: 6rem;
+}
+
+.conteudo {
+    margin: 1rem;
+
+}
+
+.conteudo p {
+    margin-bottom: 0.5rem;
+}
+
+.agendamentoItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    align-items: center;
+    margin-left: 14rem;
+}
+
+.without_undeline {
+  text-decoration: none;
+}
