@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@1000&display=swap");
+
+.container {
+  margin-top: 120px; /* espaço navbar fixa */
+  margin-bottom: 40px; /* espaço footer fixo */
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+  display: flex;
+  justify-content: space-around; /* espaço entre form e lista */
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px; /* aumentei o espaçamento entre os blocos */
+}
+
+.form {
+  background-color: #fdf8f3;
+  width: 500px; /* AUMENTEI o tamanho do formulário */
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+}
+
+.lista {
+  width: 600px; /* AUMENTEI o tamanho da lista */
+  background-color: #fdf8f3;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  max-height: 700px; /* AUMENTEI a altura máxima */
+  overflow-y: auto;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #4d3f2f;
+  margin-bottom: 20px;
+  font-family: "Baloo 2", cursive;
+  font-weight: 1000;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2e7c73;
+}
+
+.botao {
+  background-color: #2e7c73;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.botao:hover {
+  background-color: #1e5d55;
+}
+
+.botaoCancelar {
+  background-color: #a03a3a;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.botaoCancelar:hover {
+  background-color: #6e2424;
+}
+
+.lista ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.item {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px; /* Aumentei um pouco o padding */
+  margin-bottom: 15px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.item div {
+  margin-top: 10px;
+}
+
+.botaoEditar,
+.botaoDeletar {
+  border: none;
+  padding: 8px 18px; /* Deixei os botões um pouco maiores */
+  border-radius: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.botaoEditar {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.botaoEditar:hover {
+  background-color: #2c5bbf;
+}
+
+.botaoDeletar {
+  background-color: #d9534f;
+  color: white;
+}
+
+.botaoDeletar:hover {
+  background-color: #b52b27;
+}
+
+.mensagem {
+  text-align: center;
+  font-weight: bold;
+  color: #2e7c73; /* verde para sucesso/alerta */
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}

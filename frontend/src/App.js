@@ -24,6 +24,7 @@ import PageAgendamentoBanhoTosa from './components/pages/PageAgendamentoBanhoTos
 import PageAgendamentoConsultaVeterinaria from './components/pages/PageAgendamentoConsultaVeterinaria';
 import PageAgendamentoPasseio from './components/pages/PageAgendamentoPasseio';
 import PageAgendamentoHospedagem from "./components/pages/PageAgendamentoHospedagem";
+import PageMeusAnimais from "./components/pages/PageMeusAnimais";
 
 import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
@@ -85,7 +86,11 @@ function App() {
             <Route path="/agendamentos/consulta-veterinaria" element={<PageAgendamentoConsultaVeterinaria />} />
             <Route path="/agendamentos/passeio" element={<PageAgendamentoPasseio />} />
             <Route path="/agendamentos/hospedagem" element={<PageAgendamentoHospedagem />} />
+<<<<<<< Updated upstream
             <Route path="/profile/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
+=======
+            <Route path="/profile/animais" element={<PageMeusAnimais />} />
+>>>>>>> Stashed changes
           </Route>
 
           {/* Layout vazio */}
