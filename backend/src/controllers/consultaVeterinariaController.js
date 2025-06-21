@@ -4,49 +4,50 @@ const animalModel = require('../models/animalModel');
 
 const cadastrar = async (req, res) => {
   const {
-    servico_id,
+    animal_id,
     consultaveterinaria_especialidade,
     consultaveterinaria_tipo,
     consultaveterinaria_vacinasaplicadas,
     consultaveterinaria_examesrealizados,
-    animal_id,
   } = req.body;
 
-  if (
-    !servico_id ||
-    !consultaveterinaria_especialidade ||
-    !consultaveterinaria_tipo ||
-    !animal_id
-  ) {
+  const servico_id = 3; // id fixo para Consulta Veterinária
+  const agendamento_status = 'PENDENTE';
+
+  if (!animal_id || !consultaveterinaria_especialidade || !consultaveterinaria_tipo) {
     return res.status(400).send('Campos obrigatórios não preenchidos.');
   }
 
   try {
-    const servico = await servicoModel.buscarPorId(servico_id);
-    if (!servico) {
-      return res.status(400).send("Serviço associado não encontrado.");
-    }
+    // 1) Cadastrar agendamento
+    const agendamentoResult = await agendamentoModel.cadastrar(
+      req.usuario.id, // usuario_id do token
+      animal_id,
+      servico_id,
+      agendamento_status,
+      new Date() // datahora atual (se precisar ajustar no model)
+    );
+    const agendamento_id = agendamentoResult.insertId;
 
-    if (servico.servico_categoria !== 'CONSULTA') {
-      return res.status(400).send("O serviço_id informado não corresponde a um serviço do tipo CONSULTA.");
-    }
-
-    const animal = await animalModel.buscarPorId(animal_id);
-    if (!animal) {
-        return res.status(400).send("O animal informado não existe.");
-    }
-
-    await consultaVeterinariaModel.cadastrar(
+    // 2) Cadastrar consulta veterinária vinculando agendamento
+    const consultaResult = await consultaVeterinariaModel.cadastrar(
       servico_id,
       consultaveterinaria_especialidade,
       consultaveterinaria_tipo,
-      consultaveterinaria_vacinasaplicadas || null,
-      consultaveterinaria_examesrealizados || null,
-      animal_id
+      consultaveterinaria_vacinasaplicadas || '',
+      consultaveterinaria_examesrealizados || '',
+      animal_id,
+      agendamento_id
     );
-    res.status(201).send('Consulta veterinária cadastrada com sucesso!');
+
+    res.status(201).json({
+      message: 'Agendamento de consulta veterinária cadastrado com sucesso!',
+      agendamento_id,
+      consultaveterinaria_id: consultaResult.insertId,
+    });
   } catch (error) {
-    res.status(500).send('Erro ao cadastrar consulta: ' + error.message);
+    console.error(error);
+    res.status(500).send('Erro ao cadastrar consulta veterinária: ' + error.message);
   }
 };
 

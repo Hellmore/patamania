@@ -1,37 +1,17 @@
 const db = require('../utils/db');
 
-const cadastrar = (        
-    cliente_id,
-    animal_id,
-    servico_id,
-    agendamento_status
-) => {
-    const query = `
-        INSERT INTO agendamento 
-        (        
-        cliente_id,
-        animal_id,
-        servico_id,
-        agendamento_status
-        ) 
-        VALUES (?, ?, ?, ?)
-    `;
-    return new Promise((resolve, reject) => {
-        db.query(
-            query, 
-            [        
-                cliente_id,
-                animal_id,
-                servico_id,
-                agendamento_status
-            ], 
-            (err, result) => {
-                if (err) return reject(err);
-                resolve(result);
-            }
-        );
-    
+const cadastrar = (usuario_id, animal_id, servico_id, agendamento_status, agendamento_datahora) => {
+  const query = `
+    INSERT INTO agendamento 
+    (usuario_id, animal_id, servico_id, agendamento_status, agendamento_datahora) 
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  return new Promise((resolve, reject) => {
+    db.query(query, [usuario_id, animal_id, servico_id, agendamento_status, agendamento_datahora], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
     });
+  });
 };
 
 const listarTodos = () => {

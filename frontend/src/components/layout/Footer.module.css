@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 .footer {
   background-color: #fdf8f3; /* tom suave como o da imagem */
-  padding: 40px 20px;
-  font-family: 'Roboto', sans-serif;
+  padding: 16px;
+  font-family: "Roboto", sans-serif;
   color: #333;
 }
 
@@ -16,8 +16,8 @@
 
 .footer_header {
   display: flex;
-  gap: 70em;
-  margin-left: 20px;
+  /*   gap: 70em; */
+  /* margin-left: 20px; */
   align-items: center;
 }
 
@@ -32,7 +32,7 @@
   gap: 20px;
 }
 
-.content .title p{
+.content .title p {
   margin-bottom: 5px;
 }
 
@@ -86,7 +86,7 @@
 
 hr {
   border: 0;
-  border-top: 1px solid #B2CA74;
+  border-top: 1px solid #b2ca74;
   margin: 20px 0;
 }
 
@@ -117,12 +117,11 @@ hr {
   margin-top: 20px;
 }
 
-
 @media (max-width: 1920px) {
   .footer_header {
-    gap: 55em;
+    /*     gap: 55em;
     margin-left: 5em;
-    margin-bottom: 3em;
+    margin-bottom: 3em; */
   }
 
   .title {
@@ -151,5 +150,4 @@ hr {
 }
 
 @media (max-width: 320px) {
-  
 }

@@ -193,7 +193,7 @@ async function seedProdutos() {
             produto.produto_fabricante,
             produto.produto_origem,
             produto.produto_instrucoes,
-            produto.produto_validade,
+            produto.produto_tipo === 'NAO PERECIVEL' ? null : produto.produto_validade,
             produto.produto_imagem,
             produto.produto_codigobarras,
             produto.produto_estoque,

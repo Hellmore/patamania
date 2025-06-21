@@ -1,44 +1,53 @@
 const passeioModel = require('../models/passeioModel');
 const servicoModel = require('../models/servicoModel');
 const animalModel = require('../models/animalModel');
+const agendamentoModel = require('../models/agendamentoModel');
 
 const cadastrar = async (req, res) => {
-  const {
-    servico_id,
-    passeio_tipo,
-    passeio_nivelatividade,
-    animal_id
-  } = req.body;
+    const {
+        animal_id,
+        passeio_tipo,
+        passeio_nivelatividade
+    } = req.body;
 
-  if (!servico_id || !passeio_tipo || !passeio_nivelatividade || !animal_id) {
-    return res.status(400).send("Todos os campos são obrigatórios.");
-  }
+    const servico_id = 2; // id fixo para Passeio
+    const agendamento_status = 'PENDENTE';
 
-  try {
-    const servico = await servicoModel.buscarPorId(servico_id);
-    if (!servico) {
-      return res.status(400).send("Serviço associado não encontrado.");
+    if (!animal_id || !passeio_tipo || !passeio_nivelatividade) {
+        return res.status(400).send('Campos obrigatórios não preenchidos.');
     }
 
-    if (servico.servico_categoria !== 'PASSEIO') {
-      return res.status(400).send("O serviço_id informado não corresponde a um serviço do tipo PASSEIO.");
-    }
+    try {
+        // 1. Cadastrar agendamento e obter o id
+        const agendamentoResult = await agendamentoModel.cadastrar(
+            req.usuario.id, // usuario_id vindo do token
+            animal_id,
+            servico_id,
+            agendamento_status,
+            new Date()
+        );
 
-    const animal = await animalModel.buscarPorId(animal_id);
-    if (!animal) {
-      return res.status(400).send("O animal informado não existe.");
-    }
+        const agendamento_id = agendamentoResult.insertId;
 
-    await passeioModel.cadastrar(
-      servico_id,
-      passeio_tipo,
-      passeio_nivelatividade,
-      animal_id
-    );
-    res.status(201).send("Passeio cadastrado com sucesso!");
-  } catch (error) {
-    res.status(500).send("Erro ao cadastrar passeio: " + error.message);
-  }
+        // 2. Cadastrar passeio com o agendamento_id vinculado
+        const passeioResult = await passeioModel.cadastrar(
+            servico_id,
+            passeio_tipo,
+            passeio_nivelatividade,
+            animal_id,
+            agendamento_id
+        );
+
+        res.status(201).json({
+            message: 'Agendamento de passeio cadastrado com sucesso!',
+            agendamento_id,
+            passeio_id: passeioResult.insertId
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Erro ao cadastrar passeio: ' + error.message);
+    }
 };
 
 

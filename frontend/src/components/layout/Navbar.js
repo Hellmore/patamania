@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
-
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 import Navb from 'react-bootstrap/Navbar';
-import { Dropdown, Space, Typography } from 'antd';
+import { Dropdown, Space, Typography, Avatar, Button } from 'antd';
 
 import styles from "./Navbar.module.css";
 import logo from "../img/Logo Patamania.png";
@@ -13,7 +11,6 @@ import profile_img from "../img/Profile.png";
 import menu from "../img/menu.png";
 
 import React, { useState } from 'react';
-import { Avatar, Button } from 'antd';
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = React.useState({
@@ -30,7 +27,6 @@ function useWindowSize() {
     }
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -63,14 +59,10 @@ function Navbar() {
     },
     {
       key: '4',
-      label: <Link className={styles.without_undeline} to="/profile/orders">Meus Pedidos</Link>,
+      label: <Link className={styles.without_undeline} to="/profile/animais">Meus Animais</Link>,
     },
     {
       key: '5',
-      label: <Link className={styles.without_undeline} to="/cadastrar_pet">Cadastrar Pet</Link>,
-    },
-    {
-      key: '6',
       label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
     },
   ];
@@ -78,25 +70,7 @@ function Navbar() {
   const items = [
     {
       key: '1',
-      label: 'Produtos',
-      children: [
-        {
-          key: '1-1',
-          label: <Link className={styles.without_undeline} to="/alimentos">Alimentos</Link>,
-        },
-        {
-          key: '1-2',
-          label: <Link className={styles.without_undeline} to="/acessorios">Acessórios</Link>,
-        },
-        {
-          key: '1-3',
-          label: <Link className={styles.without_undeline} to="/higiene">Higiene</Link>,
-        },
-        {
-          key: '1-4',
-          label: <Link className={styles.without_undeline} to="/farmacia">Farmácia Pet</Link>,
-        },
-      ],
+      label: <Link className={styles.without_undeline} to="/alimentos">Produtos</Link>,
     },
     {
       key: '2',
@@ -104,25 +78,21 @@ function Navbar() {
       children: [
         {
           key: '2-1',
-          label: <Link className={styles.without_undeline} to="/banho_&_tosa">Banho e Tosa</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/banho-e-tosa">Banho e Tosa</Link>,
         },
         {
           key: '2-2',
-          label: <Link className={styles.without_undeline} to="/consultas">Consultas Veterinárias</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/consulta-veterinaria">Consultas Veterinárias</Link>,
         },
         {
           key: '2-3',
-          label: <Link className={styles.without_undeline} to="/passeios">Passeios</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/passeio">Passeios</Link>,
         },
         {
           key: '2-4',
-          label: <Link className={styles.without_undeline} to="/hospedagem">Hospedagem</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/hospedagem">Hospedagem</Link>,
         },
       ],
-    },
-    {
-      key: '3',
-      label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
     },
   ];
 
@@ -138,17 +108,7 @@ function Navbar() {
       
       <Navb>
         <Dropdown
-          menu={{
-            items,
-            selectable: true,
-            autoFocus: true,
-            onClick: (e) => {
-              if (e.key === '1') {
-                e.domEvent.stopPropagation();
-                e.domEvent.preventDefault();
-              }
-            },
-          }}
+          menu={{ items }}
         >
           <Typography.Link>
             <Space>
@@ -165,11 +125,7 @@ function Navbar() {
             <div>
               <Dropdown
                 className={styles.dropdown}
-                menu={{
-                  items: profile,
-                  selectable: true,
-                  autoFocus: true,
-                }}
+                menu={{ items: profile }}
               >
                 <Avatar 
                   style={{ backgroundColor: color, cursor: 'pointer' }} 

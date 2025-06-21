@@ -4,16 +4,18 @@ const cadastrar = async (
   servico_id,
   passeio_tipo,
   passeio_nivelatividade,
-  animal_id
+  animal_id,
+  agendamento_id
 ) => {
   return db.promise().query(
     `INSERT INTO passeio (
       servico_id,
       passeio_tipo,
       passeio_nivelatividade,
-      animal_id
-    ) VALUES (?, ?, ?, ?)`,
-    [servico_id, passeio_tipo, passeio_nivelatividade, animal_id]
+      animal_id,
+      agendamento_id
+    ) VALUES (?, ?, ?, ?, ?)`,
+    [servico_id, passeio_tipo, passeio_nivelatividade, animal_id, agendamento_id]
   );
 };
 
@@ -31,7 +33,8 @@ const atualizar = async (
   passeio_duracao,
   passeio_tipo,
   passeio_nivelatividade,
-  animal_id
+  animal_id,
+  agendamento_id
 ) => {
   return db.promise().query(
     `UPDATE passeio SET
@@ -39,9 +42,10 @@ const atualizar = async (
       passeio_duracao = ?,
       passeio_tipo = ?,
       passeio_nivelatividade = ?,
-      animal_id = ?
+      animal_id = ?,
+      agendamento_id = ?,
     WHERE passeio_id = ?`,
-    [servico_id, passeio_duracao, passeio_tipo, passeio_nivelatividade, animal_id, passeio_id]
+    [servico_id, passeio_duracao, passeio_tipo, passeio_nivelatividade, animal_id, agendamento_id, passeio_id]
   );
 };
 

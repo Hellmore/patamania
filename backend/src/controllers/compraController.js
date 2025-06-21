@@ -30,6 +30,16 @@ const buscarPorUsuario = async (req, res) => {
     }
 };
 
+const buscarDetalhadoPorUsuario = async (req, res) => {
+    const { usuario_id } = req.params;
+    try {
+        const detalhes = await compraModel.buscarDetalhadoPorUsuario(usuario_id);
+        res.json(detalhes);
+    } catch (err) {
+        res.status(500).send("Erro ao buscar histórico de compras detalhado: " + err.message);
+    }
+};
+
 const deletar = async (req, res) => {
     const { compra_id } = req.params;
     try {
@@ -46,5 +56,6 @@ module.exports = {
     listarTodos,
     buscarPorId,
     buscarPorUsuario,
+    buscarDetalhadoPorUsuario, // NOVO
     deletar
 };
