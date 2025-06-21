@@ -35,6 +35,7 @@ import ListarServicos from './components/pages/private/listar_servicos/ListarSer
 import EditUSer from './components/pages/private/listar_usuarios/EditUser';
 import EditProduct from './components/pages/private/listar_produtos/EditProduct';
 import EditService from './components/pages/private/listar_servicos/EditService';
+import ListarAgendamentos from './components/pages/private/listar_agendamentos/ListarAgendamentos';
 
 import Profile from './components/pages/profile/Profile';
 import EditProfile from './components/pages/profile/EditProfile';
@@ -120,6 +121,7 @@ function App() {
             <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct /></PrivateRoute>} />
             <Route path="/listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>} />
             <Route path="/edit_service/:servico_id" element={<PrivateRoute><EditService /></PrivateRoute>} />
+            <Route path="/listar_agendamentos" element={<PrivateRoute><ListarAgendamentos /></PrivateRoute>} />
           </Route>
         </Routes>
       </Router>
