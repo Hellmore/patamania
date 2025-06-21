@@ -1,16 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@1000&display=swap");
 
 .container {
-  /* padding: 20px; padding interno padrão */
   margin-top: 120px; /* espaço igual à altura da navbar fixa */
   margin-bottom: 40px; /* espaço igual à altura do footer fixo */
-  /*   background-color: #fdf8f3;
-  min-height: calc(100vh - 140px); /* altura total menos navbar+footer 
-  
-  margin-left: auto; 
-   margin-right: auto; 
-  border-radius: 20px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); */
   font-family: "Roboto", sans-serif;
   width: 100%;
   display: flex;
