@@ -161,7 +161,10 @@ const excluir = async (req, res) => {
         }
 
         await usuarioModel.excluir(usuario_id);
-        res.send('Usuário excluído com sucesso!');
+        res.send({
+          success: true,
+          message: 'Usuário excluído com sucesso!'
+        });
     } catch (err) {
         res.status(500).send('Erro ao excluir usuário: ' + err.message);
     }

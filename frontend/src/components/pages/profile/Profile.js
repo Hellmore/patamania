@@ -13,6 +13,7 @@ import styles from './Profile.module.css';
 import AlertDelecao from './AlertDelecao';
 
 function Profile() {
+    const navigate = useNavigate();
     const { user, logout } = useAuth();
     const { Header, Content, Footer } = Layout;
     const items = Array.from({ length: 15 }).map((_, index) => ({
@@ -28,17 +29,22 @@ function Profile() {
     const [loading, setLoading] = useState(true);
     const [userEndereco, setUserEndereco] = useState(null);
 
-    const handleDelete = async (userId) => {
+    const handleDelete = async () => {
         setLoading(true);
         try {
-        await axios.delete(`http://localhost:3001/usuarios/deletar/${userId}`, {
+            const response = await axios.delete(`http://localhost:3001/usuarios/deletar/${user.id}`, {
             headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
-        
-        message.success('Conta deletada com sucesso!');
-        logout(); // Chama a função de logout após a exclusão
+            
+            if (response.data.success) {
+                message.success('Conta deletada com sucesso!');
+                await logout(); // Aguarda o logout ser concluído
+                navigate('/'); // Redireciona para a página inicial
+            } else {
+                throw new Error(response.data.message || 'Falha ao deletar conta');
+            }
         } catch (error) {
             message.error('Erro ao deletar a conta: ' + error.message);
         } finally {
@@ -154,9 +160,7 @@ function Profile() {
                             )}
                             <Link to={`/profile/${authUser.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
                             <Divider style={{ borderColor: '#2D6B6A' }}>Deleção de conta</Divider>
-                            <Link to={`/profile/${authUser.id}/delete`} className={styles.btn_delete}>
-                                 <AlertDelecao onConfirm={() => handleDelete(user.id)}/>
-                            </Link>
+                            <AlertDelecao onConfirm={() => handleDelete()}/>
                         </div>
 
                     ) : (
@@ -164,9 +168,11 @@ function Profile() {
                     )}
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-                Patamania ©{new Date().getFullYear()}
-            </Footer>
+            <div className={styles.footer}>
+                <Footer className={styles.content_footer} style={{ textAlign: 'center'}}>
+                    Patamania ©{new Date().getFullYear()}
+                </Footer>
+            </div>
         </Layout>
     );
 }
