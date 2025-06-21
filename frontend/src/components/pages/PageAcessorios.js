@@ -9,7 +9,7 @@ import img6 from '../img/6.png';
 import img7 from '../img/7.png';
 import img8 from '../img/8.png';
 import img9 from '../img/9.png';
-import img10 from '../img/dog.png'; // exemplo para o 10º produto
+
 
 const produtosMock = [
   {
@@ -21,67 +21,61 @@ const produtosMock = [
   },
   {
     id: 2,
-    nome: "Granado - Shampoo PET Desembaraçador",
+    nome: "Coleira verde - Wendy",
     preco: "44,90",
     avaliacao: 4.7,
     imagem: img2,
   },
   {
     id: 3,
-    nome: "Granado - Condicionador PET Neutro",
+    nome: "Coleira multi",
     preco: "56,00",
     avaliacao: 4.8,
     imagem: img3,
   },
   {
     id: 4,
-    nome: "Petisco Premier Pet Cookie de Frutas",
+    nome: "Coleira terracota",
     preco: "16,40",
     avaliacao: 4.0,
     imagem: img4,
   },
   {
     id: 5,
-    nome: "Guia FLEXI New Classic Corda M - Preto",
+    nome: "Coleira baby rose",
     preco: "146,04",
     avaliacao: 4.9,
     imagem: img5,
   },
   {
     id: 6,
-    nome: "Caminha Pet Confort Luxo Tam M",
+    nome: "Coleira frutas",
     preco: "199,99",
     avaliacao: 4.6,
     imagem: img6,
   },
   {
     id: 7,
-    nome: "Brinquedo Mordedor de Borracha PetFun",
+    nome: "Peitoral colors",
     preco: "22,90",
     avaliacao: 4.5,
     imagem: img7,
   },
   {
     id: 8,
-    nome: "Coleira Estampada Ajustável",
+    nome: "Coleira ajustável",
     preco: "35,00",
     avaliacao: 4.3,
     imagem: img8,
   },
   {
     id: 9,
-    nome: "Tapete Higiênico Ultra Seco c/ 30 un",
+    nome: "Laços",
     preco: "89,90",
     avaliacao: 4.7,
     imagem: img9,
   },
-  {
-    id: 10,
-    nome: "Shampoo Antipulgas para Cães 500ml",
-    preco: "32,50",
-    avaliacao: 4.4,
-    imagem: img10,
-  },
+  
 ];
 
 function PageAcessorios() {
