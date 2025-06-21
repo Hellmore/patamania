@@ -24,7 +24,6 @@ function Profile() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const { user: authUser } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [userEndereco, setUserEndereco] = useState(null);
@@ -55,7 +54,7 @@ function Profile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/usuarios/buscar/${authUser.id}`, {
+                const response = await axios.get(`http://localhost:3001/usuarios/buscar/${user.id}`, {
                     headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -89,11 +88,11 @@ function Profile() {
             }
         };
 
-        if (authUser?.id) {
+        if (user?.id) {
             fetchUserData();
             fetchEnderecoData();
         }
-    }, [authUser]);
+    }, [user]);
 
     const displayPassword = () => {
         return '*'.repeat(8); // Sempre mostra 8 asteriscos
@@ -158,7 +157,7 @@ function Profile() {
                             ) : (
                                 <></>
                             )}
-                            <Link to={`/profile/${authUser.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
+                            <Link to={`/profile/${user.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
                             <Divider style={{ borderColor: '#2D6B6A' }}>Deleção de conta</Divider>
                             <AlertDelecao onConfirm={() => handleDelete()}/>
                         </div>
