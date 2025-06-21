@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 .home_container {
-  padding-top: 650px;
+  padding-top: 600px;
   position: relative;
   width: 100%;
   height: 100%;
@@ -16,7 +16,6 @@
   margin-bottom: 2rem;
   padding-bottom: 2rem;
 }
-
 
 .imagens {
   position: relative;
@@ -56,20 +55,21 @@
   z-index: 4;
 }
 
-/* Conteúdo de texto central */
 .prim_part {
   position: absolute;
-  top: 25%;
+  top: 1%; 
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   text-align: center;
   z-index: 5;
+  max-width: 600px;
+  width: 90%;
 }
 
 .prim_part h1 {
   font-family: "Jua", sans-serif;
   font-weight: 400;
-  font-size: 3em;
+  font-size: 4.7em; /* tamanho grande */
   margin-bottom: 0;
   font-style: normal;
 }
@@ -77,13 +77,22 @@
 .prim_part p {
   font-family: "Roboto", sans-serif;
   margin: 0;
-  margin-bottom: 0.8em;
-  font-size: 1.2em;
-  font-weight: 300;
+  margin-bottom: 1em;
+  font-size: 1.4em;
+  font-weight: 400;
 }
 
-.button_buscar {
-  display: inline-block;
+/* Container dos botões alinhados lado a lado */
+.botoes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 1rem;
+}
+
+/* Botões estilizados iguais - dimensões antigas do botão buscar */
+.button_buscar,
+.button_servicos {
   background-color: #2e7c73;
   color: white;
   padding: 10px 20px;
@@ -91,10 +100,18 @@
   text-decoration: none;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
+  font-size: 1em;
   transition: background-color 0.3s;
+  min-width: 130px;
+  text-align: center;
+  user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.button_buscar:hover {
+.button_buscar:hover,
+.button_servicos:hover {
   background-color: #1e5d55;
 }
 
@@ -173,14 +190,15 @@
 
   .prim_part {
     font-size: 16px;
-    top: 15%;
+    top: 10%;
   }
 
-  .button_buscar {
+  .button_buscar,
+  .button_servicos {
     border-radius: 25px;
   }
 
-   .cont_carousel {
+  .cont_carousel {
     margin-top: -25em;
     padding: 5em;
   }
@@ -197,7 +215,7 @@
     margin-left: 15em;
   }
 
-  .banner img{
+  .banner img {
     width: 90em;
     display: block;
   }
@@ -237,12 +255,13 @@
   }
 
   .prim_part {
-    font-size: 12px;
-    top: 18%;
+    font-size: 14px;
+    top: 8%;
   }
 
-  .button_buscar {
-    font-size: 16px;
+  .button_buscar,
+  .button_servicos {
+    font-size: 14px;
   }
 
   .arrow_back, .arrow_skip {
@@ -257,7 +276,7 @@
     margin-left: 10em;
   }
 
-  .banner img{
+  .banner img {
     width: 70em;
     display: block;
   }
@@ -305,12 +324,15 @@
 
   .prim_part {
     font-size: 12px;
-    top: 25%;
-    width: 500px;
+    top: 5%;
+    width: 90%;
   }
 
-  .button_buscar {
+  .button_buscar,
+  .button_servicos {
     font-size: 14px;
+    padding: 10px 20px;
+    min-width: 120px;
   }
 
   .arrow_back, .arrow_skip {
@@ -332,7 +354,7 @@
     margin-bottom: auto;
   }
 
-  .banner img{
+  .banner img {
     width: 100%;
     display: block;
   }
