@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.0",
     "mysql2": "^3.14.1",
+    "react-multi-carousel": "^2.8.6",
     "ua-parser-js": "^2.0.3",
     "useragent": "^2.3.0"
   },

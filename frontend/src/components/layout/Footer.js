@@ -20,15 +20,18 @@ function Footer() {
         <div className={styles.logo}>
             <img className={styles.patamania} src={logo_patamania} alt="Logo Patamania" />
         </div>
-        <div className={styles.rede_sociais}>
-          <p className={styles.title}>Siga-nos</p>
-          <ul className={styles.social_list}>
-            <li><FaSquareXTwitter /></li>
-            <li><AiFillTikTok /></li>
-            <li><FaInstagram /></li>
-            <li><FaFacebook /></li>
-          </ul>
-        </div>
+        {/*
+<div className={styles.rede_sociais}>
+  <p className={styles.title}>Siga-nos</p>
+  <ul className={styles.social_list}>
+    <li><FaSquareXTwitter /></li>
+    <li><AiFillTikTok /></li>
+    <li><FaInstagram /></li>
+    <li><FaFacebook /></li>
+  </ul>
+</div>
+*/}
+
       </div>
       <div className={styles.content}>
         <div className={styles.title}>
@@ -60,11 +63,6 @@ function Footer() {
             <p>Contatos</p>
             <ul>Telefone: +55 (00)00000-0000</ul>
             <ul>E-mail: patamania@mania.com</ul>
-          </div>
-          <div className={styles.title}>
-            <p>Endereço</p>
-            <ul>CEP: 13082-015 - Campinas - SP - Brasil</ul>
-            <ul>CNPJ: 00.000.000/0000-01</ul>
           </div>
       </div>      
       <hr />
