@@ -82,6 +82,7 @@ function App() {
             <Route path="/agendamentos/consulta-veterinaria" element={<PageAgendamentoConsultaVeterinaria />} />
             <Route path="/agendamentos/passeio" element={<PageAgendamentoPasseio />} />
             <Route path="/agendamentos/hospedagem" element={<PageAgendamentoHospedagem />} />
+            <Route path="/profile/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
           </Route>
 
           {/* Layout vazio */}
