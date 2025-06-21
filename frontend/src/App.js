@@ -32,13 +32,17 @@ import ListarServicos from './components/pages/private/listar_servicos/ListarSer
 // Perfil do usuário
 import Profile from './components/pages/profile/Profile';
 import EditProfile from './components/pages/profile/EditProfile';
+import EditEndereco from './components/pages/profile/EditEndereco'; 
 import Orders from './components/pages/profile/Orders';
-
-//Edição do usuário
+import CadastrarEndereco from './components/pages/profile/CadastrarEndereco';
+// Edição do usuário
 import EditUSer from './components/pages/private/listar_usuarios/EditUser';
 
-//Edição do produto
+// Edição do produto
 import EditProduct from './components/pages/private/listar_produtos/EditProduct';
+
+// Edição do servilo
+import EditService from './components/pages/private/listar_servicos/EditService';
 
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -102,6 +106,29 @@ function App() {
             <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct /></PrivateRoute>} />
             {/* Rota de gerenciar serviços */}
             <Route exact path="listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>} />
+
+          {/* Rota para o admin */}
+          <Route element={<LayoutAdmin/>}>
+              <Route exact path="/home_admin" element={<PrivateRoute><HomeAdmin/></PrivateRoute>}></Route>
+              {/* Rota da ação da listagem de usuários */}
+              <Route exact path="/listar_usuarios" element={<PrivateRoute><ListarUsuario/></PrivateRoute>}/>
+              <Route path="/edit_user/:usuario_id" element={<PrivateRoute><EditUSer/></PrivateRoute>}/>
+              {/* Rota para gerenciar produtos */}
+              <Route exact path="/cadastrar_produto" element={<PrivateRoute><CadastrarProduto /></PrivateRoute>}/>
+              <Route exact path="/listar_produtos" element={<PrivateRoute><ListarProdutos /></PrivateRoute>}/>
+              <Route path="/edit_product/:produto_id" element={<PrivateRoute><EditProduct/></PrivateRoute>}/>
+              {/* Rota de gerenciar serviços */}
+              <Route exact path="/cadastrar_servico" element={<PrivateRoute><CadastrarServico /></PrivateRoute>}/>
+              <Route exact path="listar_servicos" element={<PrivateRoute><ListarServicos /></PrivateRoute>}/>
+              <Route path="edit_service/:servico_id" element={<PrivateRoute><EditService /></PrivateRoute>}/>
+          </Route>
+
+          {/* Rota para o edição de perfil em ambos usuários */}
+          <Route element={<LayoutEmpty />}>
+            <Route exact path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>}/>
+            <Route exact path="/profile/:id/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
+            <Route exact path="/profile/:id/address" element={<PrivateRoute><EditEndereco /></PrivateRoute>}/>
+            <Route exact path="/cadastrar_endereco" element={<PrivateRoute><CadastrarEndereco /></PrivateRoute>}/>
           </Route>
         </Routes>
       </Router>

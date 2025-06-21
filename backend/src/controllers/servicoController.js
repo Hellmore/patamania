@@ -67,56 +67,39 @@ const buscarPorId = async (req, res) => {
 
 const atualizar = async (req, res) => {
   const { servico_id } = req.params;
-  const {
-    servico_nome,
-    servico_descricao,
-    servico_categoria,
-    servico_preco,
-    servico_disponibilidade,
-    servico_localizacao,
-    servico_profissionalresponsavel,
-    servico_responsavelagendamento,
-    servico_duracao,
-    servico_taxa
-  } = req.body;
-
-  if (
-    !servico_nome ||
-    !servico_descricao ||
-    !servico_categoria ||
-    servico_preco === undefined ||
-    !servico_disponibilidade ||
-    !servico_localizacao ||
-    !servico_profissionalresponsavel ||
-    servico_responsavelagendamento === undefined ||
-    servico_duracao === undefined ||
-    servico_taxa === undefined
-  ) {
-    return res.status(400).send("Todos os campos são obrigatórios.");
-  }
 
   try {
     const servicoExistente = await servicoModel.buscarPorId(servico_id);
-    if (!servicoExistente) return res.status(404).send("Serviço não encontrado.");
+    if (!servicoExistente) {
+      return res.status(404).send("Serviço não encontrado.");
+    }
 
     await servicoModel.atualizar(
       servico_id,
-      servico_nome,
-      servico_descricao,
-      servico_categoria,
-      servico_preco,
-      servico_disponibilidade,
-      servico_localizacao,
-      servico_profissionalresponsavel,
-      servico_responsavelagendamento,
-      servico_duracao,
-      servico_taxa
+      req.body.servico_nome,
+      req.body.servico_descricao,
+      req.body.servico_categoria,
+      req.body.servico_preco,
+      req.body.servico_disponibilidade,
+      req.body.servico_localizacao,
+      req.body.servico_profissionalresponsavel,
+      req.body.servico_responsavelagendamento,
+      req.body.servico_duracao,
+      req.body.servico_taxa
     );
-    res.send("Serviço atualizado com sucesso!");
+
+    res.status(200).json({
+      success: true,
+      message: "Serviço atualizado com sucesso!"
+    });
   } catch (error) {
-    res.status(500).send("Erro ao atualizar serviço: " + error.message);
-  }
+      res.status(500).json({
+        success: false,
+        message: "Erro ao atualizar serviço: " + error.message
+      });
+    }
 };
+
 
 const deletar = async (req, res) => {
   const { servico_id } = req.params;

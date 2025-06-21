@@ -6,23 +6,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Flex, Spin } from 'antd';
+import { Link } from 'react-router-dom';
 
 import styles from './EditProfile.module.css';
+import arrow_back from '../../img/arrow_back.svg';
 
 function EditProfile() {
   const navigate = useNavigate();
-  const { user: authUser } = useAuth();
   const [originalUserData, setOriginalUserData] = useState(null);  
   const [userData, setUserData] = useState(null);
-  const { register, formState: { errors }, handleSubmit, getValues, setError } = useForm();
-  const [submitError, setSubmitError] = useState('');
+  const { register, formState: { errors }, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
-  const { usuario_id } = useParams();
-  
   const today = new Date();
+  const [userEndereco, setUserEndereco] = useState(null);
+  const { user } = useAuth();
+
   const eighteenYearsAgo = new Date(
     today.getFullYear() - 18,
     today.getMonth(),
@@ -30,9 +30,28 @@ function EditProfile() {
   );
 
     useEffect(() => {
+      const fetchEndereco = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3001/enderecos/buscar-por-user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          if (response.data.data === null) {
+            setUserEndereco(null);
+          } else {
+            setUserEndereco(response.data);
+          }
+        } catch (error) {
+          console.error('Não foi possível procurar o endereço do usuário!');
+          setUserEndereco(null);
+        } finally {
+          setLoading(false);
+        }
+      };
     const fetchUser = async () => {
       try {
-      const response = await axios.get(`http://localhost:3001/usuarios/buscar/${usuario_id}`, {
+      const response = await axios.get(`http://localhost:3001/usuarios/buscar/${user.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -47,7 +66,10 @@ function EditProfile() {
     }
     };
     fetchUser();
-  }, [usuario_id]);
+    if(user?.id) {
+      fetchEndereco();
+    }
+  }, [user.id]);
   
   if (loading) {
     return (
@@ -93,7 +115,7 @@ const onSubmit = async (data) => {
     }
     
     const response = await axios.put(
-      `http://localhost:3001/usuarios/atualizar/${usuario_id}`,
+      `http://localhost:3001/usuarios/${user.id}`,
       updateData,
       {
         headers: {
@@ -110,7 +132,7 @@ const onSubmit = async (data) => {
         ...updateData
       }));
       alert(response.data.message);
-      navigate('/listar_usuarios')
+      navigate('/profile')
     } else {
       throw new Error(response.data.message || 'Erro ao atualizar');
     }
@@ -137,7 +159,8 @@ const onSubmit = async (data) => {
   return (
     <Container fluid className={styles.background}>
     <div className={styles.content}>
-      <h1 className={styles.title}>Edit Profile</h1>
+      <div className={styles.arrow_back}><Link to={userData.usuario_tipo === "ADMIN" ? ("/home_admin") : ("/")}><img src={arrow_back} alt="" /></Link></div>
+      <h1 className={styles.title}>Editar perfil</h1>
       { userData ? (
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group>
@@ -232,8 +255,22 @@ const onSubmit = async (data) => {
               />
               {errors.pais && <p className={styles.erro}>{errors.pais.message}</p>}
           </Form.Group>
-
-          <div className={styles.button}>
+            
+          { userData.usuario_tipo === 'CLIENTE' ? (
+            userEndereco ? (
+              <div>
+                  <Link to={`/profile/${user.id}/address`} className={styles.button} style={{textDecoration:"none", color:"#00008B", fontWeight:500}}>Alterar Endereço</Link>
+              </div>
+          ) : (
+              <div>
+                  <Link to={`/cadastrar_endereco`} className={styles.button} style={{textDecoration:"none", color:"#00008B", fontWeight:500}}>Cadastrar Endereço</Link>
+              </div>
+          )
+         ) : (
+            <></>
+          )
+          }
+          <div className={styles}>
             <input 
               className={styles.submit_button} 
               type="submit" 

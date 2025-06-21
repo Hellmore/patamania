@@ -19,6 +19,7 @@
 }
 
 .button {
+    margin-bottom: 1rem;
     width: 100%;
     height: 2.5rem;
     background-color: #f0f0f0;
@@ -32,4 +33,20 @@
 
 .button:hover {
     background-color: #e0e0e0;
+}
+
+.arrow_back img {
+    width: 5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.alert {
+    margin-bottom: 2rem;;
+}
+
+.loading_content {
+    margin-top: 25%;
+    display: flex;
+    justify-content: center;
 }
