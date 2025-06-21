@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import styles from './PageAcessorios.module.css';
+import styles from './PageAlimentos.module.css';
 import { useAuth } from "../../context/AuthContext";
 
-function PageAcessorios() {
+function PageAlimentos() {
   const [produtos, setProdutos] = useState([]);
   const { user } = useAuth();
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
+  const [totalItensCarrinho, setTotalItensCarrinho] = useState(0);
 
-  // Lista dos nomes de produtos que você quer exibir
   const nomesFiltrados = [
     "Ração Premium",
     "Ração Golden Premium para Gatos",
@@ -16,6 +16,7 @@ function PageAcessorios() {
     "Ração Premium para Gatos"
   ];
 
+  // Busca produtos filtrados
   useEffect(() => {
     fetch('http://localhost:3001/produtos/lista')
       .then((res) => {
@@ -35,6 +36,25 @@ function PageAcessorios() {
         setCarregando(false);
       });
   }, []);
+
+  // Busca quantidade total de itens no carrinho do usuário
+  useEffect(() => {
+    if (!user?.id) {
+      setTotalItensCarrinho(0);
+      return;
+    }
+
+    fetch(`http://localhost:3001/item_carrinho/usuario/${user.id}`)
+      .then(res => res.json())
+      .then(data => {
+        const total = data.reduce((acc, item) => acc + item.item_quantidade, 0);
+        setTotalItensCarrinho(total);
+      })
+      .catch(err => {
+        console.error('Erro ao buscar itens do carrinho:', err);
+        setTotalItensCarrinho(0);
+      });
+  }, [user]);
 
   const handleAdicionarAoCarrinho = async (produto) => {
     try {
@@ -78,6 +98,7 @@ function PageAcessorios() {
         })
       });
 
+      setTotalItensCarrinho(prev => prev + 1); // Atualiza o total localmente
       alert("Produto adicionado ao carrinho!");
     } catch (err) {
       console.error("Erro ao adicionar item:", err);
@@ -91,6 +112,13 @@ function PageAcessorios() {
   return (
     <div className={styles.container}>
       <h1 className={styles.titulo}>Produtos Selecionados</h1>
+
+      {user && (
+        <p style={{ textAlign: "right", fontWeight: "bold" }}>
+          Itens no carrinho: {totalItensCarrinho}
+        </p>
+      )}
+
       <div className={styles.grid}>
         {produtos.map((produto) => (
           <div className={styles.card} key={produto.produto_id}>
@@ -115,4 +143,4 @@ function PageAcessorios() {
   );
 }
 
-export default PageAcessorios;
+export default PageAlimentos;
