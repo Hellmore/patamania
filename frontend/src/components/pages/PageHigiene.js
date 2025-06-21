@@ -1,76 +1,59 @@
-import styles from './PageHigiene.module.css';
+import { useEffect, useState } from 'react';
+import styles from './PageAcessorios.module.css';
 
-import higi1 from '../img/higi1.png';
-import higi2 from '../img/higi2.png';
-import higi3 from '../img/higi3.png';
-import higi4 from '../img/higi4.png';
-import higi5 from '../img/higi5.png';
-import higi6 from '../img/higi6.png';
-import higi7 from '../img/higi7.png';
+function PageAcessorios() {
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
-const higieneMock = [
-  {
-    id: 1,
-    nome: "PipiCats - areia gatos",
-    preco: "28,90",
-    avaliacao: 4.5,
-    imagem: higi1,
-  },
-  {
-    id: 2,
-    nome: "Areia MyCat",
-    preco: "33,50",
-    avaliacao: 4.6,
-    imagem: higi2,
-  },
-  {
-    id: 3,
-    nome: "Areia Viva",
-    preco: "19,99",
-    avaliacao: 4.7,
-    imagem: higi3,
-  },
-  {
-    id: 4,
-    nome: "Petisco Escova Gatíssimo",
-    preco: "14,00",
-    avaliacao: 4.3,
-    imagem: higi4,
-  },
-  {
-    id: 5,
-    nome: "KatBom areia higiênica",
-    preco: "24,90",
-    avaliacao: 4.4,
-    imagem: higi5,
-  },
-  {
-    id: 6,
-    nome: "Desinfetante em silica",
-    preco: "36,00",
-    avaliacao: 4.6,
-    imagem: higi6,
-  },
-  {
-    id: 7,
-    nome: "Areia pink cat",
-    preco: "29,50",
-    avaliacao: 4.2,
-    imagem: higi7,
-  },
-];
+  // Lista dos nomes de produtos que você quer exibir
+  const nomesFiltrados = [
+    "Ração Premium",
+    "Ração Golden Premium para Gatos",
+    "Ração Premium para Gatos Atualizada",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos"
+  ];
 
-function PageHigiene() {
+  useEffect(() => {
+    fetch('http://localhost:3001/produtos/lista')
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao carregar produtos");
+        return res.json();
+      })
+      .then((data) => {
+        // Filtra os produtos pelo nome
+        const produtosFiltrados = data.filter(produto =>
+          nomesFiltrados.includes(produto.produto_nome)
+        );
+        setProdutos(produtosFiltrados);
+        setCarregando(false);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar produtos:', error);
+        setErro(error.message);
+        setCarregando(false);
+      });
+  }, []);
+
+  if (carregando) return <p className={styles.loading}>Carregando produtos...</p>;
+  if (erro) return <p className={styles.erro}>Erro: {erro}</p>;
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.titulo}>Produtos de Higiene</h1>
+      <h1 className={styles.titulo}>Produtos Selecionados</h1>
       <div className={styles.grid}>
-        {higieneMock.map((produto) => (
-          <div className={styles.card} key={produto.id}>
-            <img src={produto.imagem} alt={produto.nome} className={styles.imagem} />
-            <h2 className={styles.nome}>{produto.nome}</h2>
-            <p className={styles.avaliacao}>⭐ {produto.avaliacao}</p>
-            <p className={styles.preco}>R${produto.preco}</p>
+        {produtos.map((produto) => (
+          <div className={styles.card} key={produto.produto_id}>
+            <img
+              src={produto.produto_imagem || '/img/default.png'}
+              alt={produto.produto_nome}
+              className={styles.imagem}
+            />
+            <h2 className={styles.nome}>{produto.produto_nome}</h2>
+            <p className={styles.avaliacao}>⭐ {produto.avaliacao || '4.5'}</p>
+            <p className={styles.preco}>R$ {parseFloat(produto.produto_preco).toFixed(2)}</p>
             <button className={styles.botao}>Adicionar ao carrinho</button>
           </div>
         ))}
@@ -79,4 +62,4 @@ function PageHigiene() {
   );
 }
 
-export default PageHigiene;
+export default PageAcessorios;

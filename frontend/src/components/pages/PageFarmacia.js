@@ -6,6 +6,16 @@ function PageAcessorios() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
 
+  // Lista dos nomes de produtos que você quer exibir
+  const nomesFiltrados = [
+    "Ração Premium",
+    "Ração Golden Premium para Gatos",
+    "Ração Premium para Gatos Atualizada",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos"
+  ];
+
   useEffect(() => {
     fetch('http://localhost:3001/produtos/lista')
       .then((res) => {
@@ -13,7 +23,11 @@ function PageAcessorios() {
         return res.json();
       })
       .then((data) => {
-        setProdutos(data);
+        // Filtra os produtos pelo nome
+        const produtosFiltrados = data.filter(produto =>
+          nomesFiltrados.includes(produto.produto_nome)
+        );
+        setProdutos(produtosFiltrados);
         setCarregando(false);
       })
       .catch((error) => {
@@ -28,7 +42,7 @@ function PageAcessorios() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.titulo}>Todos os Produtos</h1>
+      <h1 className={styles.titulo}>Produtos Selecionados</h1>
       <div className={styles.grid}>
         {produtos.map((produto) => (
           <div className={styles.card} key={produto.produto_id}>
