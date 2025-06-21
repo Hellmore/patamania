@@ -14,7 +14,7 @@ import img77 from '../img/1.7.png';
 const alimentosMock = [
   {
     id: 1,
-    nome: "Ração Seca Premium Cães Adultos",
+    nome: "Ração Seca Premium Cães Adulto",
     preco: "129,90",
     avaliacao: 4.7,
     imagem: img11,
@@ -35,7 +35,7 @@ const alimentosMock = [
   },
   {
     id: 4,
-    nome: "Petisco Bifinho Carne p/ Cães",
+    nome: "Ração Nattu",
     preco: "12,50",
     avaliacao: 4.6,
     imagem: img44,
