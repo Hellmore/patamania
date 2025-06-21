@@ -64,6 +64,10 @@ function Navbar() {
     },
     {
       key: '4',
+      label: <Link className={styles.without_undeline} to="/profile/animais">Meus Animais</Link>,
+    },
+    {
+      key: '5',
       label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
     },
   ];
@@ -71,25 +75,7 @@ function Navbar() {
   const items = [
     {
       key: '1',
-      label: 'Produtos',
-      children: [
-        {
-          key: '1-1',
-          label: <Link className={styles.without_undeline} to="/alimentos">Alimentos</Link>,
-        },
-        {
-          key: '1-2',
-          label: <Link className={styles.without_undeline} to="/acessorios">Acessórios</Link>,
-        },
-        {
-          key: '1-3',
-          label: <Link className={styles.without_undeline} to="/higiene">Higiene</Link>,
-        },
-        {
-          key: '1-4',
-          label: <Link className={styles.without_undeline} to="/farmacia">Farmácia Pet</Link>,
-        },
-      ],
+      label: 'Produtos'
     },
     {
       key: '2',
@@ -97,25 +83,21 @@ function Navbar() {
       children: [
         {
           key: '2-1',
-          label: <Link className={styles.without_undeline} to="/banho_&_tosa">Banho e Tosa</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/banho-e-tosa">Banho e Tosa</Link>,
         },
         {
           key: '2-2',
-          label: <Link className={styles.without_undeline} to="/consultas">Consultas Veterinárias</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/consulta-veterinaria">Consultas Veterinárias</Link>,
         },
         {
           key: '2-3',
-          label: <Link className={styles.without_undeline} to="/passeios">Passeios</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/passeio">Passeios</Link>,
         },
         {
           key: '2-4',
-          label: <Link className={styles.without_undeline} to="/hospedagem">Hospedagem</Link>,
+          label: <Link className={styles.without_undeline} to="/agendamentos/hospedagem">Hospedagem</Link>,
         },
       ],
-    },
-    {
-      key: '3',
-      label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
     },
   ];
 
