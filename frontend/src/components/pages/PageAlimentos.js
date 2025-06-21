@@ -1,80 +1,59 @@
-import styles from './PageAlimentos.module.css';
+import { useEffect, useState } from 'react';
+import styles from './PageAcessorios.module.css';
 
-import img11 from '../img/1.1.png';
-import img22 from '../img/1.2.png';
-import img33 from '../img/1.3.png';
-import img44 from '../img/1.4.png';
-import img55 from '../img/1.5.png';
-import img66 from '../img/1.6.png';
-import img77 from '../img/1.7.png';
+function PageAcessorios() {
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
+  // Lista dos nomes de produtos que você quer exibir
+  const nomesFiltrados = [
+    "Ração Premium",
+    "Ração Golden Premium para Gatos",
+    "Ração Premium para Gatos Atualizada",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos",
+    "Ração Premium para Gatos"
+  ];
 
+  useEffect(() => {
+    fetch('http://localhost:3001/produtos/lista')
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao carregar produtos");
+        return res.json();
+      })
+      .then((data) => {
+        // Filtra os produtos pelo nome
+        const produtosFiltrados = data.filter(produto =>
+          nomesFiltrados.includes(produto.produto_nome)
+        );
+        setProdutos(produtosFiltrados);
+        setCarregando(false);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar produtos:', error);
+        setErro(error.message);
+        setCarregando(false);
+      });
+  }, []);
 
+  if (carregando) return <p className={styles.loading}>Carregando produtos...</p>;
+  if (erro) return <p className={styles.erro}>Erro: {erro}</p>;
 
-const alimentosMock = [
-  {
-    id: 1,
-    nome: "Ração Seca Premium Cães Adulto",
-    preco: "129,90",
-    avaliacao: 4.7,
-    imagem: img11,
-  },
-  {
-    id: 2,
-    nome: "Ração Úmida Sachê Gatos Adultos",
-    preco: "5,99",
-    avaliacao: 4.5,
-    imagem: img22,
-  },
-  {
-    id: 3,
-    nome: "Ração Golden Fórmula Cães Filhotes",
-    preco: "169,90",
-    avaliacao: 4.8,
-    imagem: img33,
-  },
-  {
-    id: 4,
-    nome: "Ração Nattu",
-    preco: "12,50",
-    avaliacao: 4.6,
-    imagem: img44,
-  },
-  {
-    id: 5,
-    nome: "Ração Especial Raças Pequenas",
-    preco: "84,90",
-    avaliacao: 4.9,
-    imagem: img55,
-  },
-  {
-    id: 6,
-    nome: "Snack Natural Cães",
-    preco: "18,99",
-    avaliacao: 4.3,
-    imagem: img66,
-  },
-  {
-    id: 7,
-    nome: "Ração Gatos Castrados Light",
-    preco: "109,90",
-    avaliacao: 4.7,
-    imagem: img77,
-  },
-
-];
-
-function PageAlimentos() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.titulo}>Alimentos para Pets</h1>
+      <h1 className={styles.titulo}>Produtos Selecionados</h1>
       <div className={styles.grid}>
-        {alimentosMock.map((produto) => (
-          <div className={styles.card} key={produto.id}>
-            <img src={produto.imagem} alt={produto.nome} className={styles.imagem} />
-            <h2 className={styles.nome}>{produto.nome}</h2>
-            <p className={styles.avaliacao}>⭐ {produto.avaliacao}</p>
-            <p className={styles.preco}>R${produto.preco}</p>
+        {produtos.map((produto) => (
+          <div className={styles.card} key={produto.produto_id}>
+            <img
+              src={produto.produto_imagem || '/img/default.png'}
+              alt={produto.produto_nome}
+              className={styles.imagem}
+            />
+            <h2 className={styles.nome}>{produto.produto_nome}</h2>
+            <p className={styles.avaliacao}>⭐ {produto.avaliacao || '4.5'}</p>
+            <p className={styles.preco}>R$ {parseFloat(produto.produto_preco).toFixed(2)}</p>
             <button className={styles.botao}>Adicionar ao carrinho</button>
           </div>
         ))}
@@ -83,4 +62,4 @@ function PageAlimentos() {
   );
 }
 
-export default PageAlimentos;
+export default PageAcessorios;
