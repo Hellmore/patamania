@@ -232,9 +232,15 @@ const cadastrarAgendamentoHospedagem = async (req, res) => {
 const listarTodos = async (req, res) => {
     try {
         const agendamentos = await agendamentoModel.listarTodos();
-        res.json(agendamentos);
+        res.json({
+            success: true,
+            data: agendamentos
+        });
     } catch (error) {
-        res.status(500).send("Erro ao listar agendamentos: " + error.message);
+        res.status(500).json({
+            success: false,
+            message: "Erro ao listar agendamentos: " + error.message
+        });
     }
 };
 

@@ -2,7 +2,7 @@ import styles from './HomeAdmin.module.css';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { useState } from 'react';
-
+import { ScheduleOutlined } from '@ant-design/icons';
 import products from '../../img/products.svg';
 import services from '../../img/services.svg';
 import users from '../../img/users.svg';
@@ -32,6 +32,14 @@ const items = [
     label: 'Gerenciar Usuários',
     children: [
       { key: '31', label: <Link className={styles.without_undeline} to="/listar_usuarios">Listar usuários</Link> },
+    ],
+  },
+  {
+    key: '4',
+    icon: <ScheduleOutlined />,
+    label: 'Gerenciar Agendamentos',
+    children: [
+      { key: '41', label: <Link className={styles.without_undeline} to="/listar_agendamentos">Listar agendamentos</Link> },
     ],
   },
 ];

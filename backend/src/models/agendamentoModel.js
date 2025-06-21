@@ -15,7 +15,15 @@ const cadastrar = (usuario_id, animal_id, servico_id, agendamento_status, agenda
 };
 
 const listarTodos = () => {
-    const query = `SELECT * FROM agendamento`;
+    const query = `SELECT a.*,
+            tutor.usuario_nome as nome_tutor,
+            service.servico_nome as nome_servico,
+            pet.animal_nome as nome_pet,
+            a.agendamento_datahora
+            FROM agendamento a
+            LEFT JOIN usuario tutor ON a.usuario_id  = tutor.usuario_id
+            LEFT JOIN servico service ON a.servico_id = service.servico_id
+            LEFT JOIN animal pet ON a.animal_id = pet.animal_id`
     return new Promise((resolve, reject) => {
         db.query(query, (err, results) => {
             if (err) return reject(err);
