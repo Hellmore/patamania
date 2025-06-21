@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Righteous&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
   font-family: "Roboto", sans-serif;
 }
 
 .part_login {
-    display: flex;
-    gap: 17em;
+  display: flex;
+  gap: 17em;
 }
 
 .arrow_back img {
   width: 100px;
-  padding: 10px; 
+  padding: 10px;
   opacity: 50%;
 }
 
@@ -25,9 +25,9 @@
   cursor: pointer;
 }
 
-input[type="text"] {
-  width: 50em; 
-}
+/* input[type="text"] {
+  width: 50em;
+} */
 
 .right h3 {
   font-size: 35px;
@@ -35,21 +35,21 @@ input[type="text"] {
 }
 
 .right button {
-    background-color: #2D6B6A;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    width: 20%;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
+  background-color: #2d6b6a;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  width: 20%;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .right button:hover {
-    background-color: transparent; 
-    border: 1px solid black;
-    color: black;
+  background-color: transparent;
+  border: 1px solid black;
+  color: black;
 }
 
 .title_login {
@@ -58,19 +58,19 @@ input[type="text"] {
 }
 
 .right {
-  background-color: #F5F0EA;
-  color: #2D6B6A;
+  background-color: #f5f0ea;
+  color: #2d6b6a;
   display: inline-block;
   height: 100%;
   width: 50%;
   align-content: center;
-  text-align: center; 
+  text-align: center;
   padding: 10px;
 }
 
 .patamania {
-    width: 280px;
-    margin: 10px 0;
+  width: 280px;
+  margin: 10px 0;
 }
 
 .social_list {
@@ -80,11 +80,11 @@ input[type="text"] {
 }
 
 .social_list img {
-    /* border: solid black 0.5px; */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 30px;
-    padding: 6px;
-    width: 2.4em;
+  /* border: solid black 0.5px; */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  padding: 6px;
+  width: 2.4em;
 }
 
 .social_list img:hover {
@@ -105,7 +105,7 @@ input[type="text"] {
 }
 
 .form_login h1 {
-  text-align: center; 
+  text-align: center;
   margin-bottom: 55px;
 }
 
@@ -115,13 +115,13 @@ input[type="text"] {
   margin-top: 0.2em;
 }
 
-input[type="text"] {
-  width: 672px; 
+/* input[type="text"] {
+  width: 672px;
 }
-
+ */
 .label_dados {
-    font-weight: 500;
-    font-size: 15px;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .dados_info {
@@ -130,59 +130,59 @@ input[type="text"] {
   border: transparent;
   margin-bottom: 10px;
   width: 100%;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 
 .remember {
   display: flex;
-  color: #A7CBC9;
+  color: #a7cbc9;
   font-size: 15px;
   gap: 5px;
 }
 
-input[type=checkbox] {
-    position: relative;
-      cursor: pointer;
+input[type="checkbox"] {
+  position: relative;
+  cursor: pointer;
 }
 
-input[type=checkbox]:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    top: 0;
-    left: 0;
-    background-color:#e9e9e9;
+input[type="checkbox"]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  left: 0;
+  background-color: #e9e9e9;
 }
 
-input[type=checkbox]:checked:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    top: 0;
-    left: 0;
-    background-color:#A7CBC9;
+input[type="checkbox"]:checked:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  left: 0;
+  background-color: #a7cbc9;
 }
-input[type=checkbox]:checked:after {
-    content: "";
-    display: block;
-    width: 5px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    position: absolute;
-    top: 2px;
-    left: 5px;
+input[type="checkbox"]:checked:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 2px;
+  left: 5px;
 }
 
 .submit_button {
-  background-color: #2D6B6A;
+  background-color: #2d6b6a;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -194,13 +194,13 @@ input[type=checkbox]:checked:after {
 }
 
 .submit_button:hover {
-  background-color: transparent; 
+  background-color: transparent;
   border: 1px solid black;
   color: black;
 }
 
 .link {
-  color: #A7CBC9;
+  color: #a7cbc9;
   font-size: 15px;
   margin-left: 29em;
 }
@@ -223,10 +223,10 @@ input[type=checkbox]:checked:after {
   .link {
     margin-left: 39em;
   }
-
+  /* 
   input[type="text"] {
     width: 52em; 
-  }
+  } */
 
   .form_login {
     margin-top: 2.5em;
@@ -242,9 +242,9 @@ input[type=checkbox]:checked:after {
     height: 100vh;
   }
 
-  input[type="text"] {
+  /*   input[type="text"] {
     width: 37em; 
-  }
+  } */
 
   .image {
     width: 100%;
@@ -266,9 +266,9 @@ input[type=checkbox]:checked:after {
 }
 
 @media (max-width: 1360px) {
-  input[type="text"] {
+  /*   input[type="text"] {
     width: 33em; 
-  }
+  } */
 }
 
 @media (max-width: 1024px) {
@@ -284,9 +284,9 @@ input[type=checkbox]:checked:after {
     margin-left: 10em;
   }
 
-  input[type="text"] {
+  /*   input[type="text"] {
     width: 24em; 
-  }
+  } */
 }
 
 @media (max-width: 320px) {
@@ -294,8 +294,7 @@ input[type=checkbox]:checked:after {
     margin-left: 10em;
   }
 
-  input[type="text"] {
+  /*   input[type="text"] {
     width: 5em; 
-  }
-
+  } */
 }

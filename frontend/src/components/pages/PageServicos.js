@@ -9,24 +9,28 @@ import hospedagemIcon from '../img/hospedagem.png';
 function PageServicos() {
   const servicos = [
     {
-      nome: 'Banho&Tosa',
+      nome: 'Banho & Tosa',
       icone: banhoIcon,
-      link: '/agendamentos/banho-e-tosa'
+      link: '/agendamentos/banho-e-tosa',
+      servico_id: 1  
+    },
+        {
+      nome: 'Passeio',
+      icone: passeioIcon,
+      link: '/agendamentos/passeio',
+      servico_id: 2
     },
     {
       nome: 'Consulta',
       icone: consultaIcon,
-      link: '/agendamentos/consulta-veterinaria'
-    },
-    {
-      nome: 'Passeio',
-      icone: passeioIcon,
-      link: '/agendamentos/passeio'
+      link: '/agendamentos/consulta-veterinaria',
+      servico_id: 3
     },
     {
       nome: 'Hospedagem',
       icone: hospedagemIcon,
-      link: '/agendamentos/hospedagem'
+      link: '/agendamentos/hospedagem',
+      servico_id: 4
     },
   ];
 
@@ -42,7 +46,10 @@ function PageServicos() {
               className={styles.icone}
             />
             <h2>{servico.nome}</h2>
-            <Link to={servico.link}>
+            <Link 
+              to={servico.link} 
+              state={{ servico_id: servico.servico_id }}
+            >
               <button className={styles.botao_agendar}>Agendar</button>
             </Link>
           </div>

@@ -20,6 +20,10 @@ import PageNotFound from './components/pages/PageNotFound';
 import PageServicos from './components/pages/PageServicos';
 import PageCarrinho from './components/pages/PageCarrinho';
 import PagePagamento from './components/pages/PagePagamento';
+import PageAgendamentoBanhoTosa from './components/pages/PageAgendamentoBanhoTosa';
+import PageAgendamentoConsultaVeterinaria from './components/pages/PageAgendamentoConsultaVeterinaria';
+import PageAgendamentoPasseio from './components/pages/PageAgendamentoPasseio';
+import PageAgendamentoHospedagem from "./components/pages/PageAgendamentoHospedagem";
 
 import HomeAdmin from './components/pages/private/HomeAdmin';
 import CadastrarProduto from './components/pages/private/registro_prouduto/index';
@@ -74,6 +78,10 @@ function App() {
             <Route path="/carrinho" element={<PageCarrinho />} />
             <Route path="/pagamento" element={<PagePagamento />} />
             <Route path="*" element={<PageNotFound />} />
+            <Route path="/agendamentos/banho-e-tosa" element={<PageAgendamentoBanhoTosa />}/>
+            <Route path="/agendamentos/consulta-veterinaria" element={<PageAgendamentoConsultaVeterinaria />} />
+            <Route path="/agendamentos/passeio" element={<PageAgendamentoPasseio />} />
+            <Route path="/agendamentos/hospedagem" element={<PageAgendamentoHospedagem />} />
           </Route>
 
           {/* Layout vazio */}

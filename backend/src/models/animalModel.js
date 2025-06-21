@@ -1,13 +1,13 @@
 const db = require('../utils/db');
 
-const cadastrar = (nome, dataNascimento, raca, porte, descricao, pelagem) => {
+const cadastrar = (nome, dataNascimento, raca, porte, descricao, pelagem, usuario_id) => {
     const query = `
         INSERT INTO animal 
-        (animal_nome, animal_dataNascimento, animal_raca, animal_porte, animal_descricao, animal_pelagem) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        (animal_nome, animal_dataNascimento, animal_raca, animal_porte, animal_descricao, animal_pelagem, usuario_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     return new Promise((resolve, reject) => {
-        db.query(query, [nome, dataNascimento, raca, porte, descricao, pelagem], (err, result) => {
+        db.query(query, [nome, dataNascimento, raca, porte, descricao, pelagem, usuario_id], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });
@@ -63,10 +63,21 @@ const deletar = (animal_id) => {
     });
 };
 
+const listarPorUsuario = (usuario_id) => {
+    const query = `SELECT * FROM animal WHERE usuario_id = ?`;
+    return new Promise((resolve, reject) => {
+        db.query(query, [usuario_id], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};
+
 module.exports = { 
     cadastrar,
     listarTodos,
     buscarPorId,
     atualizar,
-    deletar
+    deletar,
+    listarPorUsuario
 };

@@ -6,7 +6,8 @@ const cadastrar = (
   consultaveterinaria_tipo,
   consultaveterinaria_vacinasaplicadas,
   consultaveterinaria_examesrealizados,
-  animal_id
+  animal_id,
+  agendamento_id
 ) => {
   const query = `
     INSERT INTO consulta_veterinaria (
@@ -15,8 +16,9 @@ const cadastrar = (
       consultaveterinaria_tipo,
       consultaveterinaria_vacinasaplicadas,
       consultaveterinaria_examesrealizados,
-      animal_id
-    ) VALUES (?, ?, ?, ?, ?, ?)`;
+      animal_id,
+      agendamento_id
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   return new Promise((resolve, reject) => {
     db.query(
@@ -28,6 +30,7 @@ const cadastrar = (
         consultaveterinaria_vacinasaplicadas,
         consultaveterinaria_examesrealizados,
         animal_id,
+        agendamento_id
       ],
       (err, result) => {
         if (err) return reject(err);
@@ -66,7 +69,8 @@ const atualizar = (
   consultaveterinaria_tipo,
   consultaveterinaria_vacinasaplicadas,
   consultaveterinaria_examesrealizados,
-  animal_id
+  animal_id,
+  agendamento_id
 ) => {
   const query = `
     UPDATE consulta_veterinaria
@@ -75,7 +79,8 @@ const atualizar = (
         consultaveterinaria_tipo = ?, 
         consultaveterinaria_vacinasaplicadas = ?, 
         consultaveterinaria_examesrealizados = ?, 
-        animal_id = ?
+        animal_id = ?,
+        agendamento_id = ?
     WHERE consultaveterinaria_id = ?`;
 
   return new Promise((resolve, reject) => {
@@ -88,6 +93,7 @@ const atualizar = (
         consultaveterinaria_vacinasaplicadas,
         consultaveterinaria_examesrealizados,
         animal_id,
+        agendamento_id,
         consultaveterinaria_id,
       ],
       (err, result) => {
