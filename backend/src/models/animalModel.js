@@ -34,6 +34,16 @@ const buscarPorId = (animal_id) => {
     });
 };
 
+const buscarPorDono = (usuario_id) => {
+    const query = `SELECT * FROM animal WHERE usuario_id = ?`;
+    return new Promise((resolve, reject) => {
+        db.query(query, [usuario_id], (err, results) => {
+            if (err) return reject(err);
+            resolve(results[0]);
+        });
+    });
+};
+
 const atualizar = (animal_id, nome, dataNascimento, raca, porte, descricao, pelagem) => {
     const query = `
         UPDATE animal SET
@@ -77,6 +87,7 @@ module.exports = {
     cadastrar,
     listarTodos,
     buscarPorId,
+    buscarPorDono,
     atualizar,
     deletar,
     listarPorUsuario

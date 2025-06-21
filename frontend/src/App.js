@@ -41,6 +41,9 @@ import EditEndereco from './components/pages/profile/EditEndereco';
 import Orders from './components/pages/profile/Orders';
 import CadastrarEndereco from './components/pages/profile/CadastrarEndereco';
 
+// Dropdown - Perfil
+import Agendamentos from './components/pages/agendamentos/Agendamentos';
+
 import EsqueceuSenha from './components/pages/EsqueceuSenha';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -94,6 +97,12 @@ function App() {
             <Route path="/profile/:id/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             <Route path="/profile/:id/address" element={<PrivateRoute><EditEndereco /></PrivateRoute>} />
             <Route path="/cadastrar_endereco" element={<PrivateRoute><CadastrarEndereco /></PrivateRoute>} />
+          </Route>
+
+          {/* Layout menu profile */}
+          <Route element={<LayoutNavbarOnly />}>
+            <Route path="/agendamentos" element={<PrivateRoute><Agendamentos /></PrivateRoute>} />
+            <Route path="/profile/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
           </Route>
 
           {/* Layout admin - rotas protegidas */}

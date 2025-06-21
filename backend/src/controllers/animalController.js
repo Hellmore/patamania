@@ -46,6 +46,20 @@ const buscarPorId = async (req, res) => {
     }
 };
 
+const buscarPorDono = async (req, res) => {
+    const usuario_id = req.params.usuario_id;
+
+    try {
+        const dono = await animalModel.buscarPorDono(usuario_id);
+        if (!dono) {
+            return res.status(404).send("Não possui nenhum animal.");
+        }
+        res.json(dono);
+    } catch (error) {
+        res.status(500).send("Erro ao buscar animais: " + error.message);
+    }
+};
+
 const atualizar = async (req, res) => {
     const animal_id = req.params.animal_id;
     const {
@@ -101,6 +115,7 @@ module.exports = {
     cadastrar,
     listarTodos,
     buscarPorId,
+    buscarPorDono,
     atualizar,
     deletar,
     listarPorUsuario

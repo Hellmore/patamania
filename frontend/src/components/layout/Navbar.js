@@ -8,7 +8,6 @@ import styles from "./Navbar.module.css";
 import logo from "../img/Logo Patamania.png";
 import shopchart from "../img/Shopping Cart.png";
 import profile_img from "../img/Profile.png";
-import { IoSearch } from "react-icons/io5";
 import menu from "../img/menu.png";
 
 import React, { useState } from 'react';
@@ -56,7 +55,7 @@ function Navbar() {
     },
     {
       key: '3',
-      label: <Link className={styles.without_undeline} to="/profile/orders">Meus Pedidos</Link>,
+      label: <Link className={styles.without_undeline} to="/agendamentos">Agendamentos</Link>,
     },
     {
       key: '4',

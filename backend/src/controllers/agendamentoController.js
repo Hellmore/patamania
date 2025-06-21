@@ -252,6 +252,50 @@ const buscarPorId = async (req, res) => {
     }
 };
 
+const buscarPorUser = async (req, res) => {
+    const { usuario_id } = req.params;
+
+    try {
+        const agendamentos = await agendamentoModel.buscarPorUser(usuario_id);
+        if (!agendamentos || agendamentos.length === 0) {
+            return res.status(200).json({
+                success: true,
+                messagem: "Usuário não possui agendamentos.",
+                data: []
+            });
+        }
+        
+        return res.status(200).json({
+            success: true,
+            message: "Agendamentos encontrados com sucesso!",
+            data: agendamentos
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar agendamentos:', error);
+        return res.status(500).json({
+            success: false,
+            message: "Erro ao buscar agendamentos."
+        });
+    }
+};
+
+const cancelar = async (req, res) => {
+    const { agendamento_id } = req.params;
+
+    try {
+        const agendamentoExistente = await agendamentoModel.buscarPorId(agendamento_id);
+        if (!agendamentoExistente) {
+            return res.status(404).send("Agendamento não encontrado.");
+        }
+
+        await agendamentoModel.cancelar(agendamento_id);
+        res.send("Agendamento cancelado com sucesso!");
+    } catch (error) {
+        res.status(500).send("Erro ao cancelar agendamento: " + error.message);
+    }
+}
+
 const atualizar = async (req, res) => {
     const { agendamento_id } = req.params;
     const {
@@ -314,6 +358,8 @@ module.exports = {
     cadastrarAgendamentoHospedagem,
     listarTodos,
     buscarPorId,
+    buscarPorUser,
+    cancelar,
     atualizar,
     deletar
 };
