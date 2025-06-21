@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
+const verificarToken = require('../middlewares/jwtMiddleware');
+const verificarAdmin = require('../middlewares/verificarAdmin');
 
-router.post('/cadastro', usuarioController.cadastrar);
 router.get('/lista', usuarioController.listar);
-router.get('/buscar/:usuario_id', usuarioController.buscarPorId);
-router.put('/atualizar/:usuario_id', usuarioController.atualizar);
-router.delete('/deletar/:usuario_id', usuarioController.excluir);
+router.get('/admin', verificarToken, usuarioController.listarAdministradores);
+router.get('/buscar/:usuario_id', verificarToken, usuarioController.buscarPorId); 
+router.post('/cadastro', usuarioController.cadastrar);
+router.put('/:usuario_id', verificarToken, usuarioController.atualizar);
+router.delete('/:usuario_id', verificarToken, verificarAdmin, usuarioController.excluir);
 
 module.exports = router;

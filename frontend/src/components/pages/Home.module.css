@@ -11,6 +11,13 @@
   flex-direction: column;
 }
 
+.secao_produtos {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+}
+
+
 .imagens {
   position: relative;
   width: 100%;

@@ -1,25 +1,24 @@
 const jwt = require('jsonwebtoken');
 
 const autenticarToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+    try {
+        // no Postman, é necessário colocar o header Authorization que é: "Bearer <token gerado no login>"
+        const token = req.headers.authorization?.split(' ')[1];
 
-    // O header Authorization costuma ser "Bearer <token>"
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ mensagem: 'Token não fornecido.' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, usuario) => {
-        if (err) {
-            return res.status(403).json({ mensagem: 'Token inválido ou expirado.' });
+        if (!token) {
+            return res.status(401).json({message: 'Token não fornecido'});
         }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Se o token for válido, guarda os dados do usuário na requisição
-        req.usuario = usuario;
+        req.user = {
+            id: decoded.id,
+        };
 
         next();
-    });
+    } catch (error) {
+        console.error('Erro na verificação do token: ', error);
+        return res.status(403).json({ message: 'Token inválido'});
+    }
 };
 
 module.exports = autenticarToken;

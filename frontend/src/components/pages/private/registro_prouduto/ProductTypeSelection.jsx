@@ -15,7 +15,7 @@ export default function ProductTypeSelection ({ onSelect }) {
         <div className={styles.optionsGrid}>
           <div 
             className={styles.optionCard}
-            onClick={() => onSelect('nao_perecivel')}
+            onClick={() => onSelect('NAO PERECIVEL')}
           >
             <img src={coleira} className={styles.produto} alt="Produto não perecível" />
             <h3>Produto não perecível</h3>
@@ -24,7 +24,7 @@ export default function ProductTypeSelection ({ onSelect }) {
           
           <div 
             className={styles.optionCard}
-            onClick={() => onSelect('alimento')}
+            onClick={() => onSelect('PERECIVEL')}
           >
             <img src={cookie} className={styles.produto} alt="Alimento" />
             <h3>Alimento</h3>

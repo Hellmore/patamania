@@ -42,6 +42,7 @@ function Login() {
     if (usuario) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(usuario));
+      localStorage.setItem('usuario_id', usuario.id);
 
       await login({
         usuario_email: data.email,

@@ -37,6 +37,20 @@ const listarTodos = () => {
     });
 };
 
+const buscarAdministradores = () => {
+  return new Promise((resolve, reject) => {
+    const query = 
+    ` SELECT usuario_id, usuario_nome, usuario_email 
+      FROM usuario 
+      WHERE usuario_tipo = 'ADMIN'`; 
+    db.query(query, (err, results) => {
+      if (err) return reject(err);
+      console.log("Resultados da query:", results); // Log para debug
+      resolve(results);
+    });
+  });
+};
+
 const buscarPorId = (id) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM usuario WHERE usuario_id = ?', [id], (err, result) => {
@@ -102,6 +116,12 @@ const atualizar = (id, dados) => {
 
 const excluir = (id) => {
     return new Promise((resolve, reject) => {
+        // Deletando primeiro a chave estrangeira
+        db.query('DELETE FROM carrinho WHERE usuario_id = ?', [id], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+        // Deletando o usuário
         db.query('DELETE FROM usuario WHERE usuario_id = ?', [id], (err, result) => {
             if (err) return reject(err);
             resolve(result);
@@ -112,6 +132,7 @@ const excluir = (id) => {
 module.exports = {
     cadastrar,
     listarTodos,
+    buscarAdministradores,
     buscarPorId,
     buscarPorEmail,
     atualizarRefreshToken,

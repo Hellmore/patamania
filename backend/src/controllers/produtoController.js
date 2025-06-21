@@ -1,5 +1,66 @@
 const produtoModel = require('../models/produtoModel');
 
+function verificarTipo(produto, res) {
+    const {
+        produto_nome,
+        produto_tipo,
+        produto_tamanho,
+        produto_composicao,
+        produto_marca,
+        produto_lote,
+        produto_fabricante,
+        produto_origem,
+        produto_instrucoes,
+        produto_validade,
+        produto_codigobarras,
+        produto_estoque,
+        produto_garantia,
+        produto_preco
+    } = produto;
+
+    if (produto_tipo === 'NAO PERECIVEL' && 
+        (
+            !produto_nome ||
+            !produto_tipo ||
+            !produto_tamanho ||
+            !produto_composicao ||
+            !produto_marca ||
+            !produto_lote ||
+            !produto_fabricante ||
+            !produto_origem ||
+            !produto_instrucoes ||
+            !produto_codigobarras ||
+            produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
+            !produto_garantia ||
+            !produto_preco
+        )
+    ) {
+        return res.status(400).send("Preencha os campos obrigatórios!");
+    } 
+    
+    if (produto_tipo === 'PERECIVEL' && 
+        (
+            !produto_nome ||
+            !produto_tipo ||
+            !produto_tamanho ||
+            !produto_composicao ||
+            !produto_marca ||
+            !produto_lote ||
+            !produto_fabricante ||
+            !produto_origem ||
+            !produto_instrucoes ||
+            !produto_validade ||
+            !produto_codigobarras ||
+            produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
+            !produto_preco
+        ) 
+    ) {
+        return res.status(400).send("Preencha os campos obrigatórios!");
+    } 
+
+    return true; // Retorna verdadeiro se a validação passar
+};
+
 const cadastrar = async (req, res) => {
     const {
         produto_nome,
@@ -14,27 +75,22 @@ const cadastrar = async (req, res) => {
         produto_validade,
         produto_codigobarras,
         produto_estoque,
-        produto_status,
-        produto_imagem
+        produto_imagem,
+        produto_garantia,
+        produto_preco
     } = req.body;
-    
-    if (
-        !produto_nome ||
-        !produto_tipo ||
-        !produto_tamanho ||
-        !produto_composicao ||
-        !produto_marca ||
-        !produto_lote ||
-        !produto_fabricante ||
-        !produto_origem ||
-        !produto_instrucoes ||
-        !produto_validade ||
-        !produto_codigobarras ||
-        produto_estoque === undefined || // Pode ser zero, então cheque !== undefined
-        !produto_status ||
-        !produto_imagem
-    ) {
-        return res.status(400).send("Todos os campos são obrigatórios.");
+
+    // Verifica se a validação dos campos obrigatórios passou
+    const validacao = verificarTipo(req.body, res);
+    if (validacao !== true) {
+        return; // Se a validação falhar, não continua
+    }
+
+    let produto_status;
+    if (produto_estoque > 0) {
+        produto_status = 'DISPONIVEL';
+    } else {
+        produto_status = 'ESGOTADO';
     }
 
     try {
@@ -52,7 +108,9 @@ const cadastrar = async (req, res) => {
             produto_imagem,
             produto_codigobarras,
             produto_estoque,
-            produto_status
+            produto_status,
+            produto_preco,
+            produto_garantia
         );
         res.status(201).send("Produto cadastrado com sucesso!");
     } catch (error) {
@@ -76,7 +134,6 @@ const listarTodos = async (req, res) => {
     }
 };
 
-// Aqui substitui id por produto_id para padronizar
 const buscarPorId = async (req, res) => {
     const { produto_id } = req.params;
 
@@ -87,48 +144,12 @@ const buscarPorId = async (req, res) => {
         }
         res.json(produto);
     } catch (error) {
-        res.status(500).send("Erro ao buscar produto: " + error.message);
+            return res.status(404).send("Produto não encontrado.");
     }
 };
 
-// Também substitui id por produto_id e ajusta checagem de produto_estoque para !== undefined
 const atualizar = async (req, res) => {
     const { produto_id } = req.params;
-    const {
-        produto_nome,
-        produto_tipo,
-        produto_tamanho,
-        produto_composicao,
-        produto_marca,
-        produto_lote,
-        produto_fabricante,
-        produto_origem,
-        produto_instrucoes,
-        produto_validade,
-        produto_codigobarras,
-        produto_estoque,
-        produto_status,
-        produto_imagem
-    } = req.body;
-
-    if (
-        !produto_nome ||
-        !produto_tipo ||
-        !produto_tamanho ||
-        !produto_composicao ||
-        !produto_marca ||
-        !produto_lote ||
-        !produto_fabricante ||
-        !produto_origem ||
-        !produto_instrucoes ||
-        !produto_validade ||
-        !produto_codigobarras ||
-        produto_estoque === undefined ||
-        !produto_status ||
-        !produto_imagem
-    ) {
-        return res.status(400).send("Todos os campos são obrigatórios para atualizar.");
-    }
 
     try {
         const produtoExistente = await produtoModel.buscarPorId(produto_id);
@@ -136,26 +157,41 @@ const atualizar = async (req, res) => {
             return res.status(404).send("Produto não encontrado.");
         }
 
+        // Validação dos campos
+        const valida = verificarTipo(req.body, res);
+        if (valida !== true) return;
+
+        produto_status = req.body.produto_estoque > 0 ? "DISPONIVEL" : "ESGOTADO";
+
         await produtoModel.atualizar(
             produto_id,
-            produto_nome,
-            produto_tipo,
-            produto_tamanho,
-            produto_composicao,
-            produto_marca,
-            produto_lote,
-            produto_fabricante,
-            produto_origem,
-            produto_instrucoes,
-            produto_validade,
-            produto_imagem,
-            produto_codigobarras,
-            produto_estoque,
-            produto_status
+            req.body.produto_nome,
+            req.body.produto_tipo,
+            req.body.produto_tamanho,
+            req.body.produto_composicao,
+            req.body.produto_marca,
+            req.body.produto_lote,
+            req.body.produto_fabricante,
+            req.body.produto_origem,
+            req.body.produto_instrucoes,
+            req.body.produto_validade,
+            req.body.produto_imagem || produtoExistente.produto_imagem, // Mantém a imagem existente se não for enviada nova
+            req.body.produto_codigobarras,
+            req.body.produto_estoque,
+            produto_status,
+            req.body.produto_garantia,
+            req.body.produto_preco
         );
-        res.send("Produto atualizado com sucesso!");
+
+        res.status(200).json({
+            success: true,
+            message: "Produto atualizado com sucesso!"
+        });
     } catch (error) {
-        res.status(500).send("Erro ao atualizar produto: " + error.message);
+        res.status(500).json({
+            success: false,
+            message: "Erro ao atualizar produto: " + error.message
+        });
     }
 };
 

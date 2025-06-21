@@ -13,19 +13,19 @@ const cadastrar = async (req, res) => {
         usuario_pais 
     } = req.body;
 
-if (!usuario_nome || usuario_nome.trim() === '') {
-    return res.status(400).send('O nome do usuário é obrigatório.');
-} else if (!usuario_email || usuario_email.trim() === '') {
-    return res.status(400).send('O e-mail do usuário é obrigatório.');
-} else if (!usuario_senha || usuario_senha.trim() === '') {
-    return res.status(400).send('A senha do usuário é obrigatória.');
-} else if (!usuario_dataNascimento || usuario_dataNascimento.trim() === '') {
-    return res.status(400).send('A data de nascimento é obrigatória.');
-// } else if (!usuario_tipo || usuario_tipo.trim() === '') {
-    // return res.status(400).send('O tipo de usuário é obrigatório.');
-// } else if (!usuario_pais || usuario_pais.trim() === '') {
-    // return res.status(400).send('O país do usuário é obrigatório.');
-}
+    if (!usuario_nome || usuario_nome.trim() === '') {
+        return res.status(400).send('O nome do usuário é obrigatório.');
+    } else if (!usuario_email || usuario_email.trim() === '') {
+        return res.status(400).send('O e-mail do usuário é obrigatório.');
+    } else if (!usuario_senha || usuario_senha.trim() === '') {
+        return res.status(400).send('A senha do usuário é obrigatória.');
+    } else if (!usuario_dataNascimento || usuario_dataNascimento.trim() === '') {
+        return res.status(400).send('A data de nascimento é obrigatória.');
+    } else if (!usuario_tipo || usuario_tipo.trim() === '') {
+        return res.status(400).send('O tipo de usuário é obrigatório.');
+    // } else if (!usuario_pais || usuario_pais.trim() === '') {
+        // return res.status(400).send('O país do usuário é obrigatório.');
+    }
 
 
     try {
@@ -48,6 +48,7 @@ if (!usuario_nome || usuario_nome.trim() === '') {
 
         res.status(201).send('Usuário cadastrado com sucesso!');
     } catch (err) {
+        console.error(err); 
         res.status(500).send('Erro ao cadastrar usuário: ' + err.message);
     }
 };
@@ -59,6 +60,24 @@ const listar = async (req, res) => {
     } catch (err) {
         res.status(500).send('Erro ao listar usuários: ' + err.message);
     }
+};
+
+const listarAdministradores = async (req, res) => {
+  try {
+    console.log("Buscando administradores..."); // Log para debug
+    
+    const administradores = await usuarioModel.buscarAdministradores();
+    console.log("Administradores encontrados:", administradores); // Verifique os dados
+    
+    res.status(200).json(administradores);
+  } catch (error) {
+    console.error("Erro ao buscar administradores:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Erro ao buscar administradores",
+      error: error.message
+    });
+  }
 };
 
 const buscarPorId = async (req, res) => {
@@ -92,6 +111,8 @@ const atualizar = async (req, res) => {
     if (req.body.usuario_nome) updates.usuario_nome = req.body.usuario_nome;
     if (req.body.usuario_email) updates.usuario_email = req.body.usuario_email;
     if (req.body.usuario_pais) updates.usuario_pais = req.body.usuario_pais;
+    if (req.body.usuario_cargo) updates.usuario_cargo = req.body.usuario_cargo;
+    if (req.body.usuario_tipo) updates.usuario_tipo = req.body.usuario_tipo;
     
     // Tratamento especial para data
     if (req.body.usuario_dataNascimento) {
@@ -149,6 +170,7 @@ const excluir = async (req, res) => {
 module.exports = {
     cadastrar,
     listar,
+    listarAdministradores,
     buscarPorId,
     atualizar,
     excluir,
