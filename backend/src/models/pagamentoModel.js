@@ -1,6 +1,38 @@
 const db = require('../utils/db');
 
-const cadastrar = async (
+const cadastrar = (
+  pagamento_forma,
+  pagamento_status,
+  usuario_id,
+  nome_usuario,
+  endereco_id,
+  cupom,
+  parcelas,
+  itemIds,
+) => {
+  const query = `CALL sp_inserir_pagamento_com_compra(?, ?, ?, ?, ?, ?, ?, ?)`
+  return new Promise((resolve, reject) => {
+    db.query(
+      query,
+      [
+        pagamento_forma,
+        pagamento_status,
+        usuario_id,
+        nome_usuario,
+        endereco_id,
+        cupom,
+        parcelas,
+        Array.isArray(itemIds) ? itemIds.join(',') : itemIds,
+      ],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      }
+    )
+  });
+}
+
+const cadastrar_feio_bobo = async (
   pagamento_forma,
   pagamento_status,
   usuario_id,

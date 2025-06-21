@@ -2,7 +2,7 @@ const pagamentoModel = require('../models/pagamentoModel');
 
 const cadastrar = async (req, res) => {
   try {
-    const {
+    let {
       pagamento_forma,
       pagamento_status,
       usuario_id,

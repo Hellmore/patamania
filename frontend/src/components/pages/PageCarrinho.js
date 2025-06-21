@@ -69,8 +69,9 @@ export default function PageCarrinho() {
       alert('Selecione ao menos um item para continuar');
       return;
     }
-    const itemIdsArray = Array.from(selecionados);
-    navigate('/pagamento', { state: { itemIds: itemIdsArray } });
+    const itemSelecionadosArray = itens.filter(item => selecionados.has(item.item_id));
+    navigate('/pagamento', { state: { itensSelecionados: itemSelecionadosArray } });
+
   };
 
   const atualizarQuantidade = async (item_id) => {
