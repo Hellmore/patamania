@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 
 import { useAuth } from '../../context/AuthContext';
@@ -41,8 +41,7 @@ function useWindowSize() {
 function Navbar() {
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
   const [color, setColor] = useState(ColorList[0]);
-  
-  //Função para alterar a cor do avatar
+
   const changeColor = () => {
     const randomColor = ColorList[Math.floor(Math.random() * ColorList.length)];
     setColor(randomColor);
@@ -67,7 +66,7 @@ function Navbar() {
       key: '4',
       label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
     },
-  ]
+  ];
 
   const items = [
     {
@@ -92,35 +91,35 @@ function Navbar() {
         },
       ],
     },
-  {
-    key: '2',
-    label: 'Serviços',
-    children: [
-      {
-        key: '2-1',
-        label: <Link className={styles.without_undeline} to="/banho_&_tosa">Banho e Tosa</Link>,
-      },
-      {
-        key: '2-2',
-        label: <Link className={styles.without_undeline} to="/consultas">Consultas Veterinárias</Link>,
-      },
-      {
-        key: '2-3',
-        label: <Link className={styles.without_undeline} to="/passeios">Passeios</Link>,
-      },
-      {
-        key: '2-4',
-        label: <Link className={styles.without_undeline} to="/hospedagem">Hospedagem</Link>,
-      },
-    ],
-  },
-  {
-    key: '3',
-    label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
-  },
-];
-  const location = useLocation();
+    {
+      key: '2',
+      label: 'Serviços',
+      children: [
+        {
+          key: '2-1',
+          label: <Link className={styles.without_undeline} to="/banho_&_tosa">Banho e Tosa</Link>,
+        },
+        {
+          key: '2-2',
+          label: <Link className={styles.without_undeline} to="/consultas">Consultas Veterinárias</Link>,
+        },
+        {
+          key: '2-3',
+          label: <Link className={styles.without_undeline} to="/passeios">Passeios</Link>,
+        },
+        {
+          key: '2-4',
+          label: <Link className={styles.without_undeline} to="/hospedagem">Hospedagem</Link>,
+        },
+      ],
+    },
+    {
+      key: '3',
+      label: <Link className={styles.without_undeline} to="/promocoes">Promoções</Link>,
+    },
+  ];
 
+  const location = useLocation();
   const rotasClaras = ['/'];
   const isRotaClara = rotasClaras.includes(location.pathname);
 
@@ -151,38 +150,35 @@ function Navbar() {
           </Typography.Link>
         </Dropdown>
       </Navb>
-        <div className={styles.search}>
-        <div><IoSearch className={styles.icon_search}/></div>
-          <div><input className={styles.barra_search} type="text" placeholder="Buscar produto" /></div>
-        </div>
-          <div className={styles.icons_right}>
-            { user ? (
-              <div className={styles.user_info}>
-                <div><Link to="/profile"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
-                <div>
-                  <Dropdown
-                    className={styles.dropdown}
-                    menu={{
-                      items: profile,
-                      selectable: true,
-                      autoFocus: true,
-                    }}
-                  >
-                    <Avatar 
-                      style={{ backgroundColor: color, cursor: 'pointer' }} 
-                      size={40} 
-                      onClick={changeColor}
-                    >
-                      {user.nome.charAt(0).toUpperCase()}
-                    </Avatar>
-                  </Dropdown>
-              </div>
-              </div>
-            ) : (
-              <div><Link to="/login"><img className={styles.profile} src={profile_img} alt="profile" /></Link></div>
-            )}         
-        </div>
-      </Navb>
+
+      <div className={styles.icons_right}>
+        { user ? (
+          <div className={styles.user_info}>
+            <div><Link to="/carrinho"><img className={styles.shop_cart} src={shopchart} alt="shopping cart" /></Link></div>
+            <div>
+              <Dropdown
+                className={styles.dropdown}
+                menu={{
+                  items: profile,
+                  selectable: true,
+                  autoFocus: true,
+                }}
+              >
+                <Avatar 
+                  style={{ backgroundColor: color, cursor: 'pointer' }} 
+                  size={40} 
+                  onClick={changeColor}
+                >
+                  {user.nome.charAt(0).toUpperCase()}
+                </Avatar>
+              </Dropdown>
+            </div>
+          </div>
+        ) : (
+          <div><Link to="/login"><img className={styles.profile} src={profile_img} alt="profile" /></Link></div>
+        )}         
+      </div>
+    </Navb>
   );
 };
 

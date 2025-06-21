@@ -66,7 +66,7 @@ const buscarPorUser = async (req, res) => {
 
   try {
     const result = await enderecoModel.buscarPorUser(usuario_id);
-    if (!result) {
+    if (!result || result.length === 0) {
       return res.status(200).send({
         "status": "success",
         "code": 200,

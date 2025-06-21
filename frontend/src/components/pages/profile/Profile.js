@@ -1,15 +1,20 @@
-import { Breadcrumb, Layout, Menu, theme, Alert } from 'antd';
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Spin } from 'antd';
-import styles from './Profile.module.css';
+
+
+// Estilização
+import { Breadcrumb, Layout, theme, Alert, Flex, Spin, Divider, message } from 'antd';
 import arrow_back from '../../img/arrow_back.svg';
+import styles from './Profile.module.css';
+
+import AlertDelecao from './AlertDelecao';
 
 function Profile() {
-    const { user } = useAuth();
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
     const { Header, Content, Footer } = Layout;
     const items = Array.from({ length: 15 }).map((_, index) => ({
     key: index + 1,
@@ -23,6 +28,29 @@ function Profile() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [userEndereco, setUserEndereco] = useState(null);
+
+    const handleDelete = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.delete(`http://localhost:3001/usuarios/deletar/${user.id}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+            
+            if (response.data.success) {
+                message.success('Conta deletada com sucesso!');
+                await logout(); // Aguarda o logout ser concluído
+                navigate('/'); // Redireciona para a página inicial
+            } else {
+                throw new Error(response.data.message || 'Falha ao deletar conta');
+            }
+        } catch (error) {
+            message.error('Erro ao deletar a conta: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -48,10 +76,10 @@ function Profile() {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                if (response.data) {
-                    setUserEndereco(response.data);
-                } else {
+                if (response.data.data === null) {
                     setUserEndereco(null);
+                } else {
+                    setUserEndereco(response.data);
                 }
             }  catch (error) {
                 console.error('Erro ao buscar dados do endereço:', error);
@@ -131,6 +159,8 @@ function Profile() {
                                 <></>
                             )}
                             <Link to={`/profile/${authUser.id}/edit`}><button className={styles.button}>Editar dados</button></Link>
+                            <Divider style={{ borderColor: '#2D6B6A' }}>Deleção de conta</Divider>
+                            <AlertDelecao onConfirm={() => handleDelete()}/>
                         </div>
 
                     ) : (
@@ -138,9 +168,11 @@ function Profile() {
                     )}
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-                Patamania ©{new Date().getFullYear()}
-            </Footer>
+            <div className={styles.footer}>
+                <Footer className={styles.content_footer} style={{ textAlign: 'center'}}>
+                    Patamania ©{new Date().getFullYear()}
+                </Footer>
+            </div>
         </Layout>
     );
 }

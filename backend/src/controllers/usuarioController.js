@@ -21,8 +21,8 @@ const cadastrar = async (req, res) => {
         return res.status(400).send('A senha do usuário é obrigatória.');
     } else if (!usuario_dataNascimento || usuario_dataNascimento.trim() === '') {
         return res.status(400).send('A data de nascimento é obrigatória.');
-    // } else if (!usuario_tipo || usuario_tipo.trim() === '') {
-        // return res.status(400).send('O tipo de usuário é obrigatório.');
+    } else if (!usuario_tipo || usuario_tipo.trim() === '') {
+        return res.status(400).send('O tipo de usuário é obrigatório.');
     // } else if (!usuario_pais || usuario_pais.trim() === '') {
         // return res.status(400).send('O país do usuário é obrigatório.');
     }
@@ -161,7 +161,10 @@ const excluir = async (req, res) => {
         }
 
         await usuarioModel.excluir(usuario_id);
-        res.send('Usuário excluído com sucesso!');
+        res.send({
+          success: true,
+          message: 'Usuário excluído com sucesso!'
+        });
     } catch (err) {
         res.status(500).send('Erro ao excluir usuário: ' + err.message);
     }
