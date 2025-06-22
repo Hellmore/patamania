@@ -61,8 +61,12 @@ function Navbar() {
       key: '4',
       label: <Link className={styles.without_undeline} to="/profile/animais">Meus Animais</Link>,
     },
-    {
+        {
       key: '5',
+      label: <Link className={styles.without_undeline} to="/profile/orders">Meus Pedidos</Link>,
+    },
+    {
+      key: '6',
       label: <Button className={styles.logout_button} onClick={logout}>Sair</Button>,
     },
   ];
